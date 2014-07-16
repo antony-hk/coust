@@ -286,7 +286,7 @@ function parseCoursePage($url = "https://w5.ab.ust.hk/wcq/cgi-bin/") {
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Trial</title>
+        <title>Parser</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <style>
@@ -302,7 +302,8 @@ function parseCoursePage($url = "https://w5.ab.ust.hk/wcq/cgi-bin/") {
     <body>
         <pre style="margin: 50px 100px;">
             <?php 
-                $result = parseCoursePage("https://w5.ab.ust.hk/wcq/cgi-bin/1340/subject/ELEC");
+				$course_url = isset($_GET["curl"]) ? $_GET["curl"] : "https://w5.ab.ust.hk/wcq/cgi-bin/1340/subject/COMP/";
+                $result = parseCoursePage($course_url);
                 print "\n";
                 print_r($result);
             ?>
