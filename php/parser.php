@@ -87,10 +87,21 @@ function parseDateTime($element) {
 }
 
 function parseCoursePage($url = "https://w5.ab.ust.hk/wcq/cgi-bin/") {
+	// Create a stream
+	$opts = array(
+	  'http'=>array(
+		'method'=>"GET"
+	  )
+	);
+	$context = stream_context_create($opts);
+	// Open the file using the HTTP headers set above
+	$file = file_get_contents($url, false, $context);
+
     $doc = new DOMDocument();
-    @$doc->loadHTMLFile($url);
+    @$doc->loadHTML($file);
     
     $depts = array();
+	$terms = array();
     $courses = array();
 
     $items = $doc->getElementsByTagName("div");
@@ -248,12 +259,26 @@ function parseCoursePage($url = "https://w5.ab.ust.hk/wcq/cgi-bin/") {
                 $depts[] = $dept->nodeValue;
             }
         }
+		else if ($element_classname == "termselect") {
+			// get terms available
+			$links = $item->getElementsByTagName("a");
+			foreach ($links as $link) {
+				$address = $link->getAttribute("href");
+				if ($address!="#") {
+					preg_match("/[0-9]{4}/", $address, $matches);
+					$terms[] = array("num" => $matches[0],
+							"href" => $address,
+							"text" => $link->nodeValue
+							);
+				}
+			}
+		}
         else {
             // ignore other elements
             continue;
         }
     }
-    return array("depts" => $depts, "courses" => $courses);
+    return array("terms" => $terms, "depts" => $depts, "courses" => $courses);
 }
 
 ?>
@@ -279,9 +304,7 @@ function parseCoursePage($url = "https://w5.ab.ust.hk/wcq/cgi-bin/") {
             <?php 
                 $result = parseCoursePage("https://w5.ab.ust.hk/wcq/cgi-bin/1340/subject/ELEC");
                 print "\n";
-                print_r($result["depts"]);
-                print "\n\n\n";
-                print_r($result["courses"]);
+                print_r($result);
             ?>
         </pre>
     </body>
