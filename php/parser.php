@@ -261,14 +261,24 @@ function parseCoursePage($url = "https://w5.ab.ust.hk/wcq/cgi-bin/") {
         }
 		else if ($element_classname == "termselect") {
 			// get terms available
-			$links = $item->getElementsByTagName("a");
+			$links = $item->parentNode->getElementsByTagName("a");
 			foreach ($links as $link) {
 				$address = $link->getAttribute("href");
-				if ($address!="#") {
-					preg_match("/[0-9]{4}/", $address, $matches);
-					$terms[] = array("num" => $matches[0],
-							"href" => $address,
-							"text" => $link->nodeValue
+				preg_match("/[0-9]{4}/", $address, $matches);
+				if ($address=="#") {
+					foreach ($terms as $term) {
+						if ($term["text"]==trim($link->nodeValue)) {
+							$terms["current"] = array("num" => $term["num"],
+								"href" => $term["href"],
+								"text" => $term["text"]
+								);
+						}
+					}
+				}
+				else {
+					$terms[] = array("num" => trim($matches[0]),
+							"href" => trim($address),
+							"text" => trim($link->nodeValue)
 							);
 				}
 			}
