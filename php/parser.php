@@ -191,6 +191,7 @@ function parseCoursePage($url = "https://w5.ab.ust.hk/wcq/cgi-bin/") {
                     }
                     // get info of each section
                     foreach ($rows as $row) {
+			$contents = array();
                         $cols = $row->getElementsByTagName("td");
                         if ($cols->length == 0) {
                             continue;
@@ -206,8 +207,11 @@ function parseCoursePage($url = "https://w5.ab.ust.hk/wcq/cgi-bin/") {
                                 $rdivs = $cols->item($coln)->getElementsByTagName("div");
                                 foreach ($rdivs as $rdiv) {
                                     if ($rdiv->getAttribute("class")=="popupdetail") {
-                                        $contents[$keys[$coln+$shift]] = parseRemark($rdiv);
-                                        break;
+					if (empty($contents[$keys[$coln+$shift]])) {
+					    $contents[$keys[$coln+$shift]] = array();
+					}
+                                        $contents[$keys[$coln+$shift]]
+					= array_merge($contents[$keys[$coln+$shift]], parseRemark($rdiv));
                                     }
                                 }
                             }
@@ -299,6 +303,7 @@ function parseCoursePage($url = "https://w5.ab.ust.hk/wcq/cgi-bin/") {
 }
 
 ?>
+
 
 <!DOCTYPE html>
 <html>
