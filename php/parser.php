@@ -87,21 +87,21 @@ function parseDateTime($element) {
 }
 
 function parseCoursePage($url = "https://w5.ab.ust.hk/wcq/cgi-bin/") {
-	// Create a stream
-	$opts = array(
-	  'http'=>array(
-		'method'=>"GET"
-	  )
-	);
-	$context = stream_context_create($opts);
-	// Open the file using the HTTP headers set above
-	$file = file_get_contents($url, false, $context);
+    if (strrpos($url, "/")!=strlen($url)-1) {
+	$url .= "/";
+    }
+    $ch = curl_init($url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+    $output = curl_exec($ch);
+    curl_close($ch);
 
     $doc = new DOMDocument();
-    @$doc->loadHTML($file);
+    @$doc->loadHTML($output);
     
     $depts = array();
-	$terms = array();
+    $terms = array();
     $courses = array();
 
     $items = $doc->getElementsByTagName("div");
@@ -115,14 +115,20 @@ function parseCoursePage($url = "https://w5.ab.ust.hk/wcq/cgi-bin/") {
             foreach ($links as $link) {
                 if ($link->hasAttribute("name") && $link->parentNode->getAttribute("class")=="courseanchor") {
                     // course code
-                    $c->code = $link->getAttribute("name");
+                    $c->code = trim($link->getAttribute("name"));
                 }
             }
             // get course name
             $name_h2 = $item->getElementsByTagName("h2");
             if ($name_h2->length > 0) {
+		preg_match("/- (.)+[(][0-9]/", $name_h2->item(0)->nodeValue, $matches);
+		$cname = substr($matches[0], 2, -2);
                 // course name
-                $c->name = $name_h2->item(0)->nodeValue;
+                $c->name = trim($cname);
+		// credit
+		preg_match("/[(][0-9]+( )/", $name_h2->item(0)->nodeValue, $matches);
+		$cred = substr($matches[0], 1, -1);
+		$c->credit = trim($cred);
             }
             $divs = $item->getElementsByTagName("div");
             foreach ($divs as $div) {
@@ -130,21 +136,21 @@ function parseCoursePage($url = "https://w5.ab.ust.hk/wcq/cgi-bin/") {
                 // e.g. [Matching between Lecture & Tutorial required]
                 // e.g. [Matching between Lecture & Lab required]
                 if ($div->getAttribute("class")=="matching") {
-                    $c->matching = $div->nodeValue;
+                    $c->matching = trim($div->nodeValue);
                 }
                 // get popup attribute words, e.g. [3Y10], CC for 3Y 2010 & 2011 cohorts
                 else if ($div->getAttribute("class")=="popup attrword") {
                     $innerspan = $div->getElementsByTagName("span")->item(0);
                     $innerdiv = $div->getElementsByTagName("div")->item(0);
-                    $c->attributes_popup[] = array($innerspan->nodeValue, $innerdiv->nodeValue);
+                    $c->attributes_popup[] = array(trim($innerspan->nodeValue), trim($innerdiv->nodeValue));
                 }
                 // get popup course details
                 else if ($div->getAttribute("class")=="popupdetail" && strpos($div->parentNode->getAttribute("class"), "courseattr")!==false) {
                     $details_table = $div->getElementsByTagName("table")->item(0);
                     $rows = $details_table->getElementsByTagName("tr");
                     foreach ($rows as $row) {
-                        $header = $row->getElementsByTagName("th")->item(0)->nodeValue;
-                        $content = $row->getElementsByTagName("td")->item(0)->nodeValue;
+                        $header = trim($row->getElementsByTagName("th")->item(0)->nodeValue);
+                        $content = trim($row->getElementsByTagName("td")->item(0)->nodeValue);
                         if ($header=="EXCLUSION") {
                             $c->exclusion = $content;
                         }
@@ -221,6 +227,7 @@ function parseCoursePage($url = "https://w5.ab.ust.hk/wcq/cgi-bin/") {
                             }
                             else if ($keys[$coln+$shift]=="Instructor") {
                                 $links = $cols->item($coln)->getElementsByTagName("a");
+								$contents[$keys[$coln+$shift]] = array();
                                 foreach ($links as $link) {
                                     $contents[$keys[$coln+$shift]][] = $link->nodeValue;
                                 }
@@ -312,7 +319,7 @@ function parseCoursePage($url = "https://w5.ab.ust.hk/wcq/cgi-bin/") {
     <body>
         <pre style="margin: 50px 100px;">
             <?php 
-				$course_url = isset($_GET["curl"]) ? $_GET["curl"] : "https://w5.ab.ust.hk/wcq/cgi-bin/1340/subject/COMP/";
+		$course_url = isset($_GET["curl"]) ? $_GET["curl"] : "https://w5.ab.ust.hk/wcq/cgi-bin/1340/subject/COMP/";
                 $result = parseCoursePage($course_url);
                 print "\n";
                 print_r($result);
