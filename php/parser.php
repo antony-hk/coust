@@ -90,13 +90,14 @@ function parseCoursePage($url = "https://w5.ab.ust.hk/wcq/cgi-bin/") {
     if (strrpos($url, "/")!=strlen($url)-1) {
 	$url .= "/";
     }
+    
     $ch = curl_init($url);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
     curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
     $output = curl_exec($ch);
     curl_close($ch);
-
+    
     $doc = new DOMDocument();
     @$doc->loadHTML($output);
     
@@ -303,6 +304,7 @@ function parseCoursePage($url = "https://w5.ab.ust.hk/wcq/cgi-bin/") {
 }
 
 ?>
+
 
 
 <!DOCTYPE html>
