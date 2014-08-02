@@ -18,7 +18,7 @@ foreach($result['depts'] as $dept) {
 	
 	
 	foreach($data['courses'] as $course) {
-		$courseList[] = $course->code . " " . $course->name;
+		$courseList[$course->code] =  $course->name;
 	}
 }
 
