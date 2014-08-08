@@ -35,13 +35,148 @@ and open the template in the editor.
             }
             #add {
                 width: 400px;
+                margin: 0 5px;
+            }
+            #addform {
+                margin: 40px;
+                font-family: sans-serif;
+                font-size: 16px;
+                font-style: italic;
+            }
+            #timetable_wrapper {
+                margin: 30px;
+                -webkit-touch-callout: none;
+                -webkit-user-select: none;
+                -khtml-user-select: none;
+                -moz-user-select: none;
+                -ms-user-select: none;
+                user-select: none;
+            }
+            #timetable td {
+                height: 25px;
+                text-align: center;
+                padding: 1px 0px;
+            }
+            #timetable th {
+                border-bottom: 1px lightgray solid;
+                font-family: Courier New;
+                min-width: 100px;
+                padding-bottom: 10px;
+            }
+            #timetable td {
+                width: 100px;
+            }
+            #timetable tbody {
+                float: left;
+            }
+            .Mo, .Tu, .We, .Th, .Fr, .Su, .Sa {
+            }
+            .h08:hover, .h09:hover, .h10:hover, .h11:hover, .h12:hover, .h13:hover, .h14:hover, .h15:hover, .h16:hover, .h17:hover, .h18:hover, .h19:hover, .h20:hover {
+                background: aliceblue;
+            }
+            .m00 td {
+                border-bottom: 1px transparent solid;
+            }
+            .m30 td {
+                border-bottom: 1px lightgray solid;
+            }
+            .m00 td, .m30 td {
+                border-left: 1px whitesmoke dotted;
+                border-right: 1px whitesmoke dotted;
+            }
+            td.time {
+                font-family: cursive;
+                font-size: 0.8em;
+            }
+            td.alt {
+                border: 1px transparent solid;
+                visibility: hidden;
+            }
+            .m00 td.time {
+                visibility: hidden;
+            }
+            .timediv {
+                position: relative;
+                top: 15px;
+                left: 22px;
             }
         </style>
     </head>
     <body>
-        <div class="ui-widget">
-            <label for="add">Add Course: </label>
-            <input type="text" id="add">
+        <div class="ui-widget" id="addform">
+            <label for="add">Course: </label>
+            <input type="text" id="add" />
+            <input type="button" value="Add" onclick="addCourse()" />
+        </div>
+        <div id="timetable_wrapper">
+            <table id="timetable" cellspacing="0" cellpadding="0">
+                <tbody id="times">
+                    <tr><td class="time"><div class="timediv">0800</div></td></tr>
+                    <tr><td class="time alt"><div class="timediv">0830</div></td></tr>
+                    <tr><td class="time"><div class="timediv">0900</div></td></tr>
+                    <tr><td class="time alt"><div class="timediv">0930</div></td></tr>
+                    <tr><td class="time"><div class="timediv">1000</div></td></tr>
+                    <tr><td class="time alt"><div class="timediv">1030</div></td></tr>
+                    <tr><td class="time"><div class="timediv">1100</div></td></tr>
+                    <tr><td class="time alt"><div class="timediv">1130</div></td></tr>
+                    <tr><td class="time"><div class="timediv">1200</div></td></tr>
+                    <tr><td class="time alt"><div class="timediv">1230</div></td></tr>
+                    <tr><td class="time"><div class="timediv">1300</div></td></tr>
+                    <tr><td class="time alt"><div class="timediv">1330</div></td></tr>
+                    <tr><td class="time"><div class="timediv">1400</div></td></tr>
+                    <tr><td class="time alt"><div class="timediv">1430</div></td></tr>
+                    <tr><td class="time"><div class="timediv">1500</div></td></tr>
+                    <tr><td class="time alt"><div class="timediv">1530</div></td></tr>
+                    <tr><td class="time"><div class="timediv">1600</div></td></tr>
+                    <tr><td class="time alt"><div class="timediv">1630</div></td></tr>
+                    <tr><td class="time"><div class="timediv">1700</div></td></tr>
+                    <tr><td class="time alt"><div class="timediv">1730</div></td></tr>
+                    <tr><td class="time"><div class="timediv">1800</div></td></tr>
+                    <tr><td class="time alt"><div class="timediv">1830</div></td></tr>
+                    <tr><td class="time"><div class="timediv">1900</div></td></tr>
+                    <tr><td class="time alt"><div class="timediv">1930</div></td></tr>
+                    <tr><td class="time"><div class="timediv">2000</div></td></tr>
+                    <tr><td class="time alt"><div class="timediv">2030</div></td></tr>
+                    <tr><td class="time"><div class="timediv">2100</div></td></tr>
+                </tbody>
+                <tbody>
+                    <tr>
+                        <th id="mon">Monday</th>
+                        <th id="tue">Tuesday</th>
+                        <th id="wed">Wednesday</th>
+                        <th id="thu">Thursday</th>
+                        <th id="fri">Friday</th>
+                        <th id="sat">Saturday</th>
+                        <th id="sun">Sunday</th>
+                    </tr>
+                    <tr class="h08 m00"><td class="Mo"></td><td class="Tu"></td><td class="We"></td><td class="Th"></td><td class="Fr"></td><td class="Sa"></td><td class="Su"></td></tr>
+                    <tr class="h08 m30"><td class="Mo"></td><td class="Tu"></td><td class="We"></td><td class="Th"></td><td class="Fr"></td><td class="Sa"></td><td class="Su"></td></tr>
+                    <tr class="h09 m00"><td class="Mo"></td><td class="Tu"></td><td class="We"></td><td class="Th"></td><td class="Fr"></td><td class="Sa"></td><td class="Su"></td></tr>
+                    <tr class="h09 m30"><td class="Mo"></td><td class="Tu"></td><td class="We"></td><td class="Th"></td><td class="Fr"></td><td class="Sa"></td><td class="Su"></td></tr>
+                    <tr class="h10 m00"><td class="Mo"></td><td class="Tu"></td><td class="We"></td><td class="Th"></td><td class="Fr"></td><td class="Sa"></td><td class="Su"></td></tr>
+                    <tr class="h10 m30"><td class="Mo"></td><td class="Tu"></td><td class="We"></td><td class="Th"></td><td class="Fr"></td><td class="Sa"></td><td class="Su"></td></tr>
+                    <tr class="h11 m00"><td class="Mo"></td><td class="Tu"></td><td class="We"></td><td class="Th"></td><td class="Fr"></td><td class="Sa"></td><td class="Su"></td></tr>
+                    <tr class="h11 m30"><td class="Mo"></td><td class="Tu"></td><td class="We"></td><td class="Th"></td><td class="Fr"></td><td class="Sa"></td><td class="Su"></td></tr>
+                    <tr class="h12 m00"><td class="Mo"></td><td class="Tu"></td><td class="We"></td><td class="Th"></td><td class="Fr"></td><td class="Sa"></td><td class="Su"></td></tr>
+                    <tr class="h12 m30"><td class="Mo"></td><td class="Tu"></td><td class="We"></td><td class="Th"></td><td class="Fr"></td><td class="Sa"></td><td class="Su"></td></tr>
+                    <tr class="h13 m00"><td class="Mo"></td><td class="Tu"></td><td class="We"></td><td class="Th"></td><td class="Fr"></td><td class="Sa"></td><td class="Su"></td></tr>
+                    <tr class="h13 m30"><td class="Mo"></td><td class="Tu"></td><td class="We"></td><td class="Th"></td><td class="Fr"></td><td class="Sa"></td><td class="Su"></td></tr>
+                    <tr class="h14 m00"><td class="Mo"></td><td class="Tu"></td><td class="We"></td><td class="Th"></td><td class="Fr"></td><td class="Sa"></td><td class="Su"></td></tr>
+                    <tr class="h14 m30"><td class="Mo"></td><td class="Tu"></td><td class="We"></td><td class="Th"></td><td class="Fr"></td><td class="Sa"></td><td class="Su"></td></tr>
+                    <tr class="h15 m00"><td class="Mo"></td><td class="Tu"></td><td class="We"></td><td class="Th"></td><td class="Fr"></td><td class="Sa"></td><td class="Su"></td></tr>
+                    <tr class="h15 m30"><td class="Mo"></td><td class="Tu"></td><td class="We"></td><td class="Th"></td><td class="Fr"></td><td class="Sa"></td><td class="Su"></td></tr>
+                    <tr class="h16 m00"><td class="Mo"></td><td class="Tu"></td><td class="We"></td><td class="Th"></td><td class="Fr"></td><td class="Sa"></td><td class="Su"></td></tr>
+                    <tr class="h16 m30"><td class="Mo"></td><td class="Tu"></td><td class="We"></td><td class="Th"></td><td class="Fr"></td><td class="Sa"></td><td class="Su"></td></tr>
+                    <tr class="h17 m00"><td class="Mo"></td><td class="Tu"></td><td class="We"></td><td class="Th"></td><td class="Fr"></td><td class="Sa"></td><td class="Su"></td></tr>
+                    <tr class="h17 m30"><td class="Mo"></td><td class="Tu"></td><td class="We"></td><td class="Th"></td><td class="Fr"></td><td class="Sa"></td><td class="Su"></td></tr>
+                    <tr class="h18 m00"><td class="Mo"></td><td class="Tu"></td><td class="We"></td><td class="Th"></td><td class="Fr"></td><td class="Sa"></td><td class="Su"></td></tr>
+                    <tr class="h18 m30"><td class="Mo"></td><td class="Tu"></td><td class="We"></td><td class="Th"></td><td class="Fr"></td><td class="Sa"></td><td class="Su"></td></tr>
+                    <tr class="h19 m00"><td class="Mo"></td><td class="Tu"></td><td class="We"></td><td class="Th"></td><td class="Fr"></td><td class="Sa"></td><td class="Su"></td></tr>
+                    <tr class="h19 m30"><td class="Mo"></td><td class="Tu"></td><td class="We"></td><td class="Th"></td><td class="Fr"></td><td class="Sa"></td><td class="Su"></td></tr>
+                    <tr class="h20 m00"><td class="Mo"></td><td class="Tu"></td><td class="We"></td><td class="Th"></td><td class="Fr"></td><td class="Sa"></td><td class="Su"></td></tr>
+                    <tr class="h20 m30"><td class="Mo"></td><td class="Tu"></td><td class="We"></td><td class="Th"></td><td class="Fr"></td><td class="Sa"></td><td class="Su"></td></tr>
+                </tbody>
+            </table>
         </div>
     </body>
 </html>
