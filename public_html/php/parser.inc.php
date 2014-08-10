@@ -226,7 +226,7 @@ class Parser {
 				    $contents[$keys[$coln+$shift]] = $this->parseDateTime($cols->item($coln));
 				}
 				else if ($keys[$coln+$shift]=="Section") {
-				    $pattern = "/(L|LA|T|R)[0-9]+/i";
+				    $pattern = "/(L|LA|T|R)[0-9]+[A-Z]*/i";
 				    preg_match($pattern, $cols->item($coln)->nodeValue, $matches);
 				    $contents[$keys[$coln+$shift]] = $matches[0];
 				    $pattern = "/\([0-9]{4}\)/";

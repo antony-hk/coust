@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Timetable Trial</title>
+        <title>HKUST Courser</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="shortcut icon" href="logo.ico" />
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
         <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/themes/smoothness/jquery-ui.css" />
         <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/jquery-ui.min.js"></script>
@@ -41,7 +42,31 @@
                 });
             });
             
-            // JavaScript
+            // JavaScript functions
+            function getSections(code) {
+                if (!loaded) {
+                    return null;
+                }
+                if (!data.hasOwnProperty(code)) {
+                    return null;
+                }
+                var course = data[code];
+                var sections = course["sections"];
+                var types = {};
+                for (var i=0; i<sections.length; i++) {
+                    var type = sections[i]["section"].match(/[A-Za-z]+/i);
+                    if (typeof types[type] === "undefined") {
+                        types[type] = [];
+                    }
+                    types[type].push(sections[i]["section"]);
+                }
+                var keys = [];
+                for (var k in types) {
+                    keys.push(k);
+                }
+                types["types"] = keys;
+                return types;
+            }
             function addCourse() {
                 if (!loaded) {
                     alert("Please try again later as data is still loading...");
@@ -58,11 +83,6 @@
             }
         </script>
         <style>
-            #container {
-                text-align: center;
-                width: 1200px;
-                margin: 0 auto;
-            }
             .ui-autocomplete { 
                 font-size: 15px;
                 width: 400px; 
@@ -70,65 +90,92 @@
                 max-height: 200px; 
                 overflow-y: auto; 
                 overflow-x: hidden;
+                font-family: Optima, Segoe, "Segoe UI", Candara, Calibri, Arial, sans-serif;
+            }
+            body {
+                background: #f7f7f7;
+                font-size: 16px;
+                font-family:  "Segoe UI", Segoe, Optima, Arial, sans-serif;
+            }
+            #container {
+                text-align: center;
+                width: 1200px;
+                margin: 20px auto;
+            }
+            #logo {
+                margin: 50px 0px 30px 10px;
+                text-align: left;
+                font-size: 40px;
+                font-family: Rockwell, "Courier Bold", Courier, Georgia, Times, "Times New Roman", serif;
+                text-shadow: 0px 1px 5px gray;
+                cursor: default;
             }
             #add {
                 width: 400px;
-                margin: 0 5px;
+                margin: 0px 6px;
+                font-family: Optima, Segoe, "Segoe UI", Candara, Calibri, Arial, sans-serif;
             }
             #addform {
-                margin: 80px 0px 10px 0px;
-                font-family: sans-serif;
+                margin: 0px 0px;
+                font-family: "Century Gothic", CenturyGothic, AppleGothic, sans-serif;
                 font-size: 16px;
-                font-style: italic;
+                text-align: left;
+                padding-left: 50px;
+            }
+            #addform input[type="button"] {
+                font-family: "Century Gothic", CenturyGothic, AppleGothic, sans-serif;
             }
             #timetable_wrapper {
-                margin: 30px;
+                background: #F9F9F9;
+                margin: 10px;
+                padding: 5px 50px 40px 50px;
                 cursor: default;
-                -webkit-touch-callout: none;
-                -webkit-user-select: none;
-                -khtml-user-select: none;
-                -moz-user-select: none;
-                -ms-user-select: none;
-                user-select: none;
+            }
+            #timetable {
+                border-collapse: collapse;
             }
             #timetable td {
-                height: 70px;
+                height: 55px;
                 text-align: center;
-                padding: 1px 0px;
+                padding: 1px 1px;
             }
             #timetable th {
                 border-right: 1px lightgray solid;
                 padding-right: 8px;
                 font-family: Courier New;
                 width: 30px;
-                background: white;
-                text-shadow: 0px 0px 3px gray;
+                background: #F9F9F9;
+                text-shadow: 0px 0px 2px gray;
+                font-weight: normal;
             }
             #timetable td {
-                width: 40px;
+                width: 60px;
             }
-            #timetable tbody:hover {
+            #timetable tbody {
                 
             }
-            .Mo, .Tu, .We, .Th, .Fr, .Su, .Sa {
+            .days:hover {
+                background: #f8f8f8;
+            }
+            #Mo, #Tu, #We, #Th, #Fr, #Su, #Sa {
                 
             }
             .h08, .h09, .h10, .h11, .h12, .h13, .h14, .h15, .h16, .h17, .h18, .h19, .h20 {
                 
             }
             .m00 {
-                border-right: 1px transparent solid;
+                border-left: 1px #ddd solid;
             }
             .m30 {
-                border-right: 1px lightgray solid;
+                border-right: 1px #ddd solid;
             }
             .m00, .m30 {
-                border-top: 1px whitesmoke dotted;
-                border-bottom: 1px whitesmoke dotted;
+                border-top: 1px #ddd dotted;
+                border-bottom: 1px #ddd dotted;
             }
             td.time {
-                font-family: cursive;
-                font-size: 0.8em;
+                font-family: "Avant Garde", Avantgarde, "Century Gothic", CenturyGothic, "AppleGothic", sans-serif;
+                font-size: 12px;
             }
             td.alt {
                 border-right: 1px transparent solid;
@@ -140,23 +187,73 @@
                 left: -23px;
             }
             #times {
-                background: white;
+                background: #F9F9F9;
             }
             .hover {
-                background: aliceblue;
+                background-color:  #f7f7f7;
+            }
+            .lesson {
+                overflow: hidden;
+                height: 90%;
+                width: 90%;
+                margin: 2px auto;
+                border: 2px solid;
+                padding: 5px 1px;
+                -webkit-border-radius: 7px;
+                border-radius: 7px;
+                text-align: center;
+                font-weight: bold;
+                font-size: 13px;
+                font-family: "Segoe UI", Frutiger, "Frutiger Linotype", "Dejavu Sans", "Helvetica Neue", Arial, sans-serif;
+                cursor: no-drop;
+            }
+            .draggable {
+                cursor: move;
+            }
+            .hidden {
+                 display: none;
+            }
+            .noselect {
+                -webkit-touch-callout: none;
+                -webkit-user-select: none;
+                -khtml-user-select: none;
+                -moz-user-select: none;
+                -ms-user-select: none;
+                user-select: none;
+            }
+            #timetable_controls {
+                border-collapse: collapse;
+                text-align: left;
+                width: 800px;
+                margin: 15px 50px;
+            }
+            #timetable_controls th {
+                background: #f3f3f3;
+            }
+            #timetable_controls td, #timetable_controls th {
+                border: 1px green solid;
+                padding: 15px;
+            }
+            #none {
+                text-align: center;
+                font-weight: bold;
+                font-style: italic;
             }
         </style>
     </head>
     <body>
     <div id="container">
+        <div id="logo" class="noselect">
+            <span>HKUST Courser</span>
+        </div>
         <div class="ui-widget" id="addform">
             <form onsubmit="return addCourse()">
-            <label for="add">Course: </label>
+            <label for="add" class="noselect">Course: </label>
             <input type="text" id="add" />
             <input type="button" value="Add" onclick="addCourse()" />
             </form>
         </div>
-        <div id="timetable_wrapper">
+        <div id="timetable_wrapper" class="noselect">
             <table id="timetable" cellspacing="0" cellpadding="0">
                 <colgroup></colgroup>
                 <colgroup span="2"></colgroup>
@@ -204,7 +301,8 @@
                     <td class="time"><div class="timediv">2100</div></td>
                     </tr>
                 </tbody>
-                <tbody id="Mo">
+                <tbody id="Mo" class="days">
+                    <tr>
                     <th>MON</th>
                     <td class="h08 m00"></td>
                     <td class="h08 m30"></td>
@@ -232,12 +330,14 @@
                     <td class="h19 m30"></td>
                     <td class="h20 m00"></td>
                     <td class="h20 m30"></td>
+                    </tr>
                 </tbody>
-                <tbody id="Tu">
+                <tbody id="Tu" class="days">
+                    <tr>
                     <th>TUE</th>
-                    <td class="h08 m00"></td>
-                    <td class="h08 m30"></td>
-                    <td class="h09 m00"></td>
+                    <td class="h08 m00" colspan="3"><div class="lesson draggable">COMP2012H<br/>L2</div></td>
+                    <td class="h08 m30 hidden"></td>
+                    <td class="h09 m00 hidden"></td>
                     <td class="h09 m30"></td>
                     <td class="h10 m00"></td>
                     <td class="h10 m30"></td>
@@ -261,8 +361,10 @@
                     <td class="h19 m30"></td>
                     <td class="h20 m00"></td>
                     <td class="h20 m30"></td>
+                    </tr>
                 </tbody>
-                <tbody id="We">
+                <tbody id="We" class="days">
+                    <tr>
                     <th>WED</th>
                     <td class="h08 m00"></td>
                     <td class="h08 m30"></td>
@@ -290,8 +392,10 @@
                     <td class="h19 m30"></td>
                     <td class="h20 m00"></td>
                     <td class="h20 m30"></td>
+                    </tr>
                 </tbody>
-                <tbody id="Th">
+                <tbody id="Th" class="days">
+                    <tr>
                     <th>THU</th>
                     <td class="h08 m00"></td>
                     <td class="h08 m30"></td>
@@ -319,8 +423,10 @@
                     <td class="h19 m30"></td>
                     <td class="h20 m00"></td>
                     <td class="h20 m30"></td>
+                    </tr>
                 </tbody>
-                <tbody id="Fr">
+                <tbody id="Fr" class="days">
+                    <tr>
                     <th>FRI</th>
                     <td class="h08 m00"></td>
                     <td class="h08 m30"></td>
@@ -348,8 +454,10 @@
                     <td class="h19 m30"></td>
                     <td class="h20 m00"></td>
                     <td class="h20 m30"></td>
+                    </tr>
                 </tbody>
-                <tbody id="Sa">
+                <tbody id="Sa" class="days">
+                    <tr>
                     <th>SAT</th>
                     <td class="h08 m00"></td>
                     <td class="h08 m30"></td>
@@ -377,8 +485,10 @@
                     <td class="h19 m30"></td>
                     <td class="h20 m00"></td>
                     <td class="h20 m30"></td>
+                    </tr>
                 </tbody>
-                <tbody id="Su">
+                <tbody id="Su" class="days">
+                    <tr>
                     <th>SUN</th>
                     <td class="h08 m00"></td>
                     <td class="h08 m30"></td>
@@ -406,7 +516,21 @@
                     <td class="h19 m30"></td>
                     <td class="h20 m00"></td>
                     <td class="h20 m30"></td>
+                    </tr>
                 </tbody>
+            </table>
+        </div>
+        <div>
+            <table id="timetable_controls">
+                <tr>
+                    <th>Code</th>
+                    <th>Title</th>
+                    <th>Actions</th>
+                </tr>
+                <tr id="none">
+                    <td colspan="3">No courses added.</td>
+                </tr>
+                <tr><td>COMP2012</td><td>Object-Oriented Programming and Data Structures</td><td><a href="#">[Remove]</a></td></tr>
             </table>
         </div>
     </div>
