@@ -43,6 +43,9 @@
             });
             
             // JavaScript functions
+            function goHome() {
+                window.location.href = "timetable.html";
+            }
             function getSections(code) {
                 if (!loaded) {
                     return null;
@@ -72,12 +75,16 @@
                     alert("Please try again later as data is still loading...");
                     return false;
                 }
-                var val = $("#add").val();
-                var code = val.split(" ")[0];
-                if (!data.hasOwnProperty(code)) {
+                var val = $("#add").val().trim();
+                var code = val.split(" ")[0].trim();
+                if (val==="") {
+                    return false;
+                }
+                else if (!data.hasOwnProperty(code)) {
                     alert("Course Not Found!");
                     return false;
                 }
+                //TODO: add the course into timetable
                 $("#add").val(""); // clear input text
                 return false; // always return false to avoid form submitting
             }
@@ -104,11 +111,15 @@
             }
             #logo {
                 margin: 50px 0px 30px 10px;
-                text-align: left;
+                text-align: center;
                 font-size: 40px;
                 font-family: Rockwell, "Courier Bold", Courier, Georgia, Times, "Times New Roman", serif;
                 text-shadow: 0px 1px 5px gray;
-                cursor: default;
+                width: 300px;
+            }
+            #logo:hover {
+                color: darkmagenta;
+                cursor: pointer;
             }
             #add {
                 width: 400px;
@@ -129,27 +140,23 @@
                 background: #F9F9F9;
                 margin: 10px;
                 padding: 5px 50px 40px 50px;
-                cursor: default;
             }
             #timetable {
                 border-collapse: collapse;
             }
             #timetable td {
                 height: 55px;
+                width: 90px;
                 text-align: center;
                 padding: 1px 1px;
             }
             #timetable th {
-                border-right: 1px lightgray solid;
+                border-right: 1px solid lightgray;
                 padding-right: 8px;
                 font-family: Courier New;
-                width: 30px;
                 background: #F9F9F9;
                 text-shadow: 0px 0px 2px gray;
                 font-weight: normal;
-            }
-            #timetable td {
-                width: 60px;
             }
             #timetable tbody {
                 
@@ -164,14 +171,17 @@
                 
             }
             .m00 {
-                border-left: 1px #ddd solid;
+                border-left: 1px solid #ddd;
             }
             .m30 {
-                border-right: 1px #ddd solid;
+                border-right: 1px solid #ddd;
             }
             .m00, .m30 {
-                border-top: 1px #ddd dotted;
-                border-bottom: 1px #ddd dotted;
+                border-top: 1px dotted #ddd;
+                border-bottom: 1px dotted #ddd;
+            }
+            .m30[class~="occupied"][class~="m30"]  {
+                border-right: 0px solid transparent;
             }
             td.time {
                 font-family: "Avant Garde", Avantgarde, "Century Gothic", CenturyGothic, "AppleGothic", sans-serif;
@@ -184,13 +194,16 @@
             .timediv {
                 position: relative;
                 top: 15px;
-                left: -23px;
+                left: 20px;
             }
             #times {
                 background: #F9F9F9;
             }
             .hover {
                 background-color:  #f7f7f7;
+            }
+            .occupied { /* table cell (td) that has been occupied by course */
+                
             }
             .lesson {
                 overflow: hidden;
@@ -227,28 +240,39 @@
                 width: 800px;
                 margin: 15px 50px;
             }
-            #timetable_controls th {
+            #timetable_controls tr:first-child {
                 background: #f3f3f3;
             }
             #timetable_controls td, #timetable_controls th {
                 border: 1px green solid;
-                padding: 15px;
+                padding: 10px;
             }
-            #none {
+            #timetable_controls a {
+                text-decoration: none;
+                color: saddlebrown;
+            }
+            #timetable_controls td:first-child { /* Course Code */
+                text-align: right;
+            }
+            #timetable_controls #none {
                 text-align: center;
-                font-weight: bold;
                 font-style: italic;
+            }
+            .actionsImg {
+                width: 20px;
+                height: 20px;
+                vertical-align: middle;
             }
         </style>
     </head>
     <body>
     <div id="container">
-        <div id="logo" class="noselect">
+        <div id="logo" class="noselect" onclick="goHome()">
             <span>HKUST Courser</span>
         </div>
-        <div class="ui-widget" id="addform">
+        <div class="ui-widget noselect" id="addform">
             <form onsubmit="return addCourse()">
-            <label for="add" class="noselect">Course: </label>
+            <label for="add">Course: </label>
             <input type="text" id="add" />
             <input type="button" value="Add" onclick="addCourse()" />
             </form>
@@ -271,7 +295,6 @@
                 <colgroup span="2"></colgroup>
                 <tbody id="times">
                     <tr>
-                    <td></td>
                     <td class="time"><div class="timediv">0800</div></td>
                     <td class="time alt"><div class="timediv">0830</div></td>
                     <td class="time"><div class="timediv">0900</div></td>
@@ -299,6 +322,7 @@
                     <td class="time"><div class="timediv">2000</div></td>
                     <td class="time alt"><div class="timediv">2030</div></td>
                     <td class="time"><div class="timediv">2100</div></td>
+                    <td></td>
                     </tr>
                 </tbody>
                 <tbody id="Mo" class="days">
@@ -335,7 +359,7 @@
                 <tbody id="Tu" class="days">
                     <tr>
                     <th>TUE</th>
-                    <td class="h08 m00" colspan="3"><div class="lesson draggable">COMP2012H<br/>L2</div></td>
+                    <td class="h08 m00 occupied" colspan="3"><div class="lesson draggable">COMP3111H<br/>L2</div></td>
                     <td class="h08 m30 hidden"></td>
                     <td class="h09 m00 hidden"></td>
                     <td class="h09 m30"></td>
@@ -528,9 +552,16 @@
                     <th>Actions</th>
                 </tr>
                 <tr id="none">
-                    <td colspan="3">No courses added.</td>
+                    <th colspan="3">No courses added.</th>
                 </tr>
-                <tr><td>COMP2012</td><td>Object-Oriented Programming and Data Structures</td><td><a href="#">[Remove]</a></td></tr>
+                <tr>
+                    <td>COMP2012</td>
+                    <td>Object-Oriented Programming and Data Structures</td>
+                    <td>
+                        <a href="#"><img class="actionsImg" src="images/info.png" /></a>&nbsp;
+                        <a href="#"><img class="actionsImg" src="images/cross.png" /></a>
+                    </td>
+                </tr>
             </table>
         </div>
     </div>
