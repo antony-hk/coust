@@ -8,14 +8,27 @@
         <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/themes/smoothness/jquery-ui.css" />
         <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/jquery-ui.min.js"></script>
         <script type="text/javascript">
-            $(function() {
-                $( "#add" ).autocomplete({
-                    source: "http://ustcourser.442.hk/json/parser.php?type=searchhints", 
-                    minLength: 1,
-                    focus: function( event, ui ) {
-                            event.preventDefault();
-                        }
-                });
+            var data = ""; // data get from courseInfo.json (via data.php and .json updated by mkdata.php)
+            var loaded = false; // check if data loaded when adding course
+            
+            $( document ).ready(function() {
+                $.get( "http://ustcourser.442.hk/json/data.php" )
+                  .done(function( _data ) {
+                        data = $.parseJSON(_data);
+                        loaded = true;
+                        var searchhints = [];
+                        $.each( data, function( key, val ) {
+                            searchhints.push(key + " " + val["name"]);
+                          });
+                        $( "#add" ).autocomplete({
+                                // source: "http://ustcourser.442.hk/json/parser.php?type=searchhints", 
+                                source: searchhints,
+                                minLength: 1,
+                                focus: function( event, ui ) {
+                                        event.preventDefault();
+                                    }
+                            });
+                  });
                 $("#timetable").delegate('td','mouseover mouseleave', function(e) {
                     if (e.type === 'mouseover') {
                       // $(this).parent().addClass("hover"); // row
@@ -27,8 +40,29 @@
                     }
                 });
             });
+            
+            // JavaScript
+            function addCourse() {
+                if (!loaded) {
+                    alert("Please try again later as data is still loading...");
+                    return false;
+                }
+                var val = $("#add").val();
+                var code = val.split(" ")[0];
+                if (!data.hasOwnProperty(code)) {
+                    alert("Course Not Found!");
+                    return false;
+                }
+                $("#add").val(""); // clear input text
+                return false; // always return false to avoid form submitting
+            }
         </script>
         <style>
+            #container {
+                text-align: center;
+                width: 1200px;
+                margin: 0 auto;
+            }
             .ui-autocomplete { 
                 font-size: 15px;
                 width: 400px; 
@@ -42,7 +76,7 @@
                 margin: 0 5px;
             }
             #addform {
-                margin: 40px;
+                margin: 80px 0px 10px 0px;
                 font-family: sans-serif;
                 font-size: 16px;
                 font-style: italic;
@@ -58,19 +92,20 @@
                 user-select: none;
             }
             #timetable td {
-                height: 60px;
+                height: 70px;
                 text-align: center;
                 padding: 1px 0px;
             }
             #timetable th {
                 border-right: 1px lightgray solid;
+                padding-right: 8px;
                 font-family: Courier New;
-                width: 40px;
+                width: 30px;
                 background: white;
                 text-shadow: 0px 0px 3px gray;
             }
             #timetable td {
-                width: 100px;
+                width: 40px;
             }
             #timetable tbody:hover {
                 
@@ -97,12 +132,12 @@
             }
             td.alt {
                 border-right: 1px transparent solid;
-                visibility: visible;
+                visibility: hidden;
             }
             .timediv {
                 position: relative;
                 top: 15px;
-                left: -35px;
+                left: -23px;
             }
             #times {
                 background: white;
@@ -113,15 +148,17 @@
         </style>
     </head>
     <body>
+    <div id="container">
         <div class="ui-widget" id="addform">
+            <form onsubmit="return addCourse()">
             <label for="add">Course: </label>
             <input type="text" id="add" />
             <input type="button" value="Add" onclick="addCourse()" />
+            </form>
         </div>
         <div id="timetable_wrapper">
             <table id="timetable" cellspacing="0" cellpadding="0">
                 <colgroup></colgroup>
-                <colgroup span="2"></colgroup>
                 <colgroup span="2"></colgroup>
                 <colgroup span="2"></colgroup>
                 <colgroup span="2"></colgroup>
@@ -372,5 +409,6 @@
                 </tbody>
             </table>
         </div>
+    </div>
     </body>
 </html>
