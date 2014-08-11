@@ -9,9 +9,11 @@
         <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/themes/smoothness/jquery-ui.css" />
         <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/jquery-ui.min.js"></script>
         <script type="text/javascript">
+            var termID = "1410";
+            var color = 0;
             var data = ""; // data get from courseInfo.json (via data.php and .json updated by mkdata.php)
             var loaded = false; // check if data loaded when adding course
-            
+            var timetable = []; // store the timetable
             $( document ).ready(function() {
                 $.get( "http://ustcourser.442.hk/json/data.php" )
                   .done(function( _data ) {
@@ -24,21 +26,40 @@
                         $( "#add" ).autocomplete({
                                 // source: "http://ustcourser.442.hk/json/parser.php?type=searchhints", 
                                 source: searchhints,
-                                minLength: 1,
+                                minLength: 0,
                                 focus: function( event, ui ) {
                                         event.preventDefault();
+                                    },
+                                select: function(event, ui) { 
+                                        event.preventDefault();
+                                        addCourse(ui.item.value);
                                     }
-                            });
-                  });
+                        }).focus(function () {
+                            $(this).autocomplete("search", "");
+                        });
+                        $("#add").click(function() {
+                            $(this).autocomplete("search", $(this).val());
+                        })
+                    });
                 $("#timetable").delegate('td','mouseover mouseleave', function(e) {
                     if (e.type === 'mouseover') {
                       // $(this).parent().addClass("hover"); // row
+                      $(this).parent().parent().addClass("hover"); // tbody
                       $("colgroup").eq(Math.ceil($(this).index()/2)).addClass("hover"); // col
                     }
                     else {
                       // $(this).parent().removeClass("hover"); // row
+                      $(this).parent().parent().removeClass("hover"); // tbody
                       $("colgroup").eq(Math.ceil($(this).index()/2)).removeClass("hover"); // col
                     }
+                });
+                $("#add").focusin(function() {
+                    $("#add").val("");
+                    $("#add").css("color", "black");
+                });
+                $("#add").focusout(function() {
+                    $("#add").val("Add Courses to Timetable");
+                    $("#add").css("color", "gray");
                 });
             });
             
@@ -70,12 +91,24 @@
                 types["types"] = keys;
                 return types;
             }
-            function addCourse() {
+            function getSectionObjs(code, section) {
+                var objs = [];
+                for (var j=0; j<data[code]["sections"].length; j++) {
+                    if (data[code]["sections"][j]["section"]===section) {
+                        objs.push(data[code]["sections"][j]);
+                    }
+                }
+                return objs;
+            }
+            function addCourse(_code) {
                 if (!loaded) {
                     alert("Please try again later as data is still loading...");
                     return false;
                 }
                 var val = $("#add").val().trim();
+                if (typeof _code !== "undefined") {
+                    val = _code;
+                }
                 var code = val.split(" ")[0].trim();
                 if (val==="") {
                     return false;
@@ -84,12 +117,201 @@
                     alert("Course Not Found!");
                     return false;
                 }
-                //TODO: add the course into timetable
+                if (timetable.hasOwnProperty(code)) {
+                    alert("Course already added!")
+                    return false;
+                }
+                timetable[code] = [];
+                var course = data[code];
+                var types = getSections(code);
+                for (var i=0; i<types["types"].length; i++) {
+                    // add the first section of each section type
+                    var type = types["types"][i];
+                    var section = types[type][0];
+                    addSection(course, section);
+                    timetable[code].push(section);
+                }
+                // add to timetable control table, hide the no courses added row
+                $("#none").hide();
+                var infolink = "https://w5.ab.ust.hk/wcq/cgi-bin/"+termID+"/subject/"+code.substr(0,4)+"#"+code;
+                var actions = "<a target='_blank' href='"+infolink+"'><img class='actionsImg' src='images/info.png' /></a>&nbsp;&nbsp;";
+                actions += "<a href='javascript:removeCourse(\""+code+"\")'><img class='actionsImg' src='images/cross.png' /></a>";
+                var htmlrow = "<tr id='"+code+"'><td>"+code+"</td><td>"+data[code]["name"]+"</td><td>"+actions+"</td></tr>";
+                $("#courselist").children("tr").each(function () {
+                    if (htmlrow!==null && code < $(this).attr("id")) {
+                        $(htmlrow).insertBefore($(this));
+                        htmlrow = null;
+                    }
+                });
+                if (htmlrow!==null) {
+                    $("#courselist").append(htmlrow);
+                }
+                // change color;
+                color = (color+1)%10;
                 $("#add").val(""); // clear input text
                 return false; // always return false to avoid form submitting
             }
+            // course: course object, section: section number
+            function addSection(course, section) {
+                var code = course["code"];
+                var sectionObjs = getSectionObjs(code, section);
+                for (var s=0; s<sectionObjs.length; s++) {
+                    var datetime = sectionObjs[s]["datetime"];
+                    for (var i=0; i<datetime.length; i++) {
+                        if (datetime === "TBA") continue; // TBA cannot be added into timetable
+                        //var matches = datetime[i].match(/(Mo|Tu|We|Th|Fr|Sa|Su)+[ ]+[0-9]+:[0-9]+[A|P]M[ ]+-[ ]+[0-9]+:[0-9]+[A|P]M/ig);
+                        var weekdays = datetime[i].match(/(Mo|Tu|We|Th|Fr|Sa|Su)/ig);
+                        var times = datetime[i].match(/[0-9]+:[0-9]+[A|P]M/ig);
+                        if (!times || times.length!==2) {
+                            // this is possibly date rather than time
+                            return;
+                        }
+                        for(var k=0; k<weekdays.length; k++) {
+                            addCourseBox(code, section, weekdays[k], times[0], times[1]);
+                        }
+                    }
+                }
+            }
+            // create the course box in timetable
+            function addCourseBox(code, section, weekday, start, end) {
+                var htmldiv = "<div class='color"+color+" lesson draggable "+code+"'>"+code+"<br/>"+section+"</div>";
+                var start_time = parseInt(start.substr(0,2).concat(start.substr(3,2)));
+                if (start.substr(5,2)==="PM") {
+                    start_time += 1200;
+                }
+                var end_time = parseInt(end.substr(0,2)+end.substr(3,2));
+                if (end.substr(5,2)==="PM") {
+                    end_time += 1200;
+                }
+                var starth = Math.floor(start_time/100);
+                var startm = start_time%100;
+                var endh = Math.floor(end_time/100);
+                var endm = end_time%100;
+                var h = "h".concat(starth);
+                var m = "m".concat(Math.ceil(startm/30)*30%60);
+                var spancount = Math.ceil((endh*60+endm-starth*60-startm)/30);
+                var added = false;
+                $("#"+weekday).children("tr").each(function() {
+                    var cell = $(this).children("td."+h+"."+m).eq(0);
+                    if ($(cell).hasClass("occupied") || $(cell).hasClass("hidden")) {
+                        // skip this row as the cell is being ocuppied
+                    }
+                    else {
+                        // check if all cells needed are available
+                        var avail = true;
+                        var nextcell = $(cell).next();
+                        for (var i=1; i<spancount; i++) {
+                            if ($(nextcell).hasClass("occupied") || $(nextcell).hasClass("hidden")) {
+                                avail = false;
+                            }
+                            nextcell = $(nextcell).next();
+                        }
+                        // add the course box if all cells available
+                        if (avail) {
+                            $(cell).append(htmldiv);
+                            $(cell).addClass("occupied");
+                            $(cell).attr("colspan", spancount);
+                            // hide the next few cells
+                            var next = $(cell).next();
+                            for (var i=1; i<spancount; i++) {
+                                $(next).addClass("hidden");
+                                next = $(next).next();
+                            }
+                            added = true;
+                        }
+                        // else look for next row
+                    }
+                });
+                // if no current existing rows available, create a new row
+                if (!added) {
+                    // increase rowspan of weekday header
+                    var newrowspan = parseInt($("#"+weekday+" th").attr("rowspan"))+1;
+                    $("#"+weekday+" th").attr("rowspan", newrowspan);
+                    var htmlrow = '<tr><td class="h08 m00"></td><td class="h08 m30"></td><td class="h09 m00"></td><td class="h09 m30"></td><td class="h10 m00"></td><td class="h10 m30"></td><td class="h11 m00"></td><td class="h11 m30"></td><td class="h12 m00"></td><td class="h12 m30"></td><td class="h13 m00"></td><td class="h13 m30"></td><td class="h14 m00"></td><td class="h14 m30"></td><td class="h15 m00"></td><td class="h15 m30"></td><td class="h16 m00"></td><td class="h16 m30"></td><td class="h17 m00"></td><td class="h17 m30"></td><td class="h18 m00"></td><td class="h18 m30"></td><td class="h19 m00"></td><td class="h19 m30"></td><td class="h20 m00"></td><td class="h20 m30"></td></tr>';
+                    $("#"+weekday).append(htmlrow);
+                    var newcell = $("#"+weekday).children("tr").eq(-1).children("td."+h+"."+m).eq(0);
+                    $(newcell).append(htmldiv);
+                    $(newcell).addClass("occupied");
+                    $(newcell).attr("colspan", spancount);
+                    // hide the next few cells
+                    var nextc = $(newcell).next();
+                    for (var i=1; i<spancount; i++) {
+                        $(nextc).addClass("hidden");
+                        nextc = $(nextc).next();
+                    }
+                    added = true;
+                }
+            }
+            // remove course from timetable and control table
+            function removeCourse(code) {
+                $("td.occupied div.lesson."+code).each(function() {
+                    var cell = $(this).parent();
+                    var colspan = $(cell).attr("colspan");
+                    $(cell).removeAttr("colspan");
+                    $(cell).removeClass("occupied");
+                    var next = $(cell).next();
+                    for (var i=1; i<colspan; i++) {
+                        $(next).removeClass("hidden");
+                        next = $(next).next();
+                    }
+                    $(this).remove();
+                });
+                $("#courselist").children($("#"+code)).eq(0).remove();
+                if ($("#courselist").children("tr").length === 0) {
+                    $("#none").show();
+                }
+                delete timetable[code];
+                //compactTable();
+            }
+            // remove empty row
+            function compactTable() {
+            // TODO: (not yet finished)
+                $(".days").each(function() {
+                    $(this).children("tr").each(function() {
+                        // if only one row for that weekday, skip
+                        if ($(this).parent().children("tr").length > 1) {
+                            if ($(this).children(".lesson").length === 0) {
+                                var weekday_header = $(this).parent().children("th").eq(0);
+                                var newrowspan = parseInt($(weekday_header).attr("rowspan"))-1;
+                                $(weekday_header).attr("rowspan", newrowspan);
+                                $(this).remove();
+                            }
+                        }
+                    });
+                });
+            }
         </script>
         <style>
+            .color0 {
+                background: #FFEBCD;
+            }
+            .color1 {
+                background: #FFCC99;
+            }
+            .color2 {
+                background: #EEE5DE;
+            }
+            .color3 {
+                background: #FFF5EE;
+            }
+            .color4 {
+                background: #F87531;
+            }
+            .color5 {
+                background: #EE8262;
+            }
+            .color6 {
+                background: #EEB4B4;
+            }
+            .color7 {
+                background: #00B2EE;
+            }
+            .color8 {
+                background: #00FA9A;
+            }
+            .color9 {
+                background: #CD96CD;
+            }
             .ui-autocomplete { 
                 font-size: 15px;
                 width: 400px; 
@@ -98,6 +320,18 @@
                 overflow-y: auto; 
                 overflow-x: hidden;
                 font-family: Optima, Segoe, "Segoe UI", Candara, Calibri, Arial, sans-serif;
+                background: #f9f9f9;
+            }
+            .ui-state-hover,
+            .ui-widget-content .ui-state-hover,
+            .ui-widget-header .ui-state-hover,
+            .ui-state-focus,
+            .ui-widget-content .ui-state-focus,
+            .ui-widget-header .ui-state-focus {
+                border: 1px solid #DB9370;
+                background: #EEE9E9;
+                font-weight: bold;
+                color: #292421;
             }
             body {
                 background: #f7f7f7;
@@ -114,17 +348,28 @@
                 text-align: center;
                 font-size: 40px;
                 font-family: Rockwell, "Courier Bold", Courier, Georgia, Times, "Times New Roman", serif;
-                text-shadow: 0px 1px 5px gray;
+                text-shadow: 1px 1px 6px gray;
                 width: 300px;
             }
             #logo:hover {
-                color: darkmagenta;
+                text-shadow: 0px 0px 4px black;
                 cursor: pointer;
             }
             #add {
                 width: 400px;
                 margin: 0px 6px;
                 font-family: Optima, Segoe, "Segoe UI", Candara, Calibri, Arial, sans-serif;
+                color: gray;
+                padding: 3px 8px;
+                border-radius: 5px;
+                border: 1px gray solid;
+                box-shadow: 0px 0px 5px gray;
+                background: #f8f8ff;
+            }
+            #add:focus {
+                outline: 0px;
+                border-radius: 5px;
+                border-color: orange;
             }
             #addform {
                 margin: 0px 0px;
@@ -161,8 +406,9 @@
             #timetable tbody {
                 
             }
+            /* tbody.days (jQuery code already implemented hover) */
             .days:hover {
-                background: #f8f8f8;
+                
             }
             #Mo, #Tu, #We, #Th, #Fr, #Su, #Sa {
                 
@@ -212,8 +458,6 @@
                 margin: 2px auto;
                 border: 2px solid;
                 padding: 5px 1px;
-                -webkit-border-radius: 7px;
-                border-radius: 7px;
                 text-align: center;
                 font-weight: bold;
                 font-size: 13px;
@@ -222,6 +466,8 @@
             }
             .draggable {
                 cursor: move;
+                -webkit-border-radius: 7px;
+                border-radius: 7px;
             }
             .hidden {
                  display: none;
@@ -234,29 +480,33 @@
                 -ms-user-select: none;
                 user-select: none;
             }
+            #courselist {
+                
+            }
             #timetable_controls {
                 border-collapse: collapse;
                 text-align: left;
-                width: 800px;
+                width: 70%;
                 margin: 15px 50px;
+                font-family: Tahoma, Verdana, Segoe, sans-serif;
+                font-size: 16px;
             }
-            #timetable_controls tr:first-child {
+            #timetable_controls thead th {
                 background: #f3f3f3;
             }
             #timetable_controls td, #timetable_controls th {
-                border: 1px green solid;
-                padding: 10px;
+                border: 1px #1a4c00 solid;
+                padding: 7px 8px;
             }
             #timetable_controls a {
                 text-decoration: none;
                 color: saddlebrown;
             }
-            #timetable_controls td:first-child { /* Course Code */
+            #timetable_controls tbody td:first-child { /* Course Code */
                 text-align: right;
             }
             #timetable_controls #none {
                 text-align: center;
-                font-style: italic;
             }
             .actionsImg {
                 width: 20px;
@@ -272,9 +522,8 @@
         </div>
         <div class="ui-widget noselect" id="addform">
             <form onsubmit="return addCourse()">
-            <label for="add">Course: </label>
-            <input type="text" id="add" />
-            <input type="button" value="Add" onclick="addCourse()" />
+                <label for="add">Course: </label>
+                <input type="text" id="add" value="Add Courses to Timetable" />
             </form>
         </div>
         <div id="timetable_wrapper" class="noselect">
@@ -327,7 +576,7 @@
                 </tbody>
                 <tbody id="Mo" class="days">
                     <tr>
-                    <th>MON</th>
+                    <th rowspan="1">MON</th>
                     <td class="h08 m00"></td>
                     <td class="h08 m30"></td>
                     <td class="h09 m00"></td>
@@ -358,10 +607,10 @@
                 </tbody>
                 <tbody id="Tu" class="days">
                     <tr>
-                    <th>TUE</th>
-                    <td class="h08 m00 occupied" colspan="3"><div class="lesson draggable">COMP3111H<br/>L2</div></td>
-                    <td class="h08 m30 hidden"></td>
-                    <td class="h09 m00 hidden"></td>
+                    <th rowspan="1">TUE</th>
+                    <td class="h08 m00"></td>
+                    <td class="h08 m30"></td>
+                    <td class="h09 m00"></td>
                     <td class="h09 m30"></td>
                     <td class="h10 m00"></td>
                     <td class="h10 m30"></td>
@@ -389,7 +638,7 @@
                 </tbody>
                 <tbody id="We" class="days">
                     <tr>
-                    <th>WED</th>
+                    <th rowspan="1">WED</th>
                     <td class="h08 m00"></td>
                     <td class="h08 m30"></td>
                     <td class="h09 m00"></td>
@@ -420,7 +669,7 @@
                 </tbody>
                 <tbody id="Th" class="days">
                     <tr>
-                    <th>THU</th>
+                    <th rowspan="1">THU</th>
                     <td class="h08 m00"></td>
                     <td class="h08 m30"></td>
                     <td class="h09 m00"></td>
@@ -451,7 +700,7 @@
                 </tbody>
                 <tbody id="Fr" class="days">
                     <tr>
-                    <th>FRI</th>
+                    <th rowspan="1">FRI</th>
                     <td class="h08 m00"></td>
                     <td class="h08 m30"></td>
                     <td class="h09 m00"></td>
@@ -482,7 +731,7 @@
                 </tbody>
                 <tbody id="Sa" class="days">
                     <tr>
-                    <th>SAT</th>
+                    <th rowspan="1">SAT</th>
                     <td class="h08 m00"></td>
                     <td class="h08 m30"></td>
                     <td class="h09 m00"></td>
@@ -513,7 +762,7 @@
                 </tbody>
                 <tbody id="Su" class="days">
                     <tr>
-                    <th>SUN</th>
+                    <th rowspan="1">SUN</th>
                     <td class="h08 m00"></td>
                     <td class="h08 m30"></td>
                     <td class="h09 m00"></td>
@@ -546,22 +795,18 @@
         </div>
         <div>
             <table id="timetable_controls">
+                <thead>
                 <tr>
                     <th>Code</th>
                     <th>Title</th>
                     <th>Actions</th>
                 </tr>
                 <tr id="none">
-                    <th colspan="3">No courses added.</th>
+                    <td colspan="3">No courses added.</td>
                 </tr>
-                <tr>
-                    <td>COMP2012</td>
-                    <td>Object-Oriented Programming and Data Structures</td>
-                    <td>
-                        <a href="#"><img class="actionsImg" src="images/info.png" /></a>&nbsp;
-                        <a href="#"><img class="actionsImg" src="images/cross.png" /></a>
-                    </td>
-                </tr>
+                </thead>
+                <tbody id="courselist">
+                </tbody>
             </table>
         </div>
     </div>
