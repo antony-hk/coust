@@ -9,8 +9,9 @@
         <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/themes/smoothness/jquery-ui.css" />
         <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/jquery-ui.min.js"></script>
         <script type="text/javascript">
-            var termID = "1410";
+            "use strict";
             var color = 0;
+            var terms = ""; // store terms info
             var data = ""; // data get from courseInfo.json (via data.php and .json updated by mkdata.php)
             var loaded = false; // check if data loaded when adding course
             var timetable = []; // store the timetable
@@ -18,6 +19,8 @@
                 $.get( "http://ustcourser.442.hk/json/data.php" )
                   .done(function( _data ) {
                         data = $.parseJSON(_data);
+                        terms = data["terms"];
+                        delete data["terms"];
                         loaded = true;
                         var searchhints = [];
                         $.each( data, function( key, val ) {
@@ -128,15 +131,16 @@
                     // add the first section of each section type
                     var type = types["types"][i];
                     var section = types[type][0];
-                    addSection(course, section);
+                    var section_singleton = (types[type].length===1);
+                    addSection(course, section, section_singleton);
                     timetable[code].push(section);
                 }
                 // add to timetable control table, hide the no courses added row
                 $("#none").hide();
-                var infolink = "https://w5.ab.ust.hk/wcq/cgi-bin/"+termID+"/subject/"+code.substr(0,4)+"#"+code;
+                var infolink = "https://w5.ab.ust.hk/wcq/cgi-bin/"+terms[0]["num"]+"/subject/"+code.substr(0,4)+"#"+code;
                 var actions = "<a target='_blank' href='"+infolink+"'><img class='actionsImg' src='images/info.png' /></a>&nbsp;&nbsp;";
                 actions += "<a href='javascript:removeCourse(\""+code+"\")'><img class='actionsImg' src='images/cross.png' /></a>";
-                var htmlrow = "<tr id='"+code+"'><td>"+code+"</td><td>"+data[code]["name"]+"</td><td>"+actions+"</td></tr>";
+                var htmlrow = "<tr id='"+code+"' class='color"+color+"'><td>"+code+"</td><td>"+data[code]["name"]+"</td><td>"+actions+"</td></tr>";
                 $("#courselist").children("tr").each(function () {
                     if (htmlrow!==null && code < $(this).attr("id")) {
                         $(htmlrow).insertBefore($(this));
@@ -151,8 +155,8 @@
                 $("#add").val(""); // clear input text
                 return false; // always return false to avoid form submitting
             }
-            // course: course object, section: section number
-            function addSection(course, section) {
+            // course: course object, section: section number, singleton: boolean
+            function addSection(course, section, singleton) {
                 var code = course["code"];
                 var sectionObjs = getSectionObjs(code, section);
                 for (var s=0; s<sectionObjs.length; s++) {
@@ -167,14 +171,18 @@
                             return;
                         }
                         for(var k=0; k<weekdays.length; k++) {
-                            addCourseBox(code, section, weekdays[k], times[0], times[1]);
+                            addCourseBox(code, section, weekdays[k], times[0], times[1], singleton);
                         }
                     }
                 }
             }
             // create the course box in timetable
-            function addCourseBox(code, section, weekday, start, end) {
-                var htmldiv = "<div class='color"+color+" lesson draggable "+code+"'>"+code+"<br/>"+section+"</div>";
+            function addCourseBox(code, section, weekday, start, end, singleton) {
+                var draggable = "";
+                if (!singleton) {
+                    draggable = "draggable";
+                }
+                var htmldiv = "<div class='color"+color+" lesson "+draggable+" "+code+"'>"+code+"<br/>"+section+"</div>";
                 var start_time = parseInt(start.substr(0,2).concat(start.substr(3,2)));
                 if (start.substr(5,2)==="PM") {
                     start_time += 1200;

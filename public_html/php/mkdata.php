@@ -6,6 +6,8 @@ $parser = new Parser();
 $result = $parser->parseCoursePage();
 $courseInfo = array();
 
+$courseInfo["terms"] = $result["terms"];
+
 foreach($result['depts'] as $dept) {
 	$data = $parser->parseCoursePage("https://w5.ab.ust.hk".$result['terms'][0]['href']."subject/".$dept);
 	foreach($data['courses'] as $course) {
