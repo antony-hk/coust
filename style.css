@@ -61,7 +61,7 @@ body {
 }
 #logo {
     margin: 50px 0px 30px 10px;
-    text-align: center;
+    text-align: left;
     font-size: 40px;
     font-family: Rockwell, "Courier Bold", Courier, Georgia, Times, "Times New Roman", serif;
     text-shadow: 1px 1px 6px gray;
@@ -106,10 +106,16 @@ body {
     border-collapse: collapse;
 }
 #timetable td {
-    height: 55px;
+    height: 60px;
     width: 90px;
     text-align: center;
-    padding: 1px 1px;
+    vertical-align: top;
+    padding: 7px 1px 1px 1px;
+}
+#timetable td.time {
+    vertical-align: bottom;
+    font-family: "Avant Garde", Avantgarde, "Century Gothic", CenturyGothic, "AppleGothic", sans-serif;
+    font-size: 12px;
 }
 #timetable th.weekday {
     border-right: 1px solid lightgray;
@@ -122,9 +128,8 @@ body {
 #timetable tbody {
 
 }
-/* tbody.days (jQuery code already implemented hover) */
-.days:hover {
-
+tbody.days tr:last-child > td {
+    padding-bottom: 1em;
 }
 #Mo, #Tu, #We, #Th, #Fr, #Su, #Sa {
 
@@ -139,15 +144,11 @@ body {
     border-right: 1px solid #ddd;
 }
 .m00, .m30 {
-    border-top: 1px dotted #ddd;
-    border-bottom: 1px dotted #ddd;
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
 }
 .m30[class~="occupied"][class~="m30"]  {
     border-right: 0px solid transparent;
-}
-td.time {
-    font-family: "Avant Garde", Avantgarde, "Century Gothic", CenturyGothic, "AppleGothic", sans-serif;
-    font-size: 12px;
 }
 td.alt {
     border-right: 1px transparent solid;
@@ -155,7 +156,6 @@ td.alt {
 }
 .timediv {
     position: relative;
-    top: 15px;
     left: 20px;
 }
 #times {
@@ -169,7 +169,7 @@ td.alt {
 }
 .lesson {
     overflow: hidden;
-    height: 90%;
+    height: 36px;
     width: 90%;
     margin: 2px auto;
     border: 2px solid;
@@ -234,4 +234,9 @@ td.alt {
     border-color: tomato;
     background-color: #EEE9E9;
     opacity: 0.8;
+}
+.separator td, .separator th {
+    height: 2px !important;
+    padding: 0px !important;
+    margin: 0px !important;
 }

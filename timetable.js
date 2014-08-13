@@ -25,7 +25,7 @@ $( document ).ready(function() {
                         },
                     select: function(event, ui) { 
                             event.preventDefault();
-                            addCourse(ui.item.value);
+                            addCourse(ui.item.value, "");
                         }
             }).focus(function () {
                 $(this).autocomplete("search", "");
@@ -35,7 +35,10 @@ $( document ).ready(function() {
             })
         });
     $("#timetable").delegate('td','mouseover mouseleave', function(e) {
-        if (e.type === 'mouseover') {
+        if (e.target.className==="separator") {
+            
+        }
+        else if (e.type === 'mouseover') {
           // $(this).parent().addClass("hover"); // row
           $(this).parent().parent().addClass("hover"); // tbody
           $("colgroup").eq(Math.ceil($(this).index()/2)).addClass("hover"); // col
@@ -56,7 +59,7 @@ $( document ).ready(function() {
     });
     $("#timetable").delegate('.draggable','mousedown', function(e) {
         if (e.type === 'mousedown' && !dragmode) {
-            dragmode = true;
+            //dragmode = true;
             var res = $(this).attr("name").split("_");
             var code = res[0];
             var section = res[1];
@@ -124,13 +127,13 @@ function getSectionObjs(code, section) {
     }
     return objs;
 }
-function addCourse(_code) {
+function addCourse(_code, sections) {
     if (!loaded) {
         alert("Please try again later as data is still loading...");
         return false;
     }
     var val = $("#add").val().trim();
-    if (typeof _code !== "undefined") {
+    if (typeof _code !== "") {
         val = _code;
     }
     var code = val.split(" ")[0].trim();
@@ -148,13 +151,22 @@ function addCourse(_code) {
     timetable[code] = [];
     var course = data[code];
     var types = getSections(code);
-    for (var i=0; i<types["types"].length; i++) {
-        // add the first section of each section type
-        var type = types["types"][i];
-        var section = types[type][0];
-        var section_singleton = (types[type].length===1);
-        addSection(course, section, section_singleton, false);
-        timetable[code].push(section);
+    if (sections==="") {
+        for (var i=0; i<types["types"].length; i++) {
+            // add the first section of each section type
+            var type = types["types"][i];
+            var section = types[type][0];
+            var section_singleton = (types[type].length===1);
+            addSection(course, section, section_singleton, false);
+            timetable[code].push(section);
+        }
+    }
+    else {
+        for (var i=0; i<sections.length; i++) {
+            var section_singleton = (types[sections[i].match(/[A-Z]+/i)] === 1);
+            addSection(course, sections[i], section_singleton, false);
+            timetable[code].push(section);
+        }
     }
     // add to timetable control table, hide the no courses added row
     $("#none").hide();
@@ -180,7 +192,6 @@ function addCourse(_code) {
 function addSection(course, section, singleton, virtual) {
     var code = course["code"];
     var sectionObjs = getSectionObjs(code, section);
-    console.log(sectionObjs);
     for (var s=0; s<sectionObjs.length; s++) {
         var datetime = sectionObjs[s]["datetime"];
         for (var i=0; i<datetime.length; i++) {
@@ -200,6 +211,7 @@ function addSection(course, section, singleton, virtual) {
 }
 // create the course box in timetable
 function addCourseBox(code, section, weekday, start, end, singleton, virtual) {
+    var colorText = "color" + color;
     var draggable = "";
     if (!singleton) {
         draggable = "draggable";
@@ -207,14 +219,15 @@ function addCourseBox(code, section, weekday, start, end, singleton, virtual) {
     var virtualbox = "";
     if (virtual) {
         virtualbox = "virtual";
+        colorText = "";
     }
-    var htmldiv = "<div name='"+code+"_"+section+"' class='color"+color+" lesson "+draggable+" "+virtualbox+" "+code+" "+section+"'>"+code+"<br/>"+section+"</div>";
+    var htmldiv = "<div name='"+code+"_"+section+"' class='"+colorText+" lesson "+draggable+" "+virtualbox+" "+code+" "+section+"'>"+code+"<br/>"+section+"</div>";
     var start_time = parseInt(start.substr(0,2).concat(start.substr(3,2)));
-    if (start.substr(5,2)==="PM") {
+    if (start.substr(5,2)==="PM" && start.substr(0,2)!=="12") {
         start_time += 1200;
     }
     var end_time = parseInt(end.substr(0,2)+end.substr(3,2));
-    if (end.substr(5,2)==="PM") {
+    if (end.substr(5,2)==="PM" && end.substr(0,2)!=="12") {
         end_time += 1200;
     }
     var starth = Math.floor(start_time/100);
@@ -227,6 +240,7 @@ function addCourseBox(code, section, weekday, start, end, singleton, virtual) {
     var spancount = Math.ceil((endh*60+endm-starth*60-startm)/30);
     var added = false;
     $("#"+weekday).children("tr").each(function() {
+        if (added) return false; // break the loop
         var cell = $(this).children("td."+h+"."+m).eq(0);
         if ($(cell).hasClass("occupied") || $(cell).hasClass("hidden")) {
             // skip this row as the cell is being ocuppied
@@ -329,10 +343,11 @@ function compactTable() {
 function addVirtualCourse(code, section) {
     var sectiontype = section.match(/[A-Z]+/i);
     var sections = getSections(code);
+    var singleton = (sections[sectiontype].length===1);
     for (var i=0; i<sections[sectiontype].length; i++) {
         if (sections[sectiontype][i]===section) {
             continue;
         }
-        addSection(data[code], sections[sectiontype][i], (sections[sectiontype].length===1), true);
+        addSection(data[code], sections[sectiontype][i], singleton, true);
     }
 }

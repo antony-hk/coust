@@ -17,7 +17,7 @@
             <span>HKUST Courser</span>
         </div>
         <div class="ui-widget noselect" id="addform">
-            <form onsubmit="return addCourse()">
+            <form onsubmit="return addCourse('','')">
                 <label for="add">Course: </label>
                 <input type="text" id="add" value="Add Courses to Timetable" />
             </form>
@@ -101,6 +101,7 @@
                     <td class="h20 m30"></td>
                     </tr>
                 </tbody>
+                <tr class="separator"><th></th><td colspan="26"></td></tr>
                 <tbody id="Tu" class="days">
                     <tr>
                     <th class="weekday" rowspan="1">TUE</th>
@@ -132,6 +133,7 @@
                     <td class="h20 m30"></td>
                     </tr>
                 </tbody>
+                <tr class="separator"><th></th><td colspan="26"></td></tr>
                 <tbody id="We" class="days">
                     <tr>
                     <th class="weekday" rowspan="1">WED</th>
@@ -163,6 +165,7 @@
                     <td class="h20 m30"></td>
                     </tr>
                 </tbody>
+                <tr class="separator"><th></th><td colspan="26"></td></tr>
                 <tbody id="Th" class="days">
                     <tr>
                     <th class="weekday" rowspan="1">THU</th>
@@ -194,6 +197,7 @@
                     <td class="h20 m30"></td>
                     </tr>
                 </tbody>
+                <tr class="separator"><th></th><td colspan="26"></td></tr>
                 <tbody id="Fr" class="days">
                     <tr>
                     <th class="weekday" rowspan="1">FRI</th>
@@ -225,6 +229,7 @@
                     <td class="h20 m30"></td>
                     </tr>
                 </tbody>
+                <tr class="separator"><th></th><td colspan="26"></td></tr>
                 <tbody id="Sa" class="days">
                     <tr>
                     <th class="weekday" rowspan="1">SAT</th>
@@ -256,7 +261,8 @@
                     <td class="h20 m30"></td>
                     </tr>
                 </tbody>
-                <tbody id="Su" class="days">
+                <tr class="separator hidden"><th></th><td colspan="26"></td></tr>
+                <tbody id="Su" class="days hidden">
                     <tr>
                     <th class="weekday" rowspan="1">SUN</th>
                     <td class="h08 m00"></td>
