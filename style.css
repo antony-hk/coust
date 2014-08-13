@@ -229,3 +229,9 @@ td.alt {
     height: 20px;
     vertical-align: middle;
 }
+.virtual {
+    border-style: dotted;
+    border-color: tomato;
+    background-color: #EEE9E9;
+    opacity: 0.8;
+}

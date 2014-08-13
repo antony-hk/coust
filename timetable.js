@@ -1,4 +1,5 @@
 "use strict";
+var dragmode = false;
 var color = 0;
 var terms = ""; // store terms info
 var data = ""; // data get from courseInfo.json (via data.php and .json updated by mkdata.php)
@@ -53,6 +54,29 @@ $( document ).ready(function() {
         $("#add").val("Add Courses to Timetable");
         $("#add").css("color", "gray");
     });
+    $("#timetable").delegate('.draggable','mousedown', function(e) {
+        if (e.type === 'mousedown' && !dragmode) {
+            dragmode = true;
+            var res = $(this).attr("name").split("_");
+            var code = res[0];
+            var section = res[1];
+            addVirtualCourse(code, section);
+        }
+    });
+    $("#container").delegate('.move', 'mousemove mouseup', function(e) {
+        if (!dragmode) {
+            // do nothing
+        }
+        else if (e.type === 'mousemove') {
+            //TODO:
+        }
+        else if (e.type === 'mouseup') {
+            var res = $(this).attr("name").split("_");
+            var code = res[0];
+            var section = res[1];
+            removeVirtualCourse(code, section);
+        }
+    });
 });
 
 // JavaScript functions
@@ -74,7 +98,15 @@ function getSections(code) {
         if (typeof types[type] === "undefined") {
             types[type] = [];
         }
-        types[type].push(sections[i]["section"]);
+        var duplicate = false;
+        for (var j=0; j<types[type].length; j++) {
+            if (sections[i]["section"] === types[type][j]) {
+                duplicate = true;
+            }
+        }
+        if (!duplicate) {
+            types[type].push(sections[i]["section"]);
+        }
     }
     var keys = [];
     for (var k in types) {
@@ -121,7 +153,7 @@ function addCourse(_code) {
         var type = types["types"][i];
         var section = types[type][0];
         var section_singleton = (types[type].length===1);
-        addSection(course, section, section_singleton);
+        addSection(course, section, section_singleton, false);
         timetable[code].push(section);
     }
     // add to timetable control table, hide the no courses added row
@@ -145,9 +177,10 @@ function addCourse(_code) {
     return false; // always return false to avoid form submitting
 }
 // course: course object, section: section number, singleton: boolean
-function addSection(course, section, singleton) {
+function addSection(course, section, singleton, virtual) {
     var code = course["code"];
     var sectionObjs = getSectionObjs(code, section);
+    console.log(sectionObjs);
     for (var s=0; s<sectionObjs.length; s++) {
         var datetime = sectionObjs[s]["datetime"];
         for (var i=0; i<datetime.length; i++) {
@@ -160,18 +193,22 @@ function addSection(course, section, singleton) {
                 continue;
             }
             for(var k=0; k<weekdays.length; k++) {
-                addCourseBox(code, section, weekdays[k], times[0], times[1], singleton);
+                addCourseBox(code, section, weekdays[k], times[0], times[1], singleton, virtual);
             }
         }
     }
 }
 // create the course box in timetable
-function addCourseBox(code, section, weekday, start, end, singleton) {
+function addCourseBox(code, section, weekday, start, end, singleton, virtual) {
     var draggable = "";
     if (!singleton) {
         draggable = "draggable";
     }
-    var htmldiv = "<div class='color"+color+" lesson "+draggable+" "+code+"'>"+code+"<br/>"+section+"</div>";
+    var virtualbox = "";
+    if (virtual) {
+        virtualbox = "virtual";
+    }
+    var htmldiv = "<div name='"+code+"_"+section+"' class='color"+color+" lesson "+draggable+" "+virtualbox+" "+code+" "+section+"'>"+code+"<br/>"+section+"</div>";
     var start_time = parseInt(start.substr(0,2).concat(start.substr(3,2)));
     if (start.substr(5,2)==="PM") {
         start_time += 1200;
@@ -287,4 +324,15 @@ function compactTable() {
             }
         }
     });
+}
+// add course boxes of available sections of the section type
+function addVirtualCourse(code, section) {
+    var sectiontype = section.match(/[A-Z]+/i);
+    var sections = getSections(code);
+    for (var i=0; i<sections[sectiontype].length; i++) {
+        if (sections[sectiontype][i]===section) {
+            continue;
+        }
+        addSection(data[code], sections[sectiontype][i], (sections[sectiontype].length===1), true);
+    }
 }
