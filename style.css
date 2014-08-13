@@ -35,7 +35,6 @@
     max-height: 200px; 
     overflow-y: auto; 
     overflow-x: hidden;
-    font-family: Optima, Segoe, "Segoe UI", Candara, Calibri, Arial, sans-serif;
     background: #f9f9f9;
 }
 .ui-state-hover,
@@ -52,7 +51,7 @@
 body {
     background: #f7f7f7;
     font-size: 16px;
-    font-family:  "Segoe UI", Segoe, Optima, Arial, sans-serif;
+    font-family: 'Open Sans', sans-serif;
 }
 #container {
     text-align: center;
@@ -63,7 +62,6 @@ body {
     margin: 50px 0px 30px 10px;
     text-align: left;
     font-size: 40px;
-    font-family: Rockwell, "Courier Bold", Courier, Georgia, Times, "Times New Roman", serif;
     text-shadow: 1px 1px 6px gray;
     width: 700px;
 }
@@ -74,7 +72,6 @@ body {
 #add {
     width: 400px;
     margin: 0px 6px;
-    font-family: Optima, Segoe, "Segoe UI", Candara, Calibri, Arial, sans-serif;
     color: gray;
     padding: 3px 8px;
     border-radius: 5px;
@@ -89,13 +86,9 @@ body {
 }
 #addform {
     margin: 0px 0px;
-    font-family: "Century Gothic", CenturyGothic, AppleGothic, sans-serif;
     font-size: 16px;
     text-align: left;
     padding-left: 50px;
-}
-#addform input[type="button"] {
-    font-family: "Century Gothic", CenturyGothic, AppleGothic, sans-serif;
 }
 #timetable_wrapper {
     background: #F9F9F9;
@@ -114,13 +107,12 @@ body {
 }
 #timetable td.time {
     vertical-align: bottom;
-    font-family: "Avant Garde", Avantgarde, "Century Gothic", CenturyGothic, "AppleGothic", sans-serif;
     font-size: 12px;
 }
 #timetable th.weekday {
     border-right: 1px solid lightgray;
     padding-right: 8px;
-    font-family: Courier New;
+    font-size: 14px;
     background: #F9F9F9;
     text-shadow: 0px 0px 2px gray;
     font-weight: normal;
@@ -177,7 +169,6 @@ td.alt {
     text-align: center;
     font-weight: bold;
     font-size: 13px;
-    font-family: "Segoe UI", Frutiger, "Frutiger Linotype", "Dejavu Sans", "Helvetica Neue", Arial, sans-serif;
     cursor: no-drop;
 }
 .draggable {
@@ -204,7 +195,6 @@ td.alt {
     text-align: left;
     width: 70%;
     margin: 15px 50px;
-    font-family: Tahoma, Verdana, Segoe, sans-serif;
     font-size: 16px;
 }
 #timetable_controls thead th {
