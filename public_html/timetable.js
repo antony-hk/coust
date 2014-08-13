@@ -157,7 +157,7 @@ function addSection(course, section, singleton) {
             var times = datetime[i].match(/[0-9]+:[0-9]+[A|P]M/ig);
             if (!times || times.length!==2) {
                 // this is possibly date rather than time
-                return;
+                continue;
             }
             for(var k=0; k<weekdays.length; k++) {
                 addCourseBox(code, section, weekdays[k], times[0], times[1], singleton);
