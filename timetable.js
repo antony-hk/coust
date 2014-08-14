@@ -262,6 +262,13 @@ function addCourseBox(code, section, weekday, start, end, singleton, virtual) {
                         drop: function() {
                             // drop() of droppable fires before stop() of draggable
                             $(cell).children("div.lesson").eq(0).addClass("toadd");
+                            $(cell).children("div.lesson").eq(0).removeClass("virtual-hover");
+                        },
+                        over: function( event, ui ) {
+                            $(cell).children("div.lesson").eq(0).addClass("virtual-hover");
+                        },
+                        out: function( event, ui ) {
+                            $(cell).children("div.lesson").eq(0).removeClass("virtual-hover");
                         }
                     });
                 }

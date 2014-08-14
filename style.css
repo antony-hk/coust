@@ -225,7 +225,7 @@ td.alt {
     border-color: tomato;
     opacity: 0.5;
 }
-.virtual:hover {
+.virtual-hover {
     opacity: 1;
     border-style: dashed;
 }
