@@ -215,6 +215,7 @@ function addCourse(_code, sections) {
 function addSection(course, section, singleton, virtual) {
     var code = course["code"];
     var sectionObjs = getSectionObjs(code, section);
+    var timeStr = "";
     for (var s=0; s<sectionObjs.length; s++) {
         var datetime = sectionObjs[s]["datetime"];
         for (var i=0; i<datetime.length; i++) {
@@ -226,6 +227,11 @@ function addSection(course, section, singleton, virtual) {
                 // this is possibly date rather than time
                 continue;
             }
+            else if (timeStr.indexOf(times)!==-1) {
+                // duplicate time (may be of different date period)
+                continue;
+            }
+            timeStr += times;
             for(var k=0; k<weekdays.length; k++) {
                 addCourseBox(code, section, weekdays[k], times[0], times[1], singleton, virtual);
             }
@@ -302,7 +308,7 @@ function addCourseBox(code, section, weekday, start, end, singleton, virtual) {
         // increase rowspan of weekday header
         var newrowspan = parseInt($("#"+weekday+" th").attr("rowspan"))+1;
         $("#"+weekday+" th").attr("rowspan", newrowspan);
-        var htmlrow = '<tr><td class="h08 m00"></td><td class="h08 m30"></td><td class="h09 m00"></td><td class="h09 m30"></td><td class="h10 m00"></td><td class="h10 m30"></td><td class="h11 m00"></td><td class="h11 m30"></td><td class="h12 m00"></td><td class="h12 m30"></td><td class="h13 m00"></td><td class="h13 m30"></td><td class="h14 m00"></td><td class="h14 m30"></td><td class="h15 m00"></td><td class="h15 m30"></td><td class="h16 m00"></td><td class="h16 m30"></td><td class="h17 m00"></td><td class="h17 m30"></td><td class="h18 m00"></td><td class="h18 m30"></td><td class="h19 m00"></td><td class="h19 m30"></td><td class="h20 m00"></td><td class="h20 m30"></td></tr>';
+        var htmlrow = '<tr><td class="h08 m00"></td><td class="h08 m30"></td><td class="h09 m00"></td><td class="h09 m30"></td><td class="h10 m00"></td><td class="h10 m30"></td><td class="h11 m00"></td><td class="h11 m30"></td><td class="h12 m00"></td><td class="h12 m30"></td><td class="h13 m00"></td><td class="h13 m30"></td><td class="h14 m00"></td><td class="h14 m30"></td><td class="h15 m00"></td><td class="h15 m30"></td><td class="h16 m00"></td><td class="h16 m30"></td><td class="h17 m00"></td><td class="h17 m30"></td><td class="h18 m00"></td><td class="h18 m30"></td><td class="h19 m00"></td><td class="h19 m30"></td><td class="h20 m00"></td><td class="h20 m30"></td><td class="h21 m00"></td><td class="h21 m30"></td><td class="h22 m00"></td><td class="h22 m30"></td></tr>';
         $("#"+weekday).append(htmlrow);
         addCourseBox(code, section, weekday, start, end, singleton, virtual);
         return;
