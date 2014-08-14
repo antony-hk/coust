@@ -223,19 +223,14 @@ td.alt {
 .virtual {
     border-style: dotted;
     border-color: tomato;
-    background-color: #F9F9F7;
     opacity: 0.5;
 }
 .virtual:hover {
     opacity: 1;
-    background-color: #FFF5EE;
     border-style: dashed;
 }
-#move {
+.move {
     opacity: 0.4;
-    position: absolute;
-    top: 0;
-    left: 0;
 }
 .separator td, .separator th {
     height: 2px !important;

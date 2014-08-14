@@ -57,52 +57,6 @@ $( document ).ready(function() {
         $("#add").val("Add Courses to Timetable");
         $("#add").css("color", "gray");
     });
-    $("#timetable").delegate('.draggable','mousedown', function(e) {
-        if (e.type === 'mousedown' && !dragmode) {
-            dragmode = true;
-            var res = $(this).attr("name").split("_");
-            var code = res[0];
-            var section = res[1];
-            addVirtualCourse(code, section);
-            var width = $(this).width();
-            var height = $(this).height();
-            var htmlText = $(this).html();
-            var draggable = "";
-            if ($(this).hasClass("draggable")) {
-                draggable = "draggable";
-            }
-            var className = $(this).attr("class");
-            var colorText = className.match(/color[0-9]/i);
-            var name = $(this).attr("name");
-            var movediv = "<div name='"+name+"' id='move' class='noselect lesson "+draggable+" "+colorText+"' style='width:"+width+"px;height:"+height+"px;'>"+htmlText+"</div>";
-            $("#container").append(movediv);
-            var org = $(this).offset();
-            $("#move").offset({top: org.top+2, left: org.left+2});
-        }
-    });
-    $("#container").delegate('#move', 'mousemove mouseup', function(e) {
-        if (!dragmode) {
-            // do nothing
-        }
-        else if (e.type === 'mousemove' && dragmode) {
-            
-        }
-        else if (e.type === 'mouseup') {
-            var res = $(this).attr("name").split("_");
-            var code = res[0];
-            var section = res[1];
-            // TODO: check intersection of course, add class .toadd to course being intersect, remove virtual class of this
-            // if .toadd exists, remove current section
-            if ($(".toadd").length>0) {
-                removeSection(code, section);
-            }
-            // remove all virtual courses
-            removeVirtualCourse(code);
-            // remove the #move div
-            $("#move").remove();
-            dragmode = false;
-        }
-    });
 });
 
 // JavaScript functions
@@ -181,14 +135,12 @@ function addCourse(_code, sections) {
             var section = types[type][0];
             var section_singleton = (types[type].length===1);
             addSection(course, section, section_singleton, false);
-            timetable[code].push(section);
         }
     }
     else {
         for (var i=0; i<sections.length; i++) {
             var section_singleton = (types[sections[i].match(/[A-Z]+/i)] === 1);
             addSection(course, sections[i], section_singleton, false);
-            timetable[code].push(section);
         }
     }
     // add to timetable control table, hide the no courses added row
@@ -214,6 +166,7 @@ function addCourse(_code, sections) {
 // course: course object, section: section number, singleton: boolean
 function addSection(course, section, singleton, virtual) {
     var code = course["code"];
+    if (!virtual) timetable[code].push(section);
     var sectionObjs = getSectionObjs(code, section);
     var timeStr = "";
     for (var s=0; s<sectionObjs.length; s++) {
@@ -248,10 +201,10 @@ function addCourseBox(code, section, weekday, start, end, singleton, virtual) {
     if (!singleton) {
         draggable = "draggable";
     }
-    var virtualbox = "";
+    var virtualbox = "real";
     if (virtual) {
         virtualbox = "virtual";
-        colorText = "";
+        colorText = $("div.lesson.real."+code).attr("class").match(/color[0-9]+/i);
     }
     var htmldiv = "<div name='"+code+"_"+section+"' class='"+colorText+" lesson "+draggable+" "+virtualbox+" "+code+" "+section+"'>"+code+"<br/>"+section+"</div>";
     var start_time = parseInt(start.substr(0,2).concat(start.substr(3,2)));
@@ -299,6 +252,19 @@ function addCourseBox(code, section, weekday, start, end, singleton, virtual) {
                     next = $(next).next();
                 }
                 added = true;
+                if (!virtual) {
+                    // atach jQuery draggable
+                    attachDraggable($(cell).children("div.lesson").eq(0), code, section);
+                }
+                else { // virtual
+                    // attach jQuery droppable
+                    $(cell).children("div.lesson").eq(0).droppable({ 
+                        drop: function() {
+                            // drop() of droppable fires before stop() of draggable
+                            $(cell).children("div.lesson").eq(0).addClass("toadd");
+                        }
+                    });
+                }
             }
             // else look for next row
         }
@@ -336,6 +302,14 @@ function removeCourse(code) {
     compactTable();
 }
 function removeSection(code, section) {
+    for (var i=0; i<timetable[code].length; ) {
+        if (timetable[code][i]===section) {
+            timetable[code].splice(i, 1);
+        }
+        else {
+            i++;
+        }
+    }
     $("td.occupied div.lesson."+code+"."+section).each(function() {
         var cell = $(this).parent();
         var colspan = $(cell).attr("colspan");
@@ -428,4 +402,50 @@ function removeVirtualCourse(code) {
         $(this).remove();
     });
     compactTable();
+}
+function attachDraggable(div, code, section) {
+    /*$(cell).children("div.lesson").eq(0).draggable({ 
+        helper: "clone",
+        start: function( event, ui ) {
+            var lessondiv = $(cell).children("div.lesson").eq(0);
+            $(ui.helper).css("width", $(lessondiv).width());
+            $(ui.helper).addClass("move");
+            addVirtualCourse(code, section);
+        },
+        stop: function( event, ui ) {
+            if ($("div.lesson.toadd."+code).length>0) {
+                var new_section = $("div.lesson.toadd."+code).eq(0).attr("name").split("_")[1];
+                $("div.lesson.virtual."+code+"."+new_section).removeClass("virtual");
+                $("div.lesson.toadd."+code).removeClass("toadd");
+                $("div.lesson."+code+"."+new_section).addClass("real");
+                removeSection(code, section);
+            }
+            removeVirtualCourse(code);
+        }
+    });*/
+    $(div).draggable({ 
+        helper: "clone",
+        start: function( event, ui ) {
+            var lessondiv = $(div).eq(0);
+            $(ui.helper).css("width", $(lessondiv).width());
+            $(ui.helper).addClass("move");
+            addVirtualCourse(code, section);
+        },
+        stop: function( event, ui ) {
+            if ($("div.lesson.toadd."+code).length>0) {
+                var new_section = $("div.lesson.toadd."+code).eq(0).attr("name").split("_")[1];
+                // remove virtual class of new section
+                $("div.lesson.virtual."+code+"."+new_section).removeClass("virtual");
+                $("div.lesson.toadd."+code).removeClass("toadd");
+                $("div.lesson."+code+"."+new_section).addClass("real");
+                // remove orginal section
+                removeSection(code, section);
+                // attach jQuery draggable
+                $(".real").each(function() {
+                    attachDraggable($(this), code, new_section);
+                });
+            }
+            removeVirtualCourse(code);
+        }
+    });
 }
