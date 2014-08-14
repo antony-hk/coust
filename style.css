@@ -111,10 +111,10 @@ body {
 }
 #timetable th.weekday {
     border-right: 1px solid lightgray;
-    padding-right: 8px;
-    font-size: 14px;
+    padding-right: 1px;
+    font-size: 12px;
     background: #F9F9F9;
-    text-shadow: 0px 0px 2px gray;
+    text-shadow: 0px 0px 1px gray;
     font-weight: normal;
 }
 #timetable tbody {

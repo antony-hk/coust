@@ -234,6 +234,9 @@ function addSection(course, section, singleton, virtual) {
 }
 // create the course box in timetable
 function addCourseBox(code, section, weekday, start, end, singleton, virtual) {
+    if ($("#"+weekday).hasClass("hidden")) {
+        $("#"+weekday).removeClass("hidden");
+    }
     var colorText = "color" + color;
     var draggable = "";
     if (!singleton) {
@@ -376,6 +379,22 @@ function compactTable() {
             }
         }
     });
+    var sat_empty = true;
+    $("#Sa").children("tr").each(function() {
+        if (!emptyRow($(this))) {
+            sat_empty = false;
+            return false;
+        }
+    });
+    if (sat_empty) $("#Sa").removeClass("hidden").addClass("hidden");
+    var sun_empty = true;
+    $("#Su").children("tr").each(function() {
+        if (!emptyRow($(this))) {
+            sun_empty = false;
+            return false;
+        }
+    });
+    if (sun_empty) $("#Su").removeClass("hidden").addClass("hidden");
 }
 // add course boxes of available sections of the section type
 function addVirtualCourse(code, section) {
