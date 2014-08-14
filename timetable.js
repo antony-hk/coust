@@ -74,7 +74,7 @@ $( document ).ready(function() {
             var className = $(this).attr("class");
             var colorText = className.match(/color[0-9]/i);
             var name = $(this).attr("name");
-            var movediv = "<div name='"+name+"' id='move' class='lesson "+draggable+" "+colorText+"' style='width:"+width+"px;height:"+height+"px;'>"+htmlText+"</div>";
+            var movediv = "<div name='"+name+"' id='move' class='noselect lesson "+draggable+" "+colorText+"' style='width:"+width+"px;height:"+height+"px;'>"+htmlText+"</div>";
             $("#container").append(movediv);
             var org = $(this).offset();
             $("#move").offset({top: org.top+2, left: org.left+2});
