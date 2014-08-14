@@ -160,12 +160,13 @@ td.alt {
 
 }
 .lesson {
+    float: left;
     overflow: hidden;
     height: 37px;
-    width: 95%;
+    width: 100%;
     margin: 0px auto;
     border: 2px solid;
-    padding: 6px 1px 4px 1px;
+    padding: 6px 0px 4px 0px;
     text-align: center;
     font-weight: bold;
     font-size: 13px;
