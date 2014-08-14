@@ -254,7 +254,7 @@ function addCourseBox(code, section, weekday, start, end, singleton, virtual) {
                 added = true;
                 if (!virtual) {
                     // atach jQuery draggable
-                    attachDraggable($(cell).children("div.lesson").eq(0), code, section);
+                    if (!singleton) attachDraggable($(cell).children("div.lesson").eq(0), code, section);
                 }
                 else { // virtual
                     // attach jQuery droppable
