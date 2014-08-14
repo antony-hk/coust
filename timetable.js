@@ -59,25 +59,48 @@ $( document ).ready(function() {
     });
     $("#timetable").delegate('.draggable','mousedown', function(e) {
         if (e.type === 'mousedown' && !dragmode) {
-            //dragmode = true;
+            dragmode = true;
             var res = $(this).attr("name").split("_");
             var code = res[0];
             var section = res[1];
             addVirtualCourse(code, section);
+            var width = $(this).width();
+            var height = $(this).height();
+            var htmlText = $(this).html();
+            var draggable = "";
+            if ($(this).hasClass("draggable")) {
+                draggable = "draggable";
+            }
+            var className = $(this).attr("class");
+            var colorText = className.match(/color[0-9]/i);
+            var name = $(this).attr("name");
+            var movediv = "<div name='"+name+"' id='move' class='lesson "+draggable+" "+colorText+"' style='width:"+width+"px;height:"+height+"px;'>"+htmlText+"</div>";
+            $("#container").append(movediv);
+            var org = $(this).offset();
+            $("#move").offset({top: org.top+2, left: org.left+2});
         }
     });
-    $("#container").delegate('.move', 'mousemove mouseup', function(e) {
+    $("#container").delegate('#move', 'mousemove mouseup', function(e) {
         if (!dragmode) {
             // do nothing
         }
-        else if (e.type === 'mousemove') {
-            //TODO:
+        else if (e.type === 'mousemove' && dragmode) {
+            
         }
         else if (e.type === 'mouseup') {
             var res = $(this).attr("name").split("_");
             var code = res[0];
             var section = res[1];
-            removeVirtualCourse(code, section);
+            // TODO: check intersection of course, add class .toadd to course being intersect, remove virtual class of this
+            // if .toadd exists, remove current section
+            if ($(".toadd").length>0) {
+                removeSection(code, section);
+            }
+            // remove all virtual courses
+            removeVirtualCourse(code);
+            // remove the #move div
+            $("#move").remove();
+            dragmode = false;
         }
     });
 });
@@ -278,7 +301,7 @@ function addCourseBox(code, section, weekday, start, end, singleton, virtual) {
         $("#"+weekday+" th").attr("rowspan", newrowspan);
         var htmlrow = '<tr><td class="h08 m00"></td><td class="h08 m30"></td><td class="h09 m00"></td><td class="h09 m30"></td><td class="h10 m00"></td><td class="h10 m30"></td><td class="h11 m00"></td><td class="h11 m30"></td><td class="h12 m00"></td><td class="h12 m30"></td><td class="h13 m00"></td><td class="h13 m30"></td><td class="h14 m00"></td><td class="h14 m30"></td><td class="h15 m00"></td><td class="h15 m30"></td><td class="h16 m00"></td><td class="h16 m30"></td><td class="h17 m00"></td><td class="h17 m30"></td><td class="h18 m00"></td><td class="h18 m30"></td><td class="h19 m00"></td><td class="h19 m30"></td><td class="h20 m00"></td><td class="h20 m30"></td></tr>';
         $("#"+weekday).append(htmlrow);
-        addCourseBox(code, section, weekday, start, end, singleton);
+        addCourseBox(code, section, weekday, start, end, singleton, virtual);
         return;
     }
 }
@@ -301,6 +324,21 @@ function removeCourse(code) {
         $("#none").show();
     }
     delete timetable[code];
+    compactTable();
+}
+function removeSection(code, section) {
+    $("td.occupied div.lesson."+code+"."+section).each(function() {
+        var cell = $(this).parent();
+        var colspan = $(cell).attr("colspan");
+        $(cell).removeAttr("colspan");
+        $(cell).removeClass("occupied");
+        var next = $(cell).next();
+        for (var i=1; i<colspan; i++) {
+            $(next).removeClass("hidden");
+            next = $(next).next();
+        }
+        $(this).remove();
+    });
     compactTable();
 }
 // row: tr element object
@@ -350,4 +388,19 @@ function addVirtualCourse(code, section) {
         }
         addSection(data[code], sections[sectiontype][i], singleton, true);
     }
+}
+function removeVirtualCourse(code) {
+    $("td.occupied div.lesson.virtual."+code).each(function() {
+        var cell = $(this).parent();
+        var colspan = $(cell).attr("colspan");
+        $(cell).removeAttr("colspan");
+        $(cell).removeClass("occupied");
+        var next = $(cell).next();
+        for (var i=1; i<colspan; i++) {
+            $(next).removeClass("hidden");
+            next = $(next).next();
+        }
+        $(this).remove();
+    });
+    compactTable();
 }
