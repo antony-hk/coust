@@ -1,9 +1,10 @@
 "use strict";
-var dragmode = false;
 var color = 0;
+var courseColor = [];
 var terms = ""; // store terms info
 var data = ""; // data get from courseInfo.json (via data.php and .json updated by mkdata.php)
 var loaded = false; // check if data loaded when adding course
+var searchhints = [];
 var timetable = []; // store the timetable
 $( document ).ready(function() {
     $.get( "http://ustcourser.442.hk/json/data.php" )
@@ -12,7 +13,6 @@ $( document ).ready(function() {
             terms = data["terms"];
             delete data["terms"];
             loaded = true;
-            var searchhints = [];
             $.each( data, function( key, val ) {
                 searchhints.push(key + " " + val["name"]);
               });
@@ -33,6 +33,8 @@ $( document ).ready(function() {
             $("#add").click(function() {
                 $(this).autocomplete("search", $(this).val());
             })
+            // load courses added from cookies
+            loadFromCookie();
         });
     $("#timetable").delegate('td','mouseover mouseleave', function(e) {
         if (e.target.className==="separator") {
@@ -118,7 +120,7 @@ function addCourse(_code, sections) {
         return false;
     }
     else if (!data.hasOwnProperty(code)) {
-        alert("Course Not Found!");
+        //alert("Course Not Found!");
         return false;
     }
     if (timetable.hasOwnProperty(code)) {
@@ -127,6 +129,17 @@ function addCourse(_code, sections) {
     }
     timetable[code] = [];
     var course = data[code];
+    // remove from search hints of autocomplete
+    var hintstext = code + " " + course["name"];
+    for (var i=0; i<searchhints.length; ) {
+        if (searchhints[i] == hintstext) {
+            searchhints.splice(i, 1);
+            break;
+        }
+        else {
+            i++;
+        }
+    }
     var types = getSections(code);
     if (sections==="") {
         for (var i=0; i<types["types"].length; i++) {
@@ -139,18 +152,18 @@ function addCourse(_code, sections) {
     }
     else {
         for (var i=0; i<sections.length; i++) {
-            var section_singleton = (types[sections[i].match(/[A-Z]+/i)] === 1);
+            var section_singleton = (types[sections[i].match(/[A-Z]+/i)].length === 1);
             addSection(course, sections[i], section_singleton, false);
         }
     }
     // add to timetable control table, hide the no courses added row
     $("#none").hide();
     var infolink = "https://w5.ab.ust.hk/wcq/cgi-bin/"+terms[0]["num"]+"/subject/"+code.substr(0,4)+"#"+code;
-    var actions = "<a target='_blank' href='"+infolink+"'><img class='actionsImg' src='images/info.png' /></a>&nbsp;&nbsp;";
-    actions += "<a href='javascript:removeCourse(\""+code+"\")'><img class='actionsImg' src='images/cross.png' /></a>";
-    var htmlrow = "<tr class='color"+color+" "+code+"'><td>"+code+"</td><td>"+data[code]["name"]+"</td><td>"+actions+"</td></tr>";
+    var actions = "<a target='_blank' href='"+infolink+"'><img title='Details' class='actionsImg' src='images/info.png' /></a>&nbsp;&nbsp;";
+    actions += "<a href='javascript:removeCourse(\""+code+"\")'><img title='Remove' class='actionsImg' src='images/cross.png' /></a>";
+    var htmlrow = "<tr class='color"+color+" "+code+"' name='"+code+"'><td>"+code+"</td><td>"+data[code]["name"]+"</td><td>"+actions+"</td></tr>";
     $("#courselist").children("tr").each(function () {
-        if (htmlrow!==null && code < $(this).attr("id")) {
+        if (htmlrow!==null && code < $(this).attr("name")) {
             $(htmlrow).insertBefore($(this));
             htmlrow = null;
         }
@@ -158,6 +171,7 @@ function addCourse(_code, sections) {
     if (htmlrow!==null) {
         $("#courselist").append(htmlrow);
     }
+    courseColor[code] = color;
     // change color;
     color = (color+1)%10;
     $("#add").val(""); // clear input text
@@ -206,7 +220,11 @@ function addCourseBox(code, section, weekday, start, end, singleton, virtual) {
         virtualbox = "virtual";
         colorText = $("div.lesson.real."+code).attr("class").match(/color[0-9]+/i);
     }
-    var htmldiv = "<div name='"+code+"_"+section+"' class='"+colorText+" lesson "+draggable+" "+virtualbox+" "+code+" "+section+"'>"+code+"<br/>"+section+"</div>";
+    if (courseColor.hasOwnProperty(code)) {
+        colorText = "color"+courseColor[code];
+    }
+    var title = start + " - " + end;
+    var htmldiv = "<div title='"+title+"' name='"+code+"_"+section+"' class='"+colorText+" lesson "+draggable+" "+virtualbox+" "+code+" "+section+"'>"+code+"<br/>"+section+"</div>";
     var start_time = parseInt(start.substr(0,2).concat(start.substr(3,2)));
     if (start.substr(5,2)==="PM" && start.substr(0,2)!=="12") {
         start_time += 1200;
@@ -254,21 +272,49 @@ function addCourseBox(code, section, weekday, start, end, singleton, virtual) {
                 added = true;
                 if (!virtual) {
                     // atach jQuery draggable
-                    if (!singleton) attachDraggable($(cell).children("div.lesson").eq(0), code, section);
+                    if (!singleton) {
+                        var realcell = $("div.lesson.real."+code+"."+section);
+                        $(realcell).draggable({ 
+                            helper: "clone",
+                            start: function( event, ui ) {
+                                var lessondiv = $(realcell).eq(0);
+                                $(ui.helper).css("width", $(lessondiv).width());
+                                $(ui.helper).addClass("move");
+                                addVirtualCourse(code, section);
+                            },
+                            stop: function( event, ui ) {
+                                if ($("div.lesson.toadd."+code).length>0) {
+                                    var new_section = $("div.lesson.toadd."+code).eq(0).attr("name").split("_")[1];
+                                    // remove virtual class of new section
+                                    //$("div.lesson.virtual."+code+"."+new_section).removeClass("virtual").addClass("real").addClass("toadd");
+                                    // remove virtual sections
+                                    removeVirtualCourse(code);
+                                    // remove orginal section
+                                    removeSection(code, section);
+                                    // add new section
+                                    addSection(data[code], new_section, singleton, false);
+                                }
+                                else {
+                                    removeVirtualCourse(code);
+                                }
+                            }
+                        });
+                    }
                 }
                 else { // virtual
                     // attach jQuery droppable
-                    $(cell).children("div.lesson").eq(0).droppable({ 
+                    var virtualcell = $("div.lesson.virtual."+code+"."+section);
+                    $("div.lesson.virtual."+code+"."+section).droppable({ 
                         drop: function() {
                             // drop() of droppable fires before stop() of draggable
-                            $(cell).children("div.lesson").eq(0).addClass("toadd");
-                            $(cell).children("div.lesson").eq(0).removeClass("virtual-hover");
+                            $(virtualcell).addClass("toadd");
+                            $(virtualcell).removeClass("virtual-hover");
                         },
                         over: function( event, ui ) {
-                            $(cell).children("div.lesson").eq(0).addClass("virtual-hover");
+                            $(virtualcell).addClass("virtual-hover");
                         },
                         out: function( event, ui ) {
-                            $(cell).children("div.lesson").eq(0).removeClass("virtual-hover");
+                            $(virtualcell).removeClass("virtual-hover");
                         }
                     });
                 }
@@ -286,6 +332,8 @@ function addCourseBox(code, section, weekday, start, end, singleton, virtual) {
         addCourseBox(code, section, weekday, start, end, singleton, virtual);
         return;
     }
+    // save timetable to cookies
+    saveToCookie();
 }
 // remove course from timetable and control table
 function removeCourse(code) {
@@ -305,7 +353,13 @@ function removeCourse(code) {
     if ($("#courselist").children("tr").length === 0) {
         $("#none").show();
     }
+    // add back to search hints of autocomplete
+    searchhints.push(code+" "+data[code]["name"]);
+    searchhints.sort();
     delete timetable[code];
+    delete courseColor[code];
+    // save to cookies
+    saveToCookie();
     compactTable();
 }
 function removeSection(code, section) {
@@ -410,49 +464,40 @@ function removeVirtualCourse(code) {
     });
     compactTable();
 }
-function attachDraggable(div, code, section) {
-    /*$(cell).children("div.lesson").eq(0).draggable({ 
-        helper: "clone",
-        start: function( event, ui ) {
-            var lessondiv = $(cell).children("div.lesson").eq(0);
-            $(ui.helper).css("width", $(lessondiv).width());
-            $(ui.helper).addClass("move");
-            addVirtualCourse(code, section);
-        },
-        stop: function( event, ui ) {
-            if ($("div.lesson.toadd."+code).length>0) {
-                var new_section = $("div.lesson.toadd."+code).eq(0).attr("name").split("_")[1];
-                $("div.lesson.virtual."+code+"."+new_section).removeClass("virtual");
-                $("div.lesson.toadd."+code).removeClass("toadd");
-                $("div.lesson."+code+"."+new_section).addClass("real");
-                removeSection(code, section);
-            }
-            removeVirtualCourse(code);
+function setCookie(cname, cvalue, exdays) {
+    var d = new Date();
+    d.setTime(d.getTime() + (exdays*24*60*60*1000));
+    var expires = "expires="+d.toGMTString();
+    document.cookie = cname + "=" + cvalue + "; " + expires;
+} 
+function getCookie(cname) {
+    var name = cname + "=";
+    var ca = document.cookie.split(';');
+    for(var i=0; i<ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0)==' ') c = c.substring(1);
+        if (c.indexOf(name) != -1) return c.substring(name.length,c.length);
+    }
+    return "";
+} 
+function loadFromCookie() {
+    var timetableStr = getCookie("timetable");
+    var res = timetableStr.split("!");
+    for (var i=0; i<res.length; i++) {
+        if (res[i] == "") continue;
+        var rc = res[i].split("_");
+        addCourse(rc[0], rc[1].split(","));
+    }
+}
+function saveToCookie() {
+    var timetableStr = "";
+    for (var code in timetable) {
+        var sectionStr = "";
+        for (var i=0; i<timetable[code].length; i++) {
+            if (i!==0) sectionStr += ",";
+            sectionStr += timetable[code][i];
         }
-    });*/
-    $(div).draggable({ 
-        helper: "clone",
-        start: function( event, ui ) {
-            var lessondiv = $(div).eq(0);
-            $(ui.helper).css("width", $(lessondiv).width());
-            $(ui.helper).addClass("move");
-            addVirtualCourse(code, section);
-        },
-        stop: function( event, ui ) {
-            if ($("div.lesson.toadd."+code).length>0) {
-                var new_section = $("div.lesson.toadd."+code).eq(0).attr("name").split("_")[1];
-                // remove virtual class of new section
-                $("div.lesson.virtual."+code+"."+new_section).removeClass("virtual");
-                $("div.lesson.toadd."+code).removeClass("toadd");
-                $("div.lesson."+code+"."+new_section).addClass("real");
-                // remove orginal section
-                removeSection(code, section);
-                // attach jQuery draggable
-                $(".real").each(function() {
-                    attachDraggable($(this), code, new_section);
-                });
-            }
-            removeVirtualCourse(code);
-        }
-    });
+        timetableStr += code + "_" + sectionStr + "!";
+    }
+    setCookie("timetable", timetableStr, 50);
 }
