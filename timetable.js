@@ -481,6 +481,13 @@ function getCookie(cname) {
     return "";
 } 
 function loadFromCookie() {
+    var colorStr = getCookie("color");
+    var colorRes = colorStr.split(",");
+    for (var i=0; i<colorRes.length; i++) {
+        if (colorRes[i] == "") continue;
+        var arr = colorRes[i].split("_");
+        courseColor[arr[0]] = arr[1];
+    }
     var timetableStr = getCookie("timetable");
     var res = timetableStr.split("!");
     for (var i=0; i<res.length; i++) {
@@ -500,4 +507,9 @@ function saveToCookie() {
         timetableStr += code + "_" + sectionStr + "!";
     }
     setCookie("timetable", timetableStr, 50);
+    var colorStr = "";
+    for (var code in courseColor) {
+        colorStr += code + "_" + courseColor[code] + ",";
+    }
+    setCookie("color", colorStr, 50);
 }
