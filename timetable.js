@@ -1,4 +1,5 @@
 "use strict";
+var readMode = false;
 var color = 0;
 var courseColor = [];
 var terms = ""; // store terms info
@@ -481,7 +482,14 @@ function getCookie(cname) {
     return "";
 } 
 function loadFromCookie() {
-    var timetableStr = getCookie("timetable");
+    var timetableStr = "";
+    if (getURLParameter("timetable")!==null) {
+        timetableStr = getURLParameter("timetable");
+        readMode = true;
+    }
+    else {
+        timetableStr = getCookie("timetable");
+    }
     var res = timetableStr.split("!");
     for (var i=0; i<res.length; i++) {
         if (res[i] == "") continue;
@@ -490,6 +498,7 @@ function loadFromCookie() {
     }
 }
 function saveToCookie() {
+    if (readMode) return; // reading others timetable
     var timetableStr = "";
     for (var code in timetable) {
         var sectionStr = "";
@@ -500,4 +509,30 @@ function saveToCookie() {
         timetableStr += code + "_" + sectionStr + "!";
     }
     setCookie("timetable", timetableStr, 50);
+}
+function getURL() {
+    var timetableStr = "";
+    for (var code in timetable) {
+        var sectionStr = "";
+        for (var i=0; i<timetable[code].length; i++) {
+            if (i!==0) sectionStr += ",";
+            sectionStr += timetable[code][i];
+        }
+        timetableStr += code + "_" + sectionStr + "!";
+    }
+    var url = "http://antonytse.github.io/hkustCourser/index.html?timetable=" + timetableStr;
+    $("#dialog").children().remove();
+    $("#dialog").append("<a href='"+url+"' target='_blank'>URL</a>")
+}
+
+function getURLParameter(sParam) {
+    var sPageURL = window.location.search.substring(1);
+    var sURLVariables = sPageURL.split('&');
+    for (var i = 0; i < sURLVariables.length; i++) {
+        var sParameterName = sURLVariables[i].split('=');
+        if (sParameterName[0] == sParam) {
+            return sParameterName[1];
+        }
+    }
+    return null;
 }
