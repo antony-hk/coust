@@ -281,6 +281,7 @@ function addCourseBox(code, section, weekday, start, end, singleton, virtual) {
                                 var lessondiv = $(realcell).eq(0);
                                 $(ui.helper).css("width", $(lessondiv).width());
                                 $(ui.helper).addClass("move");
+                                $(ui.helper).removeAttr("title");
                                 addVirtualCourse(code, section);
                             },
                             stop: function( event, ui ) {
