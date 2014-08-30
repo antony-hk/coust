@@ -487,9 +487,11 @@ function loadFromCookie() {
     if (getURLParameter("timetable")!==null) {
         timetableStr = getURLParameter("timetable");
         readMode = true;
+        $("#readmode").show();
     }
     else {
         timetableStr = getCookie("timetable");
+        $("#readmode").hide();
     }
     var res = timetableStr.split("!");
     for (var i=0; i<res.length; i++) {

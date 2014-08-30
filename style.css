@@ -238,3 +238,14 @@ td.alt {
     margin: 0px !important;
     border: 0px solid transparent;
 }
+#readmode {
+    text-align: left;
+    padding: 8px 0px 0px 15px;
+    margin-bottom: -35px;
+    display: none;
+    color: red;
+}
+#readmode span {
+    outline: 1px solid red;
+    padding: 2px;
+}
