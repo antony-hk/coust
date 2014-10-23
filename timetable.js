@@ -176,7 +176,6 @@ function addCourse(_code, sections) {
     // change color;
     color = (color+1)%10;
     $("#add").val(""); // clear input text
-    // update read mode url
     getURL();
     return false; // always return false to avoid form submitting
 }
@@ -338,6 +337,7 @@ function addCourseBox(code, section, weekday, start, end, singleton, virtual) {
     }
     // save timetable to cookies
     saveToCookie();
+    getURL();
 }
 // remove course from timetable and control table
 function removeCourse(code) {
@@ -390,6 +390,7 @@ function removeSection(code, section) {
         $(this).remove();
     });
     compactTable();
+    getURL();
 }
 // row: tr element object
 function emptyRow(row) {
