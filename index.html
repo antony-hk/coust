@@ -13,7 +13,7 @@
         <script src="timetable.js"></script>
         <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
     </head>
-    <body>
+    <body onload="getURL()">
     <div id="container">
         <div id="logo" class="noselect" onclick="goHome()">
             <span>CoUST</span>
@@ -319,6 +319,8 @@
                 </button>
                 -->
                 <div id="dialog"></div>
+                <br/>
+                <a href="#"><div onclick="$('#faq').toggle()">Show/Hide FAQ</div></a>
             </div>
             <table id="timetable_controls">
                 <thead>
@@ -334,6 +336,20 @@
                 <tbody id="courselist">
                 </tbody>
             </table>
+        </div>
+        <div id="faq" style="display: none; line-height: 25px; text-align: left; padding: 20px 150px; font-size: 15px;">
+            <p>
+            <div><b>Q:</b> Is data up-to-date?</div>
+            <div><b>A:</b> No, data has to be manually updated by loading <a target="_blank" href="http://ustcourser.442.hk/json/mkdata.php">this page</a> to obtain data from <a target="_blank" href="https://w5.ab.ust.hk/wcq/cgi-bin/">HKUST Class Schedule and Quota</a> by crawling and parsing the website.</div>
+            <p>
+            <div><b>Q:</b> What is Read Mode?</div>
+            <div><b>A:</b> Timetable is indeed stored in cookies at local machines, with read mode on, timetable is not stored into cookies, any changes will be discarded after refreshing the page as long as you don't manually change the URL.</div>
+            </p>
+            <p>
+            <div><b>Q:</b> Does the web app supports all browsers?</div>
+            <div><b>A:</b> No, the web app uses jQuery and thus requires browser version supporting jQuery (e.g. IE9+).</div>
+            <div><b>Warning:</b> Safari on Windows OS cannot run the web app correctly! (Unknown Error)</div>
+            </p>
         </div>
     </div>
     </body>
