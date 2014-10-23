@@ -176,6 +176,8 @@ function addCourse(_code, sections) {
     // change color;
     color = (color+1)%10;
     $("#add").val(""); // clear input text
+    // update read mode url
+    getURL();
     return false; // always return false to avoid form submitting
 }
 // course: course object, section: section number, singleton: boolean
@@ -363,6 +365,8 @@ function removeCourse(code) {
     // save to cookies
     saveToCookie();
     compactTable();
+    // update read mode url
+    getURL();
 }
 function removeSection(code, section) {
     for (var i=0; i<timetable[code].length; ) {
@@ -523,9 +527,9 @@ function getURL() {
         }
         timetableStr += code + "_" + sectionStr + "!";
     }
-    var url = "http://antonytse.github.io/hkustCourser/index.html?timetable=" + timetableStr;
+    var url = "./index.html?timetable=" + timetableStr;
     $("#dialog").children().remove();
-    $("#dialog").append("<a href='"+url+"' target='_blank'>URL</a>");
+    $("#dialog").append("<a href='"+url+"' target='_blank'>[Read Mode URL]</a>");
 }
 
 function getURLParameter(sParam) {
