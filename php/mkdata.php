@@ -14,7 +14,8 @@ foreach($result['depts'] as $dept) {
 		$courseInfo[$course->code] =  $course;
 	}
 }
-
+$last_updated = date("j F, Y, g:i a");
+$courseInfo["lastUpdated"] = $last_updated;
 file_put_contents("courseInfo.json", json_encode($courseInfo));
 
 print "DONE";

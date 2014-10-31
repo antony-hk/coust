@@ -34,6 +34,8 @@ $( document ).ready(function() {
             $("#add").click(function() {
                 $(this).autocomplete("search", $(this).val());
             });
+            // add term info and last update
+            $("#termInfo").append("<p><b>Term: </b>"+terms["current"]["text"]+" <span style='font-size:0.8em;color:gray;'>(Last Update: "+data["lastUpdated"]+")</span></p>");
             // load courses added from cookies
             loadFromCookie();
         });
