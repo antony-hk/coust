@@ -12,9 +12,10 @@ $( document ).ready(function() {
       .done(function( _data ) {
             data = $.parseJSON(_data);
             terms = data["terms"];
-            delete data["terms"];
+            //delete data["terms"];
             loaded = true;
             $.each( data, function( key, val ) {
+                if (key==="terms" || key==="lastUpdated") return true;
                 searchhints.push(key + " " + val["name"]);
               });
             $( "#add" ).autocomplete({
