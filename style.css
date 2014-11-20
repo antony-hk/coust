@@ -249,3 +249,7 @@ td.alt {
     outline: 1px solid red;
     padding: 2px;
 }
+#titlesubtext {
+    font-size: 0.5em;
+    color: gray;
+}
