@@ -7,7 +7,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="shortcut icon" href="logo.ico" />
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-        <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/themes/smoothness/jquery-ui.css" />
+        <!--<link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/themes/smoothness/jquery-ui.css" />-->
+		<link rel="stylesheet" href="ui.css">
         <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/jquery-ui.min.js"></script>
         <script src="jquery.ui.touch-punch.min.js"></script>
         <link rel="stylesheet" href="style.css" />
@@ -20,17 +21,18 @@
 		<div class="container">
 			<a class="logo" href="/"></a>
 		</div>
+		<div id="searchBar">
+			
+			<span id="termInfo"></span>		
+			<div class="ui-widget" id="addform">
+				<form onsubmit="return addCourse('','')">
+					<label for="add"></label>
+					<input type="text" id="add" value="Add Courses to Timetable" />
+				</form>
+			</div>
+		</div>
 	</header>
 	<div class="container">
-        <div id="termInfo" style="text-align:left;margin-left:50px;" class="noselect">
-            <!--To be appended by JS -->
-        </div>
-        <div class="ui-widget noselect" id="addform">
-            <form onsubmit="return addCourse('','')">
-                <label for="add">Course: </label>
-                <input type="text" id="add" value="Add Courses to Timetable" />
-            </form>
-        </div>
         <div id="timetable_wrapper" class="noselect">
             <div id="readmode"><span title="Any changes will not be saved.">Read Mode</span></div>
             <table id="timetable">
