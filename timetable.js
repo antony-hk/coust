@@ -8,7 +8,8 @@ var loaded = false; // check if data loaded when adding course
 var searchhints = [];
 var timetable = []; // store the timetable
 $( document ).ready(function() {
-    $.get( "http://ustcourser.442.hk/json/data.php" )
+	getURL();
+    $.get( "http://coust.442.hk/json/data.php" )
       .done(function( _data ) {
             data = $.parseJSON(_data);
             terms = data["terms"];
