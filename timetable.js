@@ -20,7 +20,7 @@ $( document ).ready(function() {
                 searchhints.push(key + " " + val["name"]);
               });
             $( "#add" ).autocomplete({
-                    // source: "http://ustcourser.442.hk/json/parser.php?type=searchhints", 
+                    // source: "http://coust.442.hk/json/parser.php?type=searchhints", 
                     source: searchhints,
                     minLength: 0,
                     focus: function( event, ui ) {

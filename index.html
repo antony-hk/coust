@@ -12,15 +12,16 @@
         <script src="jquery.ui.touch-punch.min.js"></script>
         <link rel="stylesheet" href="style.css" />
         <script src="timetable.js"></script>
-        <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
-        
+		<link href="http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
         <title>CoUST - visualized course planner for HKUST students</title>
     </head>
-    <body onload="getURL()">
-    <div id="container">
-        <div id="logo" class="noselect" onclick="goHome()">
-            <span>CoUST</span><span id="titlesubtext"> - A visualized course planner for HKUST students.</span>
-        </div>
+    <body>
+	<header>
+		<div class="container">
+			<a class="logo" href="/"></a>
+		</div>
+	</header>
+	<div class="container">
         <div id="termInfo" style="text-align:left;margin-left:50px;" class="noselect">
             <!--To be appended by JS -->
         </div>
@@ -50,35 +51,35 @@
                 <colgroup span="2"></colgroup>
                 <tbody id="times">
                     <tr>
-                    <td class="time"><div class="timediv">0900</div></td>
-                    <td class="time alt"><div class="timediv">0930</div></td>
-                    <td class="time"><div class="timediv">1000</div></td>
-                    <td class="time alt"><div class="timediv">1030</div></td>
-                    <td class="time"><div class="timediv">1100</div></td>
-                    <td class="time alt"><div class="timediv">1130</div></td>
-                    <td class="time"><div class="timediv">1200</div></td>
-                    <td class="time alt"><div class="timediv">1230</div></td>
-                    <td class="time"><div class="timediv">1300</div></td>
-                    <td class="time alt"><div class="timediv">1330</div></td>
-                    <td class="time"><div class="timediv">1400</div></td>
-                    <td class="time alt"><div class="timediv">1430</div></td>
-                    <td class="time"><div class="timediv">1500</div></td>
-                    <td class="time alt"><div class="timediv">1530</div></td>
-                    <td class="time"><div class="timediv">1600</div></td>
-                    <td class="time alt"><div class="timediv">1630</div></td>
-                    <td class="time"><div class="timediv">1700</div></td>
-                    <td class="time alt"><div class="timediv">1730</div></td>
-                    <td class="time"><div class="timediv">1800</div></td>
-                    <td class="time alt"><div class="timediv">1830</div></td>
-                    <td class="time"><div class="timediv">1900</div></td>
-                    <td class="time alt"><div class="timediv">1930</div></td>
-                    <td class="time"><div class="timediv">2000</div></td>
-                    <td class="time alt"><div class="timediv">2030</div></td>
-                    <td class="time"><div class="timediv">2100</div></td>
-                    <td class="time alt"><div class="timediv">2130</div></td>
-                    <td class="time"><div class="timediv">2200</div></td>
-                    <td class="time alt"><div class="timediv">2230</div></td>
-                    <td class="time"><div class="timediv">2300</div></td>
+                    <td class="time"><div class="timediv">09:00</div></td>
+                    <td class="time alt"><div class="timediv">09:30</div></td>
+                    <td class="time"><div class="timediv">10:00</div></td>
+                    <td class="time alt"><div class="timediv">10:30</div></td>
+                    <td class="time"><div class="timediv">11:00</div></td>
+                    <td class="time alt"><div class="timediv">11:30</div></td>
+                    <td class="time"><div class="timediv">12:00</div></td>
+                    <td class="time alt"><div class="timediv">12:30</div></td>
+                    <td class="time"><div class="timediv">13:00</div></td>
+                    <td class="time alt"><div class="timediv">13:30</div></td>
+                    <td class="time"><div class="timediv">14:00</div></td>
+                    <td class="time alt"><div class="timediv">14:30</div></td>
+                    <td class="time"><div class="timediv">15:00</div></td>
+                    <td class="time alt"><div class="timediv">15:30</div></td>
+                    <td class="time"><div class="timediv">16:00</div></td>
+                    <td class="time alt"><div class="timediv">16:30</div></td>
+                    <td class="time"><div class="timediv">17:00</div></td>
+                    <td class="time alt"><div class="timediv">17:30</div></td>
+                    <td class="time"><div class="timediv">18:00</div></td>
+                    <td class="time alt"><div class="timediv">18:30</div></td>
+                    <td class="time"><div class="timediv">19:00</div></td>
+                    <td class="time alt"><div class="timediv">19:30</div></td>
+                    <td class="time"><div class="timediv">20:00</div></td>
+                    <td class="time alt"><div class="timediv">20:30</div></td>
+                    <td class="time"><div class="timediv">21:00</div></td>
+                    <td class="time alt"><div class="timediv">21:30</div></td>
+                    <td class="time"><div class="timediv">22:00</div></td>
+                    <td class="time alt"><div class="timediv">22:30</div></td>
+                    <td class="time"><div class="timediv">23:00</div></td>
                     <td></td>
                     </tr>
                 </tbody>

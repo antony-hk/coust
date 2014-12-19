@@ -1,3 +1,8 @@
+body {
+	margin: 0;
+	
+}
+
 .color0 {
     background: #FFEBCD;
 }
@@ -70,7 +75,7 @@ body {
     cursor: pointer;
 }
 #add {
-    width: 400px;
+    width: 800px;
     margin: 0px 6px;
     color: gray;
     padding: 3px 8px;
@@ -252,4 +257,31 @@ td.alt {
 #titlesubtext {
     font-size: 0.5em;
     color: gray;
+}
+
+
+.container {
+	max-width: 1170px;
+	margin: 0 auto;
+}
+header {
+	top: 0;
+	width: 100%;
+	background-color: #135;
+	content: " ";
+	display: table;
+	border-bottom: 1px solid #000;
+}
+header:after {
+	clear: both;
+}
+.logo {
+	width: 96px;
+	background-repeat: no-repeat;
+	background-image: url("images/logo.png");
+	background-size: 96px;
+	background-position: center center;
+	float: left;
+	line-height: 45px;
+	height: 45px;
 }
