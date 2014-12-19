@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta name="description" content="CoUST - A visualized course planner which enables you to manage timetable by drag and drop. Specialized for HKUST students." />
-        <meta name="keywords" content="HKUST, Course Planner, CoUST, Courser, Github" />
+        <meta name="description" content="CoUST - A visualized course planner which enables you to manage timetable by drag and drop. Specialized for HKUST students.">
+        <meta name="keywords" content="HKUST, Course Planner, CoUST, Courser, Github">
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="shortcut icon" href="logo.ico" />
+        <link rel="shortcut icon" href="logo.ico">
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
         <!--<link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/themes/smoothness/jquery-ui.css" />-->
 		<link rel="stylesheet" href="ui.css">
@@ -20,14 +20,12 @@
 	<header>
 		<div class="container">
 			<a class="logo" href="/"></a>
-		</div>
-		<div id="searchBar">
-			
-			<span id="termInfo"></span>		
-			<div class="ui-widget" id="addform">
+			<div id="searchBar">
 				<form onsubmit="return addCourse('','')">
-					<label for="add"></label>
-					<input type="text" id="add" value="Add Courses to Timetable" />
+					<ul>
+						<li id="termInfo"></li>
+						<li class="ui-widget"><input type="text" id="add" value="Add Courses to Timetable"></li>
+					</ul>
 				</form>
 			</div>
 		</div>
