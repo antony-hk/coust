@@ -17,7 +17,7 @@ $( document ).ready(function() {
             loaded = true;
             $.each( data, function( key, val ) {
                 if (key==="terms" || key==="lastUpdated") return true;
-                searchhints.push(key + " " + val["name"]);
+                searchhints.push(key + ': ' + val["name"]);
               });
             $( "#add" ).autocomplete({
                     // source: "http://coust.442.hk/json/parser.php?type=searchhints", 
@@ -38,7 +38,7 @@ $( document ).ready(function() {
             });
             // add term info and last update
             //$("#termInfo").append("<p><b>Term: </b>"+terms["current"]["text"]+" <span style='font-size:0.8em;color:gray;'>(Last Update: "+data["lastUpdated"]+")</span></p>");
-			$("#termInfo").html(terms["current"]["text"] + " Term");
+			$("#termInfo").html(terms["current"]["text"]);
             // load courses added from cookies
             loadFromCookie();
         });
