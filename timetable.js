@@ -122,6 +122,7 @@ function addCourse(_code, sections) {
         val = _code;
     }
     var code = val.split(" ")[0].trim();
+    code = code.substr(0, code.length-1);
     if (val==="") {
         return false;
     }
