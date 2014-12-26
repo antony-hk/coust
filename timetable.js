@@ -136,7 +136,7 @@ function addCourse(_code, sections) {
     timetable[code] = [];
     var course = data[code];
     // remove from search hints of autocomplete
-    var hintstext = code + " " + course["name"];
+    var hintstext = code + ": " + course["name"];
     for (var i=0; i<searchhints.length; ) {
         if (searchhints[i] == hintstext) {
             searchhints.splice(i, 1);
@@ -363,7 +363,7 @@ function removeCourse(code) {
         $("#none").show();
     }
     // add back to search hints of autocomplete
-    searchhints.push(code+" "+data[code]["name"]);
+    searchhints.push(code+": "+data[code]["name"]);
     searchhints.sort();
     delete timetable[code];
     delete courseColor[code];
