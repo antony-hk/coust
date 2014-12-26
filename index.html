@@ -19,7 +19,7 @@
     <body>
 	<header>
 		<div class="container">
-			<a class="logo" href="/"></a>
+			<a class="logo" href="index.html"></a>
 			<div id="searchBar">
 				<form onsubmit="return addCourse('','')">
 					<ul>
@@ -324,9 +324,10 @@
         </div>
         <div>
             <div style="margin-right:50px;float:right;">
-			    <div id="dialog"></div>
-                <br/>
-                <div><a href="#faq"  onclick="$('#faq').toggle()">Show/Hide FAQ</a></div>
+                <div id="dialog"></div>
+                <div>
+                    <p><button id="show-faq" style="width: 100px">Show FAQ</button></p>
+                </div>
             </div>
             <table id="timetable_controls">
                 <thead>
@@ -343,10 +344,11 @@
                 </tbody>
             </table>
         </div>
-        <div id="faq" style="display: none; line-height: 25px; text-align: left; padding: 20px 150px; font-size: 15px;">
+        <div title="FAQ" id="faq" style="display: none; line-height: 25px; text-align: left; padding: 20px 20px; font-size: 15px;">
             <p>
             <div><b>Q:</b> Is data always up-to-date?</div>
-            <div><b>A:</b> No, data have to be manually updated by running <a target="_blank" href="http://coust.442.hk/json/mkdata.php">this page</a> to obtain and save data from <a target="_blank" href="https://w5.ab.ust.hk/wcq/cgi-bin/">HKUST Class Schedule and Quota</a> by crawling and parsing the website, i.e. data are correct up to the latest time of running the data retrieving page.</div>
+            <div><b>A:</b> No, data have to be manually updated by running <a style="color: darkblue" target="_blank" href="http://coust.442.hk/json/mkdata.php">this page</a> to obtain and save data from <a style="color: darkblue" target="_blank" href="https://w5.ab.ust.hk/wcq/cgi-bin/">HKUST Class Schedule and Quota</a> by crawling and parsing the website, i.e. data are correct up to the latest time of running the data retrieving page.</div>
+            </p>
             <p>
             <div><b>Q:</b> What is Read Mode?</div>
             <div><b>A:</b> Timetable is indeed stored in cookies at local machines, with read mode on, timetable is not stored into cookies, any changes will be discarded after refreshing the page as long as you don't manually change the URL.</div>

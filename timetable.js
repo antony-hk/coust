@@ -65,6 +65,24 @@ $( document ).ready(function() {
         $("#add").val("Add Courses to Timetable");
         $("#add").css("color", "gray");
     });
+    
+    // UI stuff
+    $("#show-faq").button();
+    $( "#faq" ).dialog({
+            autoOpen: false,
+            width: 800,
+            buttons: [
+                    {
+                            text: "Close",
+                            click: function() { $( this ).dialog( "close" ); }
+                    }
+            ]
+    });
+    // Link to open the dialog
+    $( "#show-faq" ).click(function( event ) {
+            $( "#faq" ).dialog( "open" );
+            event.preventDefault();
+    });
 });
 
 // JavaScript functions
@@ -536,7 +554,8 @@ function getURL() {
     }
     var url = "./index.html?timetable=" + timetableStr;
     $("#dialog").children().remove();
-    $("#dialog").append("<a href='"+url+"' target='_blank'>[Read Mode URL]</a>");
+    $("#dialog").append("<a href='"+url+"' target='_blank'><button id='readmodebtn' style='width: 100px'>Read Mode</button></a>");
+    $("#readmodebtn").button();
 }
 
 function getURLParameter(sParam) {
