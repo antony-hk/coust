@@ -523,7 +523,7 @@ function loadFromCookie() {
         timetableStr = getCookie("timetable");
         $("#readmode").hide();
     }
-    timetableStr = unescape(timetableStr);
+    timetableStr = decodeURIComponent(timetableStr);
     $("#loading").show();
     var res = timetableStr.split("!");
     for (var i=0; i<res.length; i++) {
@@ -544,7 +544,7 @@ function saveToCookie() {
         }
         timetableStr += code + ":_" + sectionStr + "!";
     }
-    setCookie("timetable", escape(timetableStr), 50);
+    setCookie("timetable", encodeURIComponent(timetableStr), 50);
 }
 function getURL() {
     var timetableStr = "";
@@ -556,7 +556,7 @@ function getURL() {
         }
         timetableStr += code + ":_" + sectionStr + "!";
     }
-    var url = "./index.html?timetable=" + escape(timetableStr);
+    var url = "./index.html?timetable=" + encodeURIComponent(timetableStr);
     $("#dialog").children().remove();
     $("#dialog").append("<a href='"+url+"' target='_blank'><button id='readmodebtn' style='width: 100px'>Read Mode</button></a>");
     $("#readmodebtn").button();
