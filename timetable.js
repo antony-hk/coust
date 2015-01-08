@@ -523,17 +523,15 @@ function loadFromCookie() {
         timetableStr = getCookie("timetable");
         $("#readmode").hide();
     }
-    timetableStr = decodeURI(timetableStr);
+    timetableStr = unescape(timetableStr);
     $("#loading").show();
     var res = timetableStr.split("!");
     for (var i=0; i<res.length; i++) {
         if (res[i] === "") continue;
         var rc = res[i].split("_");
-        var ok = addCourse(rc[0], rc[1].split(","));
-        console.log(ok);
+        addCourse(rc[0], rc[1].split(","));
     }
     $("#loading").hide();
-    console.log(timetableStr);
 }
 function saveToCookie() {
     if (readMode) return; // reading others timetable
@@ -546,7 +544,7 @@ function saveToCookie() {
         }
         timetableStr += code + ":_" + sectionStr + "!";
     }
-    setCookie("timetable", encodeURI(timetableStr), 50);
+    setCookie("timetable", escape(timetableStr), 50);
 }
 function getURL() {
     var timetableStr = "";
@@ -558,7 +556,7 @@ function getURL() {
         }
         timetableStr += code + ":_" + sectionStr + "!";
     }
-    var url = "./index.html?timetable=" + encodeURI(timetableStr);
+    var url = "./index.html?timetable=" + escape(timetableStr);
     $("#dialog").children().remove();
     $("#dialog").append("<a href='"+url+"' target='_blank'><button id='readmodebtn' style='width: 100px'>Read Mode</button></a>");
     $("#readmodebtn").button();
