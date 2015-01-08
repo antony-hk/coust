@@ -543,7 +543,7 @@ function saveToCookie() {
             if (i!==0) sectionStr += ",";
             sectionStr += timetable[code][i];
         }
-        timetableStr += code + ":_" + sectionStr + "!";
+        timetableStr += code + "._" + sectionStr + "!";
     }
     setCookie("timetable", timetableStr, 50);
 }
