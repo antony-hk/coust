@@ -555,7 +555,7 @@ function getURL() {
             if (i!==0) sectionStr += ",";
             sectionStr += timetable[code][i];
         }
-        timetableStr += code + "_" + sectionStr + "!";
+        timetableStr += code + ":_" + sectionStr + "!";
     }
     var url = "./index.html?timetable=" + timetableStr;
     $("#dialog").children().remove();
