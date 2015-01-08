@@ -132,7 +132,7 @@ function getSectionObjs(code, section) {
 }
 function addCourse(_code, sections) {
     if (!loaded) {
-        alert("Please try again later as data is still loading...");
+        console.log("Please try again later as data is still loading...");
         return false;
     }
     var val = $("#add").val().trim();
@@ -142,14 +142,15 @@ function addCourse(_code, sections) {
     var code = val.split(" ")[0].trim();
     code = code.substr(0, code.length-1);
     if (val==="") {
+        console.log("No course code");
         return false;
     }
     else if (!data.hasOwnProperty(code)) {
-        //alert("Course Not Found!");
+        console.log("Course not found: "+code);
         return false;
     }
     if (timetable.hasOwnProperty(code)) {
-        alert("Course already added!")
+        alert("Course already added!");
         return false;
     }
     timetable[code] = [];
@@ -522,12 +523,16 @@ function loadFromCookie() {
         timetableStr = getCookie("timetable");
         $("#readmode").hide();
     }
+    $("#loading").show();
     var res = timetableStr.split("!");
     for (var i=0; i<res.length; i++) {
         if (res[i] === "") continue;
         var rc = res[i].split("_");
-        addCourse(rc[0], rc[1].split(","));
+        var ok = addCourse(rc[0], rc[1].split(","));
+        console.log(ok);
     }
+    $("#loading").hide();
+    console.log(timetableStr);
 }
 function saveToCookie() {
     if (readMode) return; // reading others timetable
@@ -538,7 +543,7 @@ function saveToCookie() {
             if (i!==0) sectionStr += ",";
             sectionStr += timetable[code][i];
         }
-        timetableStr += code + "_" + sectionStr + "!";
+        timetableStr += code + ":_" + sectionStr + "!";
     }
     setCookie("timetable", timetableStr, 50);
 }
