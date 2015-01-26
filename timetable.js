@@ -252,11 +252,11 @@ function addCourseBox(code, section, weekday, start, end, singleton, virtual) {
     }
     var title = start + " - " + end;
     var htmldiv = "<div title='"+title+"' name='"+code+"_"+section+"' class='"+colorText+" lesson "+draggable+" "+virtualbox+" "+code+" "+section+"'>"+code+"<br/>"+section+"</div>";
-    var start_time = parseInt(start.substr(0,2).concat(start.substr(3,2)));
+    var start_time = parseInt(start.substr(0,2).concat(start.substr(3,2)), 10);
     if (start.substr(5,2)==="PM" && start.substr(0,2)!=="12") {
         start_time += 1200;
     }
-    var end_time = parseInt(end.substr(0,2)+end.substr(3,2));
+    var end_time = parseInt(end.substr(0,2)+end.substr(3,2), 10);
     if (end.substr(5,2)==="PM" && end.substr(0,2)!=="12") {
         end_time += 1200;
     }
@@ -358,7 +358,7 @@ function addCourseBox(code, section, weekday, start, end, singleton, virtual) {
     // if no current existing rows available, create a new row
     if (!added) {
         // increase rowspan of weekday header
-        var newrowspan = parseInt($("#"+weekday+" th").attr("rowspan"))+1;
+        var newrowspan = parseInt($("#"+weekday+" th").attr("rowspan"), 10)+1;
         $("#"+weekday+" th").attr("rowspan", newrowspan);
         var htmlrow = '<tr><td class="h09 m00"></td><td class="h09 m30"></td><td class="h10 m00"></td><td class="h10 m30"></td><td class="h11 m00"></td><td class="h11 m30"></td><td class="h12 m00"></td><td class="h12 m30"></td><td class="h13 m00"></td><td class="h13 m30"></td><td class="h14 m00"></td><td class="h14 m30"></td><td class="h15 m00"></td><td class="h15 m30"></td><td class="h16 m00"></td><td class="h16 m30"></td><td class="h17 m00"></td><td class="h17 m30"></td><td class="h18 m00"></td><td class="h18 m30"></td><td class="h19 m00"></td><td class="h19 m30"></td><td class="h20 m00"></td><td class="h20 m30"></td><td class="h21 m00"></td><td class="h21 m30"></td><td class="h22 m00"></td><td class="h22 m30"></td></tr>';
         $("#"+weekday).append(htmlrow);
@@ -487,7 +487,7 @@ function compactTable() {
     // clear empty rows
     $(".days").each(function() {
         var weekth = $("#"+$(this).attr("id")+" .weekday");
-        var rowspan = parseInt($(weekth).attr("rowspan"));
+        var rowspan = parseInt($(weekth).attr("rowspan"), 10);
         var rowcount = $(this).children("tr").length;
         if (rowcount>1){
             for (var i=1; i<rowcount; i++) {
@@ -586,11 +586,11 @@ function removeVirtualCourse(code) {
     compactTable();
 }
 function setTimeConflict(weekday, start, end) {
-    var start_time = parseInt(start.substr(0,2).concat(start.substr(3,2)));
+    var start_time = parseInt(start.substr(0,2).concat(start.substr(3,2)), 10);
     if (start.substr(5,2)==="PM" && start.substr(0,2)!=="12") {
         start_time += 1200;
     }
-    var end_time = parseInt(end.substr(0,2)+end.substr(3,2));
+    var end_time = parseInt(end.substr(0,2)+end.substr(3,2), 10);
     if (end.substr(5,2)==="PM" && end.substr(0,2)!=="12") {
         end_time += 1200;
     }
