@@ -299,3 +299,6 @@ header:before, header:after {
 	outline: 0px;
 	/* box-shadow: 0px 0px 5px #960; */
 }
+.time-conflict {
+    box-shadow: 0px 0px 5px red;
+}
