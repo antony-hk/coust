@@ -531,6 +531,32 @@ function compactTable() {
         }
     });
     if (sun_empty) $("#Su").removeClass("hidden").addClass("hidden");
+    // update time conflict shadows
+    $.each($(".occupied"), function(){
+        var cell = $(this);
+        var weekday = $(cell).parentsUntil("tbody").parent().attr("id");
+        var h = $(cell).attr('class').match(/h[0-9]{2}/i);
+        var m = $(cell).attr('class').match(/m[0-9]{2}/i);
+        var hasConflict = false;
+        var oCount = $("#"+weekday+" ."+h+"."+m+".occupied").length;
+        var hCount = $("#"+weekday+" ."+h+"."+m+".hidden").length;
+        if (oCount !== 1 || hCount > 0) {
+            hasConflict = true;
+        }
+        var next = $(cell).next();
+        while($(next).hasClass('hidden') && !hasConflict) {
+            h = $(next).attr('class').match(/h[0-9]{2}/i);
+            m = $(next).attr('class').match(/m[0-9]{2}/i);
+            oCount = $("#"+weekday+" ."+h+"."+m+".occupied").length;
+            hCount = $("#"+weekday+" ."+h+"."+m+".hidden").length;
+            if (oCount > 0 || hCount !==1) {
+                hasConflict = true;
+            }
+            next = $(next).next();
+        }
+        $(cell).children('.lesson').removeClass('time-conflict');
+        if (hasConflict) $(cell).children('.lesson').addClass('time-conflict');
+    });
 }
 // add course boxes of available sections of the section type
 function addVirtualCourse(code, section) {
