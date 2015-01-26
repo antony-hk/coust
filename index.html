@@ -33,8 +33,10 @@
 	<div class="container">
         <div id="timetable_wrapper" class="noselect">
             <div id="readmode"><span title="Any changes will not be saved.">Read Mode</span></div>
-            <div id="loading" style="display:none"><span>Loading</span></div>
-            <table id="timetable">
+            <div id="loading" style="display: block;width: 200px;margin: 0 auto; padding-top: 50px; font-size: 50px;">
+                <span>Loading...</span>
+            </div>
+            <table id="timetable" class="content">
                 <colgroup></colgroup>
                 <colgroup span="2"></colgroup>
                 <colgroup span="2"></colgroup>
@@ -324,13 +326,13 @@
             </table>
         </div>
         <div>
-            <div style="margin-right:50px;float:right;">
+            <div style="margin-right:50px;float:right;" class="content">
                 <div id="dialog"></div>
                 <div>
                     <p><button id="show-faq" style="width: 100px">Show FAQ</button></p>
                 </div>
             </div>
-            <table id="timetable_controls">
+            <table id="timetable_controls" class="content">
                 <thead>
                 <tr>
                     <th>Code</th>

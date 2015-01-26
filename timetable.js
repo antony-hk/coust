@@ -371,9 +371,14 @@ function addCourseBox(code, section, weekday, start, end, singleton, virtual) {
     // save timetable to cookies
     saveToCookie();
     getURL();
+    if (readMode) $(".lesson.draggable").draggable("disable");
 }
 // remove course from timetable and control table
 function removeCourse(code) {
+    if (readMode) {
+        alert("Not allowed in Read Mode");
+        return;
+    }
     $("td.occupied div.lesson."+code).each(function() {
         var cell = $(this).parent();
         var colspan = $(cell).attr("colspan");
@@ -655,6 +660,15 @@ function loadFromCookie() {
         addCourse(rc[0], rc[1].split(","));
     }
     $("#loading").hide();
+    $(".content").show();
+    if (readMode) {
+        $(".lesson.draggable").draggable("disable");
+        $("#add").val("Click the logo to exit Read Mode");
+        $("#add").prop("disabled", true);
+    }
+    else { 
+        $("#add").trigger("focusout");
+    }
 }
 function saveToCookie() {
     if (readMode) return; // reading others timetable

@@ -304,3 +304,6 @@ header:before, header:after {
 .time-conflict {
     box-shadow: 0px 0px 5px red;
 }
+.content {
+    display: none;
+}
