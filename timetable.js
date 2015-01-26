@@ -269,11 +269,13 @@ function addCourseBox(code, section, weekday, start, end, singleton, virtual) {
     var m = "m".concat(tmp<10 ? "0".concat(tmp) : tmp);
     var spancount = Math.ceil((endh*60+endm-starth*60-startm)/30);
     var added = false;
+    var hasConflict = false;
     $("#"+weekday).children("tr").each(function() {
         if (added) return false; // break the loop
         var cell = $(this).children("td."+h+"."+m).eq(0);
         if ($(cell).hasClass("occupied") || $(cell).hasClass("hidden")) {
             // skip this row as the cell is being ocuppied
+            hasConflict = true;
         }
         else {
             // check if all cells needed are available
@@ -348,6 +350,9 @@ function addCourseBox(code, section, weekday, start, end, singleton, virtual) {
                 }
             }
             // else look for next row
+            else { // avail == false
+                hasConflict = true;
+            }
         }
     });
     // if no current existing rows available, create a new row
@@ -358,8 +363,10 @@ function addCourseBox(code, section, weekday, start, end, singleton, virtual) {
         var htmlrow = '<tr><td class="h09 m00"></td><td class="h09 m30"></td><td class="h10 m00"></td><td class="h10 m30"></td><td class="h11 m00"></td><td class="h11 m30"></td><td class="h12 m00"></td><td class="h12 m30"></td><td class="h13 m00"></td><td class="h13 m30"></td><td class="h14 m00"></td><td class="h14 m30"></td><td class="h15 m00"></td><td class="h15 m30"></td><td class="h16 m00"></td><td class="h16 m30"></td><td class="h17 m00"></td><td class="h17 m30"></td><td class="h18 m00"></td><td class="h18 m30"></td><td class="h19 m00"></td><td class="h19 m30"></td><td class="h20 m00"></td><td class="h20 m30"></td><td class="h21 m00"></td><td class="h21 m30"></td><td class="h22 m00"></td><td class="h22 m30"></td></tr>';
         $("#"+weekday).append(htmlrow);
         addCourseBox(code, section, weekday, start, end, singleton, virtual);
-        setTimeConflict(weekday, start, end);
         return;
+    }
+    else {
+        if (hasConflict) setTimeConflict(weekday, start, end);
     }
     // save timetable to cookies
     saveToCookie();
@@ -440,7 +447,6 @@ function compactTable() {
                 $.each($(row).children("td").filter(".occupied"), function(){
                     var sh = $(this).attr('class').match(/h[0-9]{2}/i);
                     var sm = $(this).attr('class').match(/m[0-9]{2}/i);
-                    console.log(sh+sm)
                     var firstRowHasRoom = true;
                     if ($(firstRow).find("."+sh+"."+sm).hasClass('occupied') 
                             || $(firstRow).find("."+sh+"."+sm).hasClass('hidden')) {
