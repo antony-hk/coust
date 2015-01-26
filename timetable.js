@@ -600,7 +600,6 @@ function setTimeConflict(weekday, start, end) {
     var endm = end_time%100;
     if (endm<=30) endm = 0;
     else if (endm<=60) endm = 30;
-    else throw new Exception();
     for (var i = starth; i <= endh; i++) {
         for (var j = 0; j<60; j+=30) {
             if (i===starth && j<startm) continue;
@@ -682,7 +681,7 @@ function getURL() {
     }
     var url = "./index.html?timetable=" + encodeURIComponent(timetableStr);
     $("#dialog").children().remove();
-    $("#dialog").append("<a href='"+url+"' target='_blank'><button id='readmodebtn' style='width: 100px'>Read Mode</button></a>");
+    $("#dialog").append("<a href='"+url+"' target='_blank'><button id='readmodebtn' style='width: 100px;'>Read Mode</button></a>");
     $("#readmodebtn").button();
 }
 
