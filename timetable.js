@@ -442,36 +442,36 @@ function emptyRow(row) {
 }
 // remove empty row
 function compactTable() {
-    // shift course box to first row if space available
+    // shift course box to upper rows if space available
     $(".days").each(function() {
         var rowcount = $(this).children("tr").length;
-        if (rowcount>1){
-            var firstRow = $(this).children("tr").eq(0);
-            for (var i=1; i<rowcount; i++) {
+        for (var rowN=0; rowN<rowcount-1 && rowcount>1; rowN++) {
+            var upperRow = $(this).children("tr").eq(rowN);
+            for (var i=rowN+1; i<rowcount; i++) {
                 var row = $(this).children("tr").eq(i);
                 $.each($(row).children("td").filter(".occupied"), function(){
                     var sh = $(this).attr('class').match(/h[0-9]{2}/i);
                     var sm = $(this).attr('class').match(/m[0-9]{2}/i);
-                    var firstRowHasRoom = true;
-                    if ($(firstRow).find("."+sh+"."+sm).hasClass('occupied') 
-                            || $(firstRow).find("."+sh+"."+sm).hasClass('hidden')) {
-                        firstRowHasRoom = false;
+                    var upperRowHasRoom = true;
+                    if ($(upperRow).find("."+sh+"."+sm).hasClass('occupied') 
+                            || $(upperRow).find("."+sh+"."+sm).hasClass('hidden')) {
+                        upperRowHasRoom = false;
                     }
                     var next = $(this).next();
-                    while ($(next).hasClass('hidden') && firstRowHasRoom) {
+                    while ($(next).hasClass('hidden') && upperRowHasRoom) {
                         var h = $(next).attr('class').match(/h[0-9]{2}/i);
                         var m = $(next).attr('class').match(/h[0-9]{2}/i);
-                        if ($(firstRow).find("."+h+"."+m).hasClass('occupied') 
-                            || $(firstRow).find("."+h+"."+m).hasClass('hidden')) {
-                            firstRowHasRoom = false;
+                        if ($(upperRow).find("."+h+"."+m).hasClass('occupied') 
+                            || $(upperRow).find("."+h+"."+m).hasClass('hidden')) {
+                            upperRowHasRoom = false;
                         }
                         next = $(next).next();
                     }
-                    if (firstRowHasRoom) {
+                    if (upperRowHasRoom) {
                         var courseDiv = $(this).children('.lesson').eq(0);
                         var colspan = $(this).attr('colspan');
                         $(this).removeAttr('colspan');
-                        var cell = $(firstRow).find("."+sh+"."+sm);
+                        var cell = $(upperRow).find("."+sh+"."+sm);
                         $(cell).addClass('occupied');
                         $(cell).attr('colspan', colspan)
                         $(cell).append(courseDiv);
