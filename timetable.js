@@ -9,8 +9,8 @@ var searchhints = [];
 var timetable = []; // store the timetable
 $( document ).ready(function() {
     getURL();
-    //$.get( "http://coust.442.hk/json/courseInfo.json" )
-    $.get("http://localhost/CoUST/data.php")
+    $.get( "http://coust.442.hk/json/courseInfo.json" )
+    //$.get("http://localhost/CoUST/data.php")
       .done(function( _data ) {
             data = $.parseJSON(_data);
             terms = data["terms"];
