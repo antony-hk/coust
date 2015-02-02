@@ -1,35 +1,7 @@
+* { box-sizing: border-box; }
+
 body { margin: 0; }
 
-.color0 {
-    background: #FFEBCD;
-}
-.color1 {
-    background: #FFCC99;
-}
-.color2 {
-    background: #EEE5DE;
-}
-.color3 {
-    background: #FFF5EE;
-}
-.color4 {
-    background: #F87531;
-}
-.color5 {
-    background: #EE8262;
-}
-.color6 {
-    background: #EEB4B4;
-}
-.color7 {
-    background: #00B2EE;
-}
-.color8 {
-    background: #00FA9A;
-}
-.color9 {
-    background: #CD96CD;
-}
 .ui-autocomplete { 
     font-size: 15px;
     width: 400px; 
@@ -39,6 +11,7 @@ body { margin: 0; }
     overflow-x: hidden;
     background: #f9f9f9;
 }
+
 .ui-state-hover,
 .ui-widget-content .ui-state-hover,
 .ui-widget-header .ui-state-hover,
@@ -54,7 +27,7 @@ body { margin: 0; }
 
 body {
     background: #f7f7f7;
-    font-size: 16px;
+    //font-size: 16px;
     font-family: 'Open Sans', sans-serif;
 }
 .ui-widget, .ui-widget button, #searchBar, #add {
@@ -71,30 +44,45 @@ body {
 
 #timetable_wrapper {
     background: #F9F9F9;
-    margin: 10px;
-    padding: 5px 50px 40px 50px;
+    /* margin: 10px; */
+    /* padding: 5px 50px 40px 50px; */
+	padding: 0 0 20px 0;
 }
 #timetable {
     border-collapse: collapse;
+	margin: 0 auto;
 }
 #timetable td {
-    height: 60px;
-    width: 90px;
+	min-width: 42px;
     text-align: center;
     vertical-align: top;
-    padding: 7px 1px 1px 1px;
+    /* padding: 7px 1px 1px 1px; */
+	padding: 0;
 }
+th.weekday[rowspan="1"] {
+	height: 80px;
+}
+#times > tr > td {
+	height: 60px;
+}
+
 #timetable td.time {
     vertical-align: bottom;
     font-size: 12px;
+	border-bottom: 1px solid #ddd;	
 }
+
+#timetable td.time:first-child {
+	border-bottom: 1px solid transparent;
+}
+
 #timetable th.weekday {
-    border-right: 1px solid lightgray;
-    padding-right: 1px;
     font-size: 12px;
+	line-height: 14px;
     background: #F9F9F9;
+	color: #333;
     text-shadow: 0px 0px 1px gray;
-    font-weight: normal;
+	font-weight: 600;
 }
 #timetable tbody {
 
@@ -102,9 +90,9 @@ body {
 tbody.days tr:last-child > td {
     padding-bottom: 1em;
 }
-#Mo, #Tu, #We, #Th, #Fr, #Su, #Sa {
-
-}
+/*#Mo > tr, #Tu > tr, #We > tr, #Th > tr, #Fr > tr, #Su > tr, #Sa > tr {
+	border-bottom: 1px solid #000;
+}*/
 .h09, .h10, .h11, .h12, .h13, .h14, .h15, .h16, .h17, .h18, .h19, .h20, .h21, .h22 {
 
 }
@@ -112,12 +100,14 @@ tbody.days tr:last-child > td {
     border-left: 1px solid #ddd;
 }
 .m30 {
+	border-left: 1px solid transparent;
     border-right: 1px solid #ddd;
 }
 .m00, .m30 {
-    border-top: 1px solid #ddd;
-    border-bottom: 1px solid #ddd;
+    //border-top: 1px solid #ddd;
+    //border-bottom: 1px solid #ddd;
 }
+
 .m30[class~="occupied"][class~="m30"]  {
     border-right: 0px solid transparent;
 }
@@ -128,12 +118,16 @@ td.alt {
 .timediv {
     position: relative;
     left: 20px;
+	color: #333;
+    text-shadow: 0px 0px 1px gray;
+	font-weight: 600;
+	font-style: italic;
 }
 #times {
-    background: #F9F9F9;
+    background: #f9f9f9;
 }
 .hover {
-    background-color:  #f7f7f7;
+    background-color:  #eee;
 }
 .occupied { /* table cell (td) that has been occupied by course */
 
@@ -141,14 +135,15 @@ td.alt {
 .lesson {
     float: left;
     overflow: hidden;
-    height: 37px;
+    height: 50px;
     width: 100%;
     margin: 0px auto;
     border: 2px solid;
-    padding: 6px 0px 4px 0px;
+    padding: 2px 4px;
     text-align: center;
     font-weight: bold;
-    font-size: 13px;
+    font-size: 12px;
+	line-height: 14px;
     cursor: no-drop;
 }
 .draggable {
@@ -174,29 +169,47 @@ td.alt {
     border-collapse: collapse;
     text-align: left;
     width: 70%;
-    margin: 15px 50px;
-    font-size: 16px;
+    margin: 0px 50px;
+    font-size: 15px;
+	font-weight: 600;
+	line-height: 30px;
 }
 #timetable_controls thead th {
-    background: #f3f3f3;
+    background: #ddd;
+	color: #444;
 }
 #timetable_controls td, #timetable_controls th {
-    border: 1px #1a4c00 solid;
-    padding: 7px 8px;
+    border: 2px #aaa solid;
+    padding: 0px 6px;
 }
 #timetable_controls a {
     text-decoration: none;
     color: saddlebrown;
 }
+#timetable_controls thead th:first-child { /* Course Code */
+	width: 150px;
+	
+}
+#timetable_controls thead th:last-child { /* Actions */
+	width: 100px;
+}
+
 #timetable_controls tbody td:first-child { /* Course Code */
     text-align: right;
+	width: 150px;
+	
+}
+#timetable_controls tbody td:last-child { /* Actions */
+    text-align: center;
+	width: 100px;
+	
 }
 #timetable_controls #none {
     text-align: center;
 }
 .actionsImg {
-    width: 23px;
-    height: 23px;
+    width: 20px;
+    height: 20px;
     vertical-align: middle;
 }
 .virtual {
@@ -212,11 +225,15 @@ td.alt {
     opacity: 0.4;
 }
 .separator td, .separator th {
-    height: 2px !important;
+    height: 0px !important;
     padding: 0px !important;
     margin: 0px !important;
     border: 0px solid transparent;
 }
+.separator td {
+	border-top: 1px solid #ddd;
+}
+
 #readmode {
     text-align: left;
     padding: 8px 0px 0px 15px;
@@ -241,15 +258,23 @@ td.alt {
 	margin: 0 auto;
 }
 header {
+	position: fixed;
 	top: 0;
+	left: 0;
 	width: 100%;
+	min-width: 820px;
+	height: 46px;
 	background-color: #123456;
 	content: " ";
 	display: table;
 	border-bottom: 1px solid #000;
+	text-wrap: none;
 }
 header:before, header:after {
 	clear: both;
+}
+.headerFix {
+	height: 46px;
 }
 .logo {
 	width: 96px;
@@ -259,7 +284,7 @@ header:before, header:after {
 	background-position: center center;
 	float: left;
 	height: 24px;
-	padding: 11px 15px;
+	margin: 11px 15px;
 }
 #searchBar ul {
 	display: block;
@@ -274,7 +299,7 @@ header:before, header:after {
 	float: left;
 }
 #termInfo {
-	width: 95px;
+	width: 113px;
 	height: 24px;
 	margin: 0;
 	padding: 0 7px 0 8px;
@@ -302,7 +327,7 @@ header:before, header:after {
 	/* box-shadow: 0px 0px 5px #960; */
 }
 .time-conflict {
-    box-shadow: 0px 0px 5px red;
+    box-shadow: 0px 0px 10px red;
 }
 .content {
     display: none;

@@ -5,16 +5,17 @@
         <meta name="keywords" content="HKUST, Course Planner, CoUST, Courser, Github">
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="shortcut icon" href="logo.ico">
+        <link rel="shortcut icon" href="favicon.ico">
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
         <!--<link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/themes/smoothness/jquery-ui.css" />-->
 		<link rel="stylesheet" href="ui.css">
         <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/jquery-ui.min.js"></script>
         <script src="jquery.ui.touch-punch.min.js"></script>
         <link rel="stylesheet" href="style.css" />
+		<link rel="stylesheet" href="color.php" />
         <script src="timetable.js"></script>
 		<link href="http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
-        <title>CoUST - visualized course planner for HKUST students</title>
+        <title>CoUST | HKUST Timetable Planner </title>
     </head>
     <body>
 	<header>
@@ -30,6 +31,7 @@
 			</div>
 		</div>
 	</header>
+	<div class="headerFix"></div>
 	<div class="container">
         <div id="timetable_wrapper" class="noselect">
             <div id="readmode"><span title="Any changes will not be saved.">Read Mode</span></div>
@@ -336,7 +338,7 @@
                 </div>
             </div>
             <div id="tba-courses-div" style="color: gray; font-size: 14px; margin-left: 50px;">
-                TBA Courses: <span id="no-tba">None</span><span id="tba-courses"></span>
+                Courses with "TBA" date & time: <span id="no-tba">None</span><span id="tba-courses"></span>
             </div>
             <table id="timetable_controls" class="content">
                 <thead>
@@ -366,8 +368,11 @@
             <div><b>Q:</b> Does the web app supports all browsers?</div>
             <div><b>A:</b> No, the web app uses jQuery and thus requires browser version supporting jQuery (e.g. IE9+).</div>
             </p>
+			<p>
+			<div><b>If you any enquires, please find us on <a href="http://www.facebook.com/CoUST.HK">our Facebook page</a>.</b></div>
+			</p>			
             <p>
-            <div><b>Github:</b> <a target="_blank" href="https://github.com/antonytse/CoUST">https://github.com/antonytse/CoUST</a></div>
+            <div><b>GitHub:</b> <a target="_blank" href="https://github.com/antonytse/CoUST">https://github.com/antonytse/CoUST</a></div>
             </p>
         </div>
     </div>
