@@ -304,6 +304,7 @@ function addCourseBox(code, section, weekday, start, end, singleton, virtual, da
     }
     dateInfo = dateInfo.replace("-", " ");
     var room = sectionObj["room"];
+    if (room=="TBA") room = "Rm: TBA";
     var roomShort = room.replace(/, Lift [0-9]+((-|,)( )*[0-9]+)?/gi, "");
     roomShort = roomShort.replace(/\([0-9]+\)/gi, "");
     roomShort = roomShort.replace(/Lecture Theater /gi, "LT");
