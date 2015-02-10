@@ -20,11 +20,11 @@
     <body>
 	<header>
 		<div class="container">
-			<a class="logo" href="index.html"></a>
+			<a class="logo" href="."></a>
 			<div id="searchBar">
 				<form onsubmit="return addCourse('','')">
 					<ul>
-						<li id="termInfo"></li>
+						<li id="termInfo">Loading...</li>
 						<li><input type="text" id="add" value="Add Courses to Timetable"></li>
 					</ul>
 				</form>
@@ -38,6 +38,7 @@
             <div id="loading" style="display: block;width: 200px;margin: 0 auto; padding-top: 50px; font-size: 50px;">
                 <span>Loading...</span>
             </div>
+            <div id="timetable-div">
             <table id="timetable" class="content">
                 <colgroup></colgroup>
                 <colgroup span="2"></colgroup>
@@ -55,7 +56,7 @@
                 <colgroup span="2"></colgroup>
                 <colgroup span="2"></colgroup>
                 <tbody id="times">
-                    <tr>
+                    <tr class="times-tr">
                     <td class="time"><div class="timediv">09:00</div></td>
                     <td class="time alt"><div class="timediv">09:30</div></td>
                     <td class="time"><div class="timediv">10:00</div></td>
@@ -90,7 +91,7 @@
                 </tbody>
                 <tbody id="Mo" class="days">
                     <tr>
-                    <th class="weekday" rowspan="1">M<br/>O<br/>N</th>
+                    <th class="weekday" rowspan="1">MON</th>
                     <td class="h09 m00"></td>
                     <td class="h09 m30"></td>
                     <td class="h10 m00"></td>
@@ -124,7 +125,7 @@
                 <tr class="separator"><th></th><td colspan="28"></td></tr>
                 <tbody id="Tu" class="days">
                     <tr>
-                    <th class="weekday" rowspan="1">T<br/>U<br/>E</th>
+                    <th class="weekday" rowspan="1">TUE</th>
                     <td class="h09 m00"></td>
                     <td class="h09 m30"></td>
                     <td class="h10 m00"></td>
@@ -158,7 +159,7 @@
                 <tr class="separator"><th></th><td colspan="28"></td></tr>
                 <tbody id="We" class="days">
                     <tr>
-                    <th class="weekday" rowspan="1">W<br/>E<br/>D</th>
+                    <th class="weekday" rowspan="1">WED</th>
                     <td class="h09 m00"></td>
                     <td class="h09 m30"></td>
                     <td class="h10 m00"></td>
@@ -192,7 +193,7 @@
                 <tr class="separator"><th></th><td colspan="28"></td></tr>
                 <tbody id="Th" class="days">
                     <tr>
-                    <th class="weekday" rowspan="1">T<br/>H<br/>U</th>
+                    <th class="weekday" rowspan="1">THU</th>
                     <td class="h09 m00"></td>
                     <td class="h09 m30"></td>
                     <td class="h10 m00"></td>
@@ -226,7 +227,7 @@
                 <tr class="separator"><th></th><td colspan="28"></td></tr>
                 <tbody id="Fr" class="days">
                     <tr>
-                    <th class="weekday" rowspan="1">F<br/>R<br/>I</th>
+                    <th class="weekday" rowspan="1">FRI</th>
                     <td class="h09 m00"></td>
                     <td class="h09 m30"></td>
                     <td class="h10 m00"></td>
@@ -260,7 +261,7 @@
                 <tr class="separator"><th></th><td colspan="28"></td></tr>
                 <tbody id="Sa" class="days hidden">
                     <tr>
-                    <th class="weekday" rowspan="1">S<br/>A<br/>T</th>
+                    <th class="weekday" rowspan="1">SAT</th>
                     <td class="h09 m00"></td>
                     <td class="h09 m30"></td>
                     <td class="h10 m00"></td>
@@ -294,7 +295,7 @@
                 <tr class="separator"><th></th><td colspan="28"></td></tr>
                 <tbody id="Su" class="days hidden">
                     <tr>
-                    <th class="weekday" rowspan="1">S<br/>U<br/>N</th>
+                    <th class="weekday" rowspan="1">SUN</th>
                     <td class="h09 m00"></td>
                     <td class="h09 m30"></td>
                     <td class="h10 m00"></td>
@@ -326,12 +327,14 @@
                     </tr>
                 </tbody>
             </table>
+            </div>
         </div>
-        <div>
-            <div style="margin-right:50px;float:right;" class="content">
+        <div class="content">
+            <div style="margin-right:50px;float:right;">
                 <div id="dialog"></div>
                 <div>
-                    <p><button id="show-faq" style="width: 100px">Show FAQ</button></p>
+                    <p><button id="show-faq" style="width: 120px">Show FAQ</button></p>
+                    <?php if($_GET["debug"]) echo '<p><button id="switch-view" style="width: 120px" onclick="switchView()">Switch View</button></p>'; ?>
                 </div>
                 <div>
                     <p style="font-size: 10px; color: gray;">Data Last Updated: <br/><span id="update-time"></span></p>
@@ -340,7 +343,7 @@
             <div id="tba-courses-div" style="color: gray; font-size: 14px; margin-left: 50px;">
                 Courses with "TBA" date & time: <span id="no-tba">None</span><span id="tba-courses"></span>
             </div>
-            <table id="timetable_controls" class="content">
+            <table id="timetable_controls">
                 <thead>
                 <tr>
                     <th>Code</th>
@@ -357,22 +360,24 @@
         </div>
         <div title="FAQ" id="faq" style="display: none; line-height: 25px; text-align: left; padding: 20px 20px; font-size: 15px;">
             <p>
-            <div><b>Q:</b> Is data always up-to-date?</div>
-            <div><b>A:</b> No, data have to be manually updated by running <a style="color: darkblue" target="_blank" href="http://coust.442.hk/json/mkdata.php">this page</a> to obtain and save data from <a style="color: darkblue" target="_blank" href="https://w5.ab.ust.hk/wcq/cgi-bin/">HKUST Class Schedule and Quota</a> by crawling and parsing the website, i.e. data are correct up to the latest time of running the data retrieving page.</div>
+            <div><strong>Q:</strong> Is data always up-to-date?</div>
+            <div><strong>A:</strong> No, data have to be manually updated by running <a style="color: darkblue" target="_blank" href="http://coust.442.hk/json/mkdata.php">this page</a> to obtain and save data from <a style="color: darkblue" target="_blank" href="https://w5.ab.ust.hk/wcq/cgi-bin/">HKUST Class Schedule and Quota</a> by crawling and parsing the website, i.e. data are correct up to the latest time of running the data retrieving page.</div>
             </p>
             <p>
-            <div><b>Q:</b> What is Read Mode?</div>
-            <div><b>A:</b> With read mode on, you can only view the timetable. And your original timetable in non read mode will not be affected. You may exit read mode and view your own timetable by clicking the logo (which returns to the home page).</div>
+            <div><strong>Q:</strong> What is Read Mode?</div>
+            <div><strong>A:</strong> With read mode on, you can only view the timetable. And your original timetable in non read mode will not be affected. You may exit read mode and view your own timetable by clicking the logo (which returns to the home page).</div>
             </p>
             <p>
-            <div><b>Q:</b> Does the web app supports all browsers?</div>
-            <div><b>A:</b> No, the web app uses jQuery and thus requires browser version supporting jQuery (e.g. IE9+).</div>
+            <div><strong>Q:</strong> Does the web app supports all browsers?</div>
+            <div><strong>A:</strong> No, the web app uses jQuery and thus requires browser version supporting jQuery (e.g. IE9+).</div>
             </p>
-			<p>
-			<div><b>If you any enquires, please find us on <a href="http://www.facebook.com/CoUST.HK">our Facebook page</a>.</b></div>
-			</p>			
             <p>
-            <div><b>GitHub:</b> <a target="_blank" href="https://github.com/antonytse/CoUST">https://github.com/antonytse/CoUST</a></div>
+			<div><strong>If you any enquires, please find us on <a href="http://www.facebook.com/CoUST.HK">our Facebook page</a>.</strong></div>
+			</p>
+            <div><strong>GitHub:</strong> <a target="_blank" href="https://github.com/antonytse/CoUST">https://github.com/antonytse/CoUST</a></div>
+            </p>
+            </p>
+            <div><strong>Authors:</strong> Alan Chung, Antony Tse</div>
             </p>
         </div>
     </div>

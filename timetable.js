@@ -1,4 +1,5 @@
 "use strict";
+$.fn.reverse = [].reverse;
 var readMode = false;
 var color = 0;
 var courseColor = [];
@@ -8,11 +9,24 @@ var loaded = false; // check if data loaded when adding course
 var searchhints = [];
 var timetable = []; // store the timetable
 $( document ).ready(function() {
+    $( document ).tooltip({
+        //track: true,
+        position: { my: "left+15 center", at: "right center+5" },
+        tooltipClass: "custom-tooltip-styling"
+    });
+    if ($("#timetable_wrapper").hasClass("vertical-timetable")) {
+        $("#timetable > tbody").reverse().appendTo("#timetable");
+    }
     getURL();
-    $.get( "http://coust.442.hk/json/data.php" )
-    //$.get("http://localhost/CoUST/data.php")
-      .done(function( _data ) {
-            data = $.parseJSON(_data);
+    //$.get( "http://coust.442.hk/json/data.php" )
+    $.ajax({
+        cache: true,
+        url: "http://coust.442.hk/json/data.php",
+        type: "GET",
+        dataType: "json"
+    }).done(function( _data ) {
+            //data = $.parseJSON(_data);
+            data = _data;
             terms = data["terms"];
             //delete data["terms"];
             loaded = true;
@@ -42,9 +56,11 @@ $( document ).ready(function() {
             $("#termInfo").html(terms["current"]["text"]);
             // load courses added from cookies
             loadFromCookie();
+            compactTable();
         });
     $("#timetable").delegate('td','mouseover mouseleave', function(e) {
-        if (e.target.className==="separator") {
+        if (e.target.className==="separator" || e.target.className==="times-tr"
+                || e.target.className==="timediv" || e.target.className==="time") {
             
         }
         else if (e.type === 'mouseover') {
@@ -69,6 +85,7 @@ $( document ).ready(function() {
     
     // UI stuff
     $("#show-faq").button();
+    $("#switch-view").button();
     $( "#faq" ).dialog({
             autoOpen: false,
             width: 800,
@@ -252,12 +269,12 @@ function addSection(course, section, singleton, virtual) {
             timeStr = dates[0] + " - " + dates[1] + " " + timeStr;
         }
         for(var k=0; k<weekdays.length; k++) {
-            addCourseBox(code, section, weekdays[k], times[0], times[1], singleton, virtual, dates);
+            addCourseBox(code, section, weekdays[k], times[0], times[1], singleton, virtual, dates, sectionObjs[s]);
         }
     }
 }
 // create the course box in timetable
-function addCourseBox(code, section, weekday, start, end, singleton, virtual, dates) {
+function addCourseBox(code, section, weekday, start, end, singleton, virtual, dates, sectionObj) {
     if ($("#"+weekday).hasClass("hidden")) {
         $("#"+weekday).removeClass("hidden");
     }
@@ -276,8 +293,9 @@ function addCourseBox(code, section, weekday, start, end, singleton, virtual, da
     }
     var title = start + " - " + end;
     var datePeriodText = "", dateInfo = "";
+    var NEWLINE = "&#10;";
     if (dates) {
-        title = dates[0] + " - " + dates[1] + "&#10;" + title; // &#10; => newline
+        title = dates[0] + " - " + dates[1] + NEWLINE + title;
         if (dates['multiple']) datePeriodText = " ["+dates['index'] + "]";
         dateInfo =  "data-date-start='"+dates[0]+"' data-date-end='"+dates[1]+"'";
     }
@@ -285,7 +303,18 @@ function addCourseBox(code, section, weekday, start, end, singleton, virtual, da
         dateInfo =  "data-date-start='' data-date-end=''";
     }
     dateInfo = dateInfo.replace("-", " ");
-    var htmldiv = "<div "+dateInfo+" title='"+title+"' name='"+code+"_"+section+"' class='"+colorText+" lesson "+draggable+" "+virtualbox+" "+code+" "+section+"'>"+code+"<br/>"+section+datePeriodText+"</div>";
+    var room = sectionObj["room"];
+    var roomShort = room.replace(/, Lift [0-9]+((-|,)( )*[0-9]+)?/gi, "");
+    roomShort = roomShort.replace(/\([0-9]+\)/gi, "");
+    roomShort = roomShort.replace(/Lecture Theater /gi, "LT");
+    roomShort = roomShort.replace(/, [A-Z ]+/gi, "");
+    title += NEWLINE + room + NEWLINE + "Instructor: ";
+    if (sectionObj["instructor"].length===0) sectionObj["instructor"].push("TBA");
+    if (sectionObj["instructor"].length===1) title += sectionObj["instructor"][0];
+    else for (var instr = 0; instr < sectionObj["instructor"].length; instr++) {
+        title += NEWLINE + " - " + sectionObj["instructor"][instr];
+    }
+    var htmldiv = "<div "+dateInfo+" title='"+title+"' name='"+code+"_"+section+"' class='"+colorText+" lesson "+draggable+" "+virtualbox+" "+code+" "+section+"'><div>"+code+"<br/>"+section+datePeriodText+"<br/>"+roomShort+"</div></div>";
     var start_time = parseInt(start.substr(0,2).concat(start.substr(3,2)), 10);
     if (start.substr(5,2)==="PM" && start.substr(0,2)!=="12") {
         start_time += 1200;
@@ -338,10 +367,19 @@ function addCourseBox(code, section, weekday, start, end, singleton, virtual, da
                     if (!singleton) {
                         var realcell = $("div.lesson.real."+code+"."+section);
                         $(realcell).draggable({ 
+                            appendTo: "body",
                             helper: "clone",
                             start: function( event, ui ) {
+                                var lessontd = $(realcell).eq(0).parentsUntil("td").parent();
                                 var lessondiv = $(realcell).eq(0);
-                                $(ui.helper).css("width", $(lessondiv).width());
+                                if (!$("#timetable_wrapper").hasClass("vertical-timetable")) {
+                                    $(ui.helper).css("width", $(lessondiv).outerWidth());
+                                    $(ui.helper).css("height", $(lessondiv).outerHeight());
+                                }
+                                else {
+                                    $(ui.helper).css("width", $(lessondiv).outerHeight());
+                                    $(ui.helper).css("height", $(lessondiv).outerWidth());
+                                }
                                 $(ui.helper).addClass("move");
                                 $(ui.helper).removeAttr("title");
                                 addVirtualCourse(code, section);
@@ -396,15 +434,15 @@ function addCourseBox(code, section, weekday, start, end, singleton, virtual, da
         $("#"+weekday+" th").attr("rowspan", newrowspan);
         var htmlrow = '<tr><td class="h09 m00"></td><td class="h09 m30"></td><td class="h10 m00"></td><td class="h10 m30"></td><td class="h11 m00"></td><td class="h11 m30"></td><td class="h12 m00"></td><td class="h12 m30"></td><td class="h13 m00"></td><td class="h13 m30"></td><td class="h14 m00"></td><td class="h14 m30"></td><td class="h15 m00"></td><td class="h15 m30"></td><td class="h16 m00"></td><td class="h16 m30"></td><td class="h17 m00"></td><td class="h17 m30"></td><td class="h18 m00"></td><td class="h18 m30"></td><td class="h19 m00"></td><td class="h19 m30"></td><td class="h20 m00"></td><td class="h20 m30"></td><td class="h21 m00"></td><td class="h21 m30"></td><td class="h22 m00"></td><td class="h22 m30"></td></tr>';
         $("#"+weekday).append(htmlrow);
-        addCourseBox(code, section, weekday, start, end, singleton, virtual, dates);
+        addCourseBox(code, section, weekday, start, end, singleton, virtual, dates, sectionObj);
         return;
     }
-    else {
-        if (hasConflict) setTimeConflict(weekday, start, end);
-    }
+    if (hasConflict) setTimeConflict(weekday, start, end);
+    $("div.lesson."+code).parentsUntil("tr").parent().removeClass("spare-tr");
     // save timetable to cookies
     saveToCookie();
     getURL();
+    updateConflictStyle();
     if (readMode) $(".lesson.draggable").draggable("disable");
 }
 // remove course from timetable and control table
@@ -531,6 +569,7 @@ function compactTable() {
             }
         }
     });
+    
     // clear empty rows
     $(".days").each(function() {
         var weekth = $("#"+$(this).attr("id")+" .weekday");
@@ -555,6 +594,7 @@ function compactTable() {
             }
         }
     });
+    
     // clear time-conflict class
     $(".days").each(function() {
         var rowcount = $(this).children("tr").length;
@@ -578,6 +618,20 @@ function compactTable() {
         }
     });
     if (sun_empty) $("#Su").removeClass("hidden").addClass("hidden");
+    
+    // add a spare tr to each weekday if only one row
+    $(".days").each(function() {
+        var rowcount = $(this).children("tr").length;
+        if (rowcount===1) {
+            $(this).children("tr").find("th.weekday").attr("rowspan", 2);
+            $(this).append('<tr class="spare-tr"><td class="h09 m00"></td><td class="h09 m30"></td><td class="h10 m00"></td><td class="h10 m30"></td><td class="h11 m00"></td><td class="h11 m30"></td><td class="h12 m00"></td><td class="h12 m30"></td><td class="h13 m00"></td><td class="h13 m30"></td><td class="h14 m00"></td><td class="h14 m30"></td><td class="h15 m00"></td><td class="h15 m30"></td><td class="h16 m00"></td><td class="h16 m30"></td><td class="h17 m00"></td><td class="h17 m30"></td><td class="h18 m00"></td><td class="h18 m30"></td><td class="h19 m00"></td><td class="h19 m30"></td><td class="h20 m00"></td><td class="h20 m30"></td><td class="h21 m00"></td><td class="h21 m30"></td><td class="h22 m00"></td><td class="h22 m30"></td></tr>');
+        }
+    });
+
+    updateConflictStyle();
+}
+
+function updateConflictStyle() {    
     // update time conflict shadows
     $.each($(".occupied"), function(){
         var cell = $(this);
@@ -656,6 +710,7 @@ function compactTable() {
         if (hasConflict) $(cell).children('.lesson').addClass('time-conflict');
     });
 }
+
 // add course boxes of available sections of the section type
 function addVirtualCourse(code, section) {
     var sectiontype = section.match(/[A-Z]+/i);
@@ -667,6 +722,7 @@ function addVirtualCourse(code, section) {
         }
         addSection(data[code], sections[sectiontype][i], singleton, true);
     }
+    updateConflictStyle();
 }
 function removeVirtualCourse(code) {
     $("td.occupied div.lesson.virtual."+code).each(function() {
@@ -786,9 +842,9 @@ function getURL() {
         }
         timetableStr += code + ":_" + sectionStr + "!";
     }
-    var url = "./index.html?timetable=" + encodeURIComponent(timetableStr);
+    var url = "./?timetable=" + encodeURIComponent(timetableStr);
     $("#dialog").children().remove();
-    $("#dialog").append("<a href='"+url+"' target='_blank'><button id='readmodebtn' style='width: 100px;'>Read Mode</button></a>");
+    $("#dialog").append("<a href='"+url+"' target='_blank'><button id='readmodebtn' style='width: 120px;'>Read Mode</button></a>");
     $("#readmodebtn").button();
 }
 
@@ -802,4 +858,14 @@ function getURLParameter(sParam) {
         }
     }
     return null;
+}
+
+function switchView() {
+    $("#timetable > tbody").reverse().appendTo("#timetable");
+    if ($("#timetable_wrapper").hasClass("vertical-timetable")) {
+        $("#timetable_wrapper").removeClass("vertical-timetable");
+    }
+    else {
+        $("#timetable_wrapper").addClass("vertical-timetable");
+    }
 }

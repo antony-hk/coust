@@ -24,11 +24,16 @@ body { margin: 0; }
     color: #292421;
 }
 
+.custom-tooltip-styling {
+    white-space: pre-wrap;
+    opacity: 0.9;
+}
 
 body {
     background: #f7f7f7;
-    //font-size: 16px;
+    /* font-size: 16px; */
     font-family: 'Open Sans', sans-serif;
+    margin-bottom: 30px;
 }
 .ui-widget, .ui-widget button, #searchBar, #add {
     font-family: 'Open Sans', sans-serif;
@@ -43,7 +48,7 @@ body {
 }
 
 #timetable_wrapper {
-    background: #F9F9F9;
+    /* background: #F9F9F9; */
     /* margin: 10px; */
     /* padding: 5px 50px 40px 50px; */
 	padding: 0 0 20px 0;
@@ -58,6 +63,7 @@ body {
     vertical-align: top;
     /* padding: 7px 1px 1px 1px; */
 	padding: 0;
+	height: 50px;
 }
 th.weekday[rowspan="1"] {
 	height: 80px;
@@ -69,7 +75,25 @@ th.weekday[rowspan="1"] {
 #timetable td.time {
     vertical-align: bottom;
     font-size: 12px;
-	border-bottom: 1px solid #ddd;	
+	/* border-bottom: 1px solid #ddd; */
+}
+
+.times-tr {
+    background: #f7f7f7;
+}
+
+#Mo tr:first-child td {
+    border-top: 1px solid #ddd;
+}
+
+#Mo tr:last-child td {
+    border-bottom: 1px solid #ddd;
+}
+
+#readmode {
+    margin: 10px 5px;
+    display: block;
+    height: 50px;
 }
 
 #timetable td.time:first-child {
@@ -79,7 +103,7 @@ th.weekday[rowspan="1"] {
 #timetable th.weekday {
     font-size: 12px;
 	line-height: 14px;
-    background: #F9F9F9;
+    /* background: #F9F9F9; */
 	color: #333;
     text-shadow: 0px 0px 1px gray;
 	font-weight: 600;
@@ -124,7 +148,7 @@ td.alt {
 	font-style: italic;
 }
 #times {
-    background: #f9f9f9;
+    /* background: #f9f9f9; */
 }
 .hover {
     background-color:  #eee;
@@ -259,6 +283,8 @@ td.alt {
 }
 header {
 	position: fixed;
+	z-index: 1;
+    /* position: relative; */
 	top: 0;
 	left: 0;
 	width: 100%;
@@ -331,4 +357,66 @@ header:before, header:after {
 }
 .content {
     display: none;
+}
+
+
+.spare-tr {
+    height: 30px !important;
+}
+
+.spare-tr td {
+    height: 30px !important;
+}
+
+/* css to add for vertical timetable */
+.vertical-timetable #timetable-div{
+    height: 1280px;
+}
+
+.vertical-timetable #timetable {
+    -ms-transform: rotate(90deg) translateX(1280px) translateY(300px); /* IE 9 */
+    -webkit-transform: rotate(90deg) translateX(1280px) translateY(300px); /* Chrome, Safari, Opera */
+    transform: rotate(90deg) translateX(1280px) translateY(300px);
+    -ms-transform-origin: top left; /* IE 9 */
+    -webkit-transform-origin: top left; /* Chrome, Safari, Opera */
+    transform-origin: top right;
+}
+
+.vertical-timetable #timetable .lesson > div {
+    -ms-transform: rotate(-90deg); /* IE 9 */
+    -webkit-transform: rotate(-90deg); /* Chrome, Safari, Opera */
+    transform: rotate(-90deg);
+}
+
+.vertical-timetable .lesson > div {
+    vertical-align: middle;
+    height: auto;
+    display: inline-block;
+    position: relative;
+    top: 20px;
+}
+
+.vertical-timetable #timetable td {
+    height: 100px;
+    width: 20px;
+}
+
+.vertical-timetable .lesson {
+    height: 80px;
+}
+
+.vertical-timetable .weekday {
+    -ms-transform: rotate(-90deg); /* IE 9 */
+    -webkit-transform: rotate(-90deg); /* Chrome, Safari, Opera */
+    transform: rotate(-90deg);
+}
+
+.vertical-timetable .timediv {
+    -ms-transform: rotate(-90deg) translate(73px, 0px); /* IE 9 */
+    -webkit-transform: rotate(-90deg) translate(73px, 0px); /* Chrome, Safari, Opera */
+    transform: rotate(-90deg) translate(73px, 0px);
+}
+
+.vertical-timetable .spare-tr td {
+    width: 30px !important;
 }
