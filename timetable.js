@@ -241,10 +241,12 @@ function addSection(course, section, singleton, virtual) {
         }
         if (datetime[0] === "TBA") { // TBA cannot be added into timetable
             var str = "<span class='tba "+code+" "+section+"'>";
-            if ($("#no-tba").is(':hidden')) str += ', ';
-            str += course.code+" "+section+"</span>";
-            $("#tba-courses").append(str);
-            $("#no-tba").hide();
+            if (!virtual) {
+                if ($("#no-tba").is(':hidden')) str += ', ';
+                str += course.code+" "+section+"</span>";
+                $("#tba-courses").append(str);
+                $("#no-tba").hide();
+            }
             // save timetable to cookies
             saveToCookie();
             getURL();
