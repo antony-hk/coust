@@ -325,7 +325,7 @@ header:before, header:after {
 	float: left;
 }
 #termInfo {
-	width: 113px;
+	width: auto;
 	height: 24px;
 	margin: 0;
 	padding: 0 7px 0 8px;
