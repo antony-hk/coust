@@ -234,6 +234,7 @@ function addSection(course, section, singleton, virtual) {
         var hasDate = 0;
         if (datetime.length===2) hasDate = 1;
         if (hasDate===1) {
+            dates = datetime[0].match(/[0-9]{2}-[A-Z]{3}-[0-9]{4}/ig);
             dates['index'] = s;
             if (sectionObjs.length>1) 
                 dates['multiple'] = true; 
@@ -252,9 +253,6 @@ function addSection(course, section, singleton, virtual) {
             saveToCookie();
             getURL();
             continue;
-        }
-        if (hasDate===1) {
-            dates = datetime[0].match(/[0-9]{2}-[A-Z]{3}-[0-9]{4}/ig);
         }
         weekdays = datetime[hasDate].match(/(Mo|Tu|We|Th|Fr|Sa|Su)/ig);
         times = datetime[hasDate].match(/[0-9]{2}:[0-9]{2}[A|P]M/ig);
@@ -299,10 +297,10 @@ function addCourseBox(code, section, weekday, start, end, singleton, virtual, da
     if (dates) {
         title = dates[0] + " - " + dates[1] + NEWLINE + title;
         if (dates['multiple']) datePeriodText = " ["+dates['index'] + "]";
-        dateInfo =  "data-date-start='"+dates[0]+"' data-date-end='"+dates[1]+"'";
+        dateInfo =  "datestart='"+dates[0]+"' dateend='"+dates[1]+"'";
     }
     else {
-        dateInfo =  "data-date-start='' data-date-end=''";
+        dateInfo =  "datestart='' dateend=''";
     }
     dateInfo = dateInfo.replace("-", " ");
     var room = sectionObj["room"];
@@ -639,12 +637,12 @@ function updateConflictStyle() {
     $.each($(".occupied"), function(){
         var cell = $(this);
         var code = $(cell).children("div.lesson").eq(0).attr('name').split("_")[0];
-        var hasDate = $(cell).children("div.lesson").eq(0).attr('data-date-start') !== ""
-                && $(cell).children("div.lesson").eq(0).attr('data-date-end') !== "";
+        var hasDate = $(cell).children("div.lesson").eq(0).attr('datestart') !== ""
+                && $(cell).children("div.lesson").eq(0).attr('dateend') !== "";
         var date_start = null, date_end = null;
         if (hasDate) {
-            date_start = new Date($(cell).children("div.lesson").eq(0).attr('data-date-start'));
-            date_end = new Date($(cell).children("div.lesson").eq(0).attr('data-date-end'));
+            date_start = new Date($(cell).children("div.lesson").eq(0).attr('datestart'));
+            date_end = new Date($(cell).children("div.lesson").eq(0).attr('dateend'));
         }
         var weekday = $(cell).parentsUntil("tbody").parent().attr("id");
         var h = $(cell).attr('class').match(/h[0-9]{2}/i);
@@ -662,11 +660,11 @@ function updateConflictStyle() {
                 for (var i=0; i<conflictCourses.length && !hasConflict; i++) {
                     var course_div = $(conflictCourses[i]).children("div.lesson").eq(0);
                     if (code === $(course_div).attr('name').split("_")[0]) continue;
-                    var c_hasDate = $(course_div).attr('data-date-start') !== "" && $(course_div).attr('data-date-end') !== "";
+                    var c_hasDate = $(course_div).attr('datestart') !== "" && $(course_div).attr('dateend') !== "";
                     var c_date_start = null, c_date_end = null;
                     if (c_hasDate) {
-                        c_date_start = new Date($(course_div).attr('data-date-start'));
-                        c_date_end = new Date($(course_div).attr('data-date-end'));
+                        c_date_start = new Date($(course_div).attr('datestart'));
+                        c_date_end = new Date($(course_div).attr('dateend'));
                         if (!(+date_start>=+c_date_end || +date_end<=+c_date_start)) {
                             hasConflict = true;
                         }
@@ -688,15 +686,16 @@ function updateConflictStyle() {
                 else {
                     var conflictCourses = $.makeArray($("#"+weekday+" ."+h+"."+m+".occupied"));
                     $.each($("#"+weekday+" ."+h+"."+m+".hidden"), function() {
-                        conflictCourses.push($(this).prevUntil('.occupied').prev());
+                        conflictCourses.push($(this).prevAll('.occupied').eq(0));
                     });
                     for (var i=0; i<conflictCourses.length && !hasConflict; i++) {
                         var course_div = $(conflictCourses[i]).children("div.lesson").eq(0);
-                        var c_hasDate = $(course_div).attr('data-date-start') !== "" && $(course_div).attr('data-date-end') !== "";
+                        if (code === $(course_div).attr('name').split("_")[0]) continue;
+                        var c_hasDate = $(course_div).attr('datestart') !== "" && $(course_div).attr('dateend') !== "";
                         var c_date_start = null, c_date_end = null;
                         if (c_hasDate) {
-                            c_date_start = new Date($(course_div).attr('data-date-start'));
-                            c_date_end = new Date($(course_div).attr('data-date-end'));
+                            c_date_start = new Date($(course_div).attr('datestart'));
+                            c_date_end = new Date($(course_div).attr('dateend'));
                             if (!(+date_start>=+c_date_end || +date_end<=+c_date_start)) {
                                 hasConflict = true;
                             }
