@@ -228,6 +228,7 @@ function addSection(course, section, singleton, virtual) {
     if (!virtual) timetable[code].push(section);
     var sectionObjs = getSectionObjs(code, section);
     var timeStr = "";
+    var dates = null, weekdays = null, times = null;
     for (var s=0; s<sectionObjs.length; s++) {
         var datetime = sectionObjs[s]["datetime"];
         var hasDate = 0;
@@ -252,7 +253,6 @@ function addSection(course, section, singleton, virtual) {
             getURL();
             continue;
         }
-        var dates = null, weekdays = null, times = null;
         if (hasDate===1) {
             dates = datetime[0].match(/[0-9]{2}-[A-Z]{3}-[0-9]{4}/ig);
         }
