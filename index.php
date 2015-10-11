@@ -15,9 +15,32 @@
 		<link rel="stylesheet" href="color.php" />
         <script src="timetable.js"></script>
 		<link href="http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
-        <title>CoUST | HKUST Timetable Planner </title>
+        <title>CoUST | HKUST Timetable Planner</title>
+        
+        <meta property="og:url"           content="http://coust.442.hk/" />
+        <meta property="og:type"          content="website" />
+        <meta property="og:title"         content="CoUST | HKUST Timetable Planner" />
+        <meta property="og:description"   content="CoUST - A visualized course planner which enables you to manage timetable by drag and drop. Specialized for HKUST students." />
+        <meta property="og:image"         content="http://coust.442.hk/favicon.png" />
     </head>
     <body>
+    <script>
+      window.fbAsyncInit = function() {
+        FB.init({
+          appId      : '1921693311388452',
+          xfbml      : true,
+          version    : 'v2.5'
+        });
+      };
+
+      (function(d, s, id){
+         var js, fjs = d.getElementsByTagName(s)[0];
+         if (d.getElementById(id)) {return;}
+         js = d.createElement(s); js.id = id;
+         js.src = "//connect.facebook.net/en_US/sdk.js";
+         fjs.parentNode.insertBefore(js, fjs);
+       }(document, 'script', 'facebook-jssdk'));
+    </script>
 	<header>
 		<div class="container">
 			<a class="logo" href="."></a>
@@ -34,7 +57,9 @@
 	<div class="headerFix"></div>
 	<div class="container">
         <div id="timetable_wrapper" class="noselect">
-            <div id="readmode"><span title="Any changes will not be saved.">Read Mode</span></div>
+            <div id="readmode">
+                <span title="No Changes Allowed">READ-ONLY</span>
+            </div>
             <div id="loading" style="display: block;width: 200px;margin: 0 auto; padding-top: 50px; font-size: 50px;">
                 <span>Loading...</span>
             </div>
@@ -333,6 +358,11 @@
             <div style="margin-right:50px;float:right;">
                 <div id="dialog"></div>
                 <div>
+                    <p>
+                        <input type="text" id="shareLinkInput"/>
+                    </p>
+                    <p id="copyResult"></p>
+                    <p><button onclick="getShareLink()">Get Share Link</button></p>
                     <p><button id="show-faq" style="width: 120px">Show FAQ</button></p>
                     <?php if($_GET["debug"]) echo '<p><button id="switch-view" style="width: 120px" onclick="switchView()">Switch View</button></p>'; ?>
                 </div>
@@ -364,8 +394,8 @@
             <div><strong>A:</strong> No, data have to be manually updated by running <a style="color: darkblue" target="_blank" href="http://coust.442.hk/json/mkdata.php">this page</a> to obtain and save data from <a style="color: darkblue" target="_blank" href="https://w5.ab.ust.hk/wcq/cgi-bin/">HKUST Class Schedule and Quota</a> by crawling and parsing the website, i.e. data are correct up to the latest time of running the data retrieving page.</div>
             </p>
             <p>
-            <div><strong>Q:</strong> What is Read Mode?</div>
-            <div><strong>A:</strong> With read mode on, you can only view the timetable. And your original timetable in non read mode will not be affected. You may exit read mode and view your own timetable by clicking the logo (which returns to the home page).</div>
+            <div><strong>Q:</strong> What is READ-ONLY Mode?</div>
+            <div><strong>A:</strong> In READ-ONLY Mode, you can only view the timetable. And your original timetable in non read mode will not be affected. You may exit read mode and view your own timetable by clicking the logo (which returns to the home page).</div>
             </p>
             <p>
             <div><strong>Q:</strong> Does the web app supports all browsers?</div>

@@ -84,8 +84,7 @@ $( document ).ready(function() {
     });
     
     // UI stuff
-    $("#show-faq").button();
-    $("#switch-view").button();
+    $("button").button();
     $( "#faq" ).dialog({
             autoOpen: false,
             width: 800,
@@ -449,7 +448,7 @@ function addCourseBox(code, section, weekday, start, end, singleton, virtual, da
 // remove course from timetable and control table
 function removeCourse(code) {
     if (readMode) {
-        alert("Not allowed in Read Mode");
+        alert("Not allowed in Read-Only Mode");
         return;
     }
     $(".tba."+code).remove();
@@ -480,7 +479,7 @@ function removeCourse(code) {
     // save to cookies
     saveToCookie();
     compactTable();
-    // update read mode url
+    // update Read-Only Mode url
     getURL();
 }
 function removeSection(code, section) {
@@ -814,7 +813,9 @@ function loadFromCookie() {
     $(".content").show();
     if (readMode) {
         $(".lesson.draggable").draggable("disable");
-        $("#add").val("Click the logo to exit Read Mode");
+        $(".lesson").css("cursor", "default");
+        $("img").filter("[title='Remove']").parents("a").hide();
+        $("#add").val("Click the logo to exit Read-Only Mode");
         $("#add").prop("disabled", true);
     }
     else { 
@@ -846,8 +847,9 @@ function getURL() {
     }
     var url = "./?timetable=" + encodeURIComponent(timetableStr);
     $("#dialog").children().remove();
-    $("#dialog").append("<a href='"+url+"' target='_blank'><button id='readmodebtn' style='width: 120px;'>Read Mode</button></a>");
+    $("#dialog").append("<a href='"+url+"' target='_blank'><button id='readmodebtn' style='width: 120px;'>READ-ONLY</button></a>");
     $("#readmodebtn").button();
+    return url;
 }
 
 function getURLParameter(sParam) {
@@ -869,5 +871,29 @@ function switchView() {
     }
     else {
         $("#timetable_wrapper").addClass("vertical-timetable");
+    }
+}
+
+function shareTimetable() {
+    var url = getURL();
+    url = "http://coust.442.hk" + url.substr(1);
+    FB.ui(
+    {
+      method: 'share',
+      href: url
+    }, function(response){});
+}
+
+function getShareLink() {
+    var url = getURL();
+    url = "http://coust.442.hk" + url.substr(1);
+    $("#shareLinkInput").val(url).show().select();
+    var failmsg = "Press CTRL+C (Windows) to Copy.";
+    try {
+        var successful = document.execCommand('copy');
+        if(successful) $("#copyResult").text('Auto Copied to Clip Board.');
+        else $("#copyResult").text(failmsg);
+    } catch(e) {
+        $("#copyResult").text(failmsg);
     }
 }

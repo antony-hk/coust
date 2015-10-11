@@ -90,6 +90,24 @@ th.weekday[rowspan="1"] {
     border-bottom: 1px solid #ddd;
 }
 
+#shareLinkInput, #shareLinkInput:focus {
+    width: 155px;
+    display: none;
+    outline: 0;
+    background: transparent;
+    border-width: 0 0 1px 0;
+    border-style: dashed;
+    border-color: gray;
+    padding: 1px 4px;
+}
+
+#copyResult {
+    margin-left: 5px;
+    font-size: 12px;
+    color: dimgray;
+    font-style: italic;
+}
+
 #readmode {
     margin: 10px 5px;
     display: block;
@@ -256,6 +274,10 @@ td.alt {
 }
 .separator td {
 	border-top: 1px solid #ddd;
+}
+
+#readmodebtn {
+    display: none;
 }
 
 #readmode {
