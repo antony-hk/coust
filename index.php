@@ -364,7 +364,7 @@
                     <p id="copyResult"></p>
                     <p><button onclick="getShareLink()">Get Share Link</button></p>
                     <p><button id="show-faq" style="width: 120px">Show FAQ</button></p>
-                    <?php if($_GET["debug"]) echo '<p><button id="switch-view" style="width: 120px" onclick="switchView()">Switch View</button></p>'; ?>
+                    <?php if(isset($_GET["debug"])) echo '<p><button id="switch-view" style="width: 120px" onclick="switchView()">Switch View</button></p>'; ?>
                 </div>
                 <div>
                     <p style="font-size: 10px; color: gray;">Data Last Updated: <br/><span id="update-time"></span></p>
