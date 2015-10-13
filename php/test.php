@@ -22,6 +22,6 @@ foreach($result['depts'] as $dept) {
 	}
 }
 
-file_put_contents("courseList.json", json_encode($courseList));
+file_put_contents("../data/courseList.json", json_encode($courseList));
 
 ?>

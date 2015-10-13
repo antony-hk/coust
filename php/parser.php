@@ -6,7 +6,7 @@
     $result = $parser->parseCoursePage($course_url);
     //print_r($result);
     
-    $courseList = json_decode(file_get_contents("courseList.json"));
+    $courseList = json_decode(file_get_contents("../data/courseList.json"));
     $output = array();
     $type = $_GET["type"];
     if ($type == "searchhints") {

@@ -1,111 +1,17 @@
-"use strict";
-$.fn.reverse = [].reverse;
-var readMode = false;
-var color = 0;
-var courseColor = [];
-var terms = ""; // store terms info
-var data = ""; // data get from courseInfo.json (via data.php and .json updated by mkdata.php)
-var loaded = false; // check if data loaded when adding course
-var searchhints = [];
-var timetable = []; // store the timetable
-$( document ).ready(function() {
-    $( document ).tooltip({
-        //track: true,
-        position: { my: "left+15 center", at: "right center+5" },
-        tooltipClass: "custom-tooltip-styling"
-    });
-    if ($("#timetable_wrapper").hasClass("vertical-timetable")) {
-        $("#timetable > tbody").reverse().appendTo("#timetable");
-    }
-    getURL();
-    //$.get( "http://coust.442.hk/json/data.php" )
-    $.ajax({
-        cache: true,
-        url: "http://coust.442.hk/json/data.php",
-        type: "GET",
-        dataType: "json"
-    }).done(function( _data ) {
-            //data = $.parseJSON(_data);
-            data = _data;
-            terms = data["terms"];
-            //delete data["terms"];
-            loaded = true;
-            $.each( data, function( key, val ) {
-                if (key==="terms" || key==="lastUpdated") return true;
-                searchhints.push(key + ': ' + val["name"]);
-              });
-            $( "#add" ).autocomplete({
-                    // source: "http://coust.442.hk/json/parser.php?type=searchhints", 
-                    source: searchhints,
-                    minLength: 0,
-                    focus: function( event, ui ) {
-                            event.preventDefault();
-                        },
-                    select: function(event, ui) { 
-                            event.preventDefault();
-                            addCourse(ui.item.value, "");
-                        }
-            }).focus(function () {
-                $(this).autocomplete("search", "");
-            });
-            $("#add").click(function() {
-                $(this).autocomplete("search", $(this).val());
-            });
-            // add term info and last update
-            $("#update-time").html(data["lastUpdated"]);
-            $("#termInfo").html(terms["current"]["text"]);
-            // load courses added from cookies
-            loadFromCookie();
-            compactTable();
-        });
-    $("#timetable").delegate('td','mouseover mouseleave', function(e) {
-        if (e.target.className==="separator" || e.target.className==="times-tr"
-                || e.target.className==="timediv" || e.target.className==="time") {
-            
-        }
-        else if (e.type === 'mouseover') {
-          // $(this).parent().addClass("hover"); // row
-          $(this).parent().parent().addClass("hover"); // tbody
-          $("colgroup").eq(Math.ceil($(this).index()/2)).addClass("hover"); // col
-        }
-        else {
-          // $(this).parent().removeClass("hover"); // row
-          $(this).parent().parent().removeClass("hover"); // tbody
-          $("colgroup").eq(Math.ceil($(this).index()/2)).removeClass("hover"); // col
-        }
-    });
-    $("#add").focusin(function() {
-        $("#add").val("");
-        $("#add").css("color", "black");
-    });
-    $("#add").focusout(function() {
-        $("#add").val("Add Courses to Timetable");
-        $("#add").css("color", "gray");
-    });
-    
-    // UI stuff
-    $("button").button();
-    $( "#faq" ).dialog({
-            autoOpen: false,
-            width: 800,
-            buttons: [
-                    {
-                            text: "Close",
-                            click: function() { $( this ).dialog( "close" ); }
-                    }
-            ]
-    });
-    // Link to open the dialog
-    $( "#show-faq" ).click(function( event ) {
-            $( "#faq" ).dialog( "open" );
-            event.preventDefault();
-    });
-});
+'use strict';
 
-// JavaScript functions
-function goHome() {
-    window.location.href = ".";
-}
+$.fn.reverse = [].reverse;
+var readMode = false,
+    color = 0,
+    courseColor = [],
+    terms = "", // store terms info
+    data = "", // data get from courseInfo.json (via data.php and .json updated by mkdata.php)
+    loaded = false, // check if data loaded when adding course
+    searchhints = [],
+    timetable = []; // store the timetable
+
+var HTTP_PATH = 'http://localhost:4451/coust/';
+
 function getSections(code) {
     if (!loaded) {
         return null;
@@ -138,6 +44,7 @@ function getSections(code) {
     types["types"] = keys;
     return types;
 }
+
 function getSectionObjs(code, section) {
     var objs = [];
     for (var j=0; j<data[code]["sections"].length; j++) {
@@ -147,6 +54,7 @@ function getSectionObjs(code, section) {
     }
     return objs;
 }
+
 function addCourse(_code, sections) {
     if (!loaded) {
         console.log("Please try again later as data is still loading...");
@@ -221,6 +129,7 @@ function addCourse(_code, sections) {
     getURL();
     return false; // always return false to avoid form submitting
 }
+
 // course: course object, section: section number, singleton: boolean
 function addSection(course, section, singleton, virtual) {
     var code = course["code"];
@@ -272,6 +181,7 @@ function addSection(course, section, singleton, virtual) {
         }
     }
 }
+
 // create the course box in timetable
 function addCourseBox(code, section, weekday, start, end, singleton, virtual, dates, sectionObj) {
     if ($("#"+weekday).hasClass("hidden")) {
@@ -445,6 +355,7 @@ function addCourseBox(code, section, weekday, start, end, singleton, virtual, da
     updateConflictStyle();
     if (readMode) $(".lesson.draggable").draggable("disable");
 }
+
 // remove course from timetable and control table
 function removeCourse(code) {
     if (readMode) {
@@ -725,6 +636,7 @@ function addVirtualCourse(code, section) {
     }
     updateConflictStyle();
 }
+
 function removeVirtualCourse(code) {
     $("td.occupied div.lesson.virtual."+code).each(function() {
         var cell = $(this).parent();
@@ -740,6 +652,7 @@ function removeVirtualCourse(code) {
     });
     compactTable();
 }
+
 function setTimeConflict(weekday, start, end) {
     var start_time = parseInt(start.substr(0,2).concat(start.substr(3,2)), 10);
     if (start.substr(5,2)==="PM" && start.substr(0,2)!=="12") {
@@ -774,12 +687,14 @@ function setTimeConflict(weekday, start, end) {
         }
     }
 }
+
 function setCookie(cname, cvalue, exdays) {
     var d = new Date();
     d.setTime(d.getTime() + (exdays*24*60*60*1000));
     var expires = "expires="+d.toGMTString();
     document.cookie = cname + "=" + cvalue + "; " + expires;
-} 
+}
+
 function getCookie(cname) {
     var name = cname + "=";
     var ca = document.cookie.split(';');
@@ -789,7 +704,8 @@ function getCookie(cname) {
         if (c.indexOf(name) !== -1) return c.substring(name.length,c.length);
     }
     return "";
-} 
+}
+
 function loadFromCookie() {
     var timetableStr = "";
     if (getURLParameter("timetable")!==null) {
@@ -822,6 +738,7 @@ function loadFromCookie() {
         $("#add").trigger("focusout");
     }
 }
+
 function saveToCookie() {
     if (readMode) return; // reading others timetable
     var timetableStr = "";
@@ -835,6 +752,7 @@ function saveToCookie() {
     }
     setCookie("timetable", encodeURIComponent(timetableStr), 50);
 }
+
 function getURL() {
     var timetableStr = "";
     for (var code in timetable) {
@@ -876,7 +794,7 @@ function switchView() {
 
 function shareTimetable() {
     var url = getURL();
-    url = "http://coust.442.hk" + url.substr(1);
+    url = HTTP_PATH + url.substr(1);
     FB.ui(
     {
       method: 'share',
@@ -886,7 +804,7 @@ function shareTimetable() {
 
 function getShareLink() {
     var url = getURL();
-    url = "http://coust.442.hk" + url.substr(1);
+    url = HTTP_PATH + url.substr(1);
     $("#shareLinkInput").val(url).show().select();
     var failmsg = "Press CTRL+C (Windows) to Copy.";
     try {
@@ -897,3 +815,95 @@ function getShareLink() {
         $("#copyResult").text(failmsg);
     }
 }
+
+$( document ).ready(function() {
+    $( document ).tooltip({
+        //track: true,
+        position: { my: "left+15 center", at: "right center+5" },
+        tooltipClass: "custom-tooltip-styling"
+    });
+    if ($("#timetable_wrapper").hasClass("vertical-timetable")) {
+        $("#timetable > tbody").reverse().appendTo("#timetable");
+    }
+    getURL();
+    $.ajax({
+        cache: true,
+        url: HTTP_PATH + 'json/data.php',
+        type: "GET",
+        dataType: "json"
+    }).done(function( _data ) {
+            data = _data;
+            terms = data["terms"];
+            //delete data["terms"];
+            loaded = true;
+            $.each( data, function( key, val ) {
+                if (key==="terms" || key==="lastUpdated") return true;
+                searchhints.push(key + ': ' + val["name"]);
+              });
+            $( "#add" ).autocomplete({
+                    // source: "http://coust.442.hk/json/parser.php?type=searchhints", 
+                    source: searchhints,
+                    minLength: 0,
+                    focus: function( event, ui ) {
+                            event.preventDefault();
+                        },
+                    select: function(event, ui) { 
+                            event.preventDefault();
+                            addCourse(ui.item.value, "");
+                        }
+            }).focus(function () {
+                $(this).autocomplete("search", "");
+            });
+            $("#add").click(function() {
+                $(this).autocomplete("search", $(this).val());
+            });
+            // add term info and last update
+            $("#update-time").html(data["lastUpdated"]);
+            $("#termInfo").html(terms["current"]["text"]);
+            // load courses added from cookies
+            loadFromCookie();
+            compactTable();
+        });
+    $("#timetable").delegate('td','mouseover mouseleave', function(e) {
+        if (e.target.className==="separator" || e.target.className==="times-tr"
+                || e.target.className==="timediv" || e.target.className==="time") {
+            
+        }
+        else if (e.type === 'mouseover') {
+          // $(this).parent().addClass("hover"); // row
+          $(this).parent().parent().addClass("hover"); // tbody
+          $("colgroup").eq(Math.ceil($(this).index()/2)).addClass("hover"); // col
+        }
+        else {
+          // $(this).parent().removeClass("hover"); // row
+          $(this).parent().parent().removeClass("hover"); // tbody
+          $("colgroup").eq(Math.ceil($(this).index()/2)).removeClass("hover"); // col
+        }
+    });
+    $("#add").focusin(function() {
+        $("#add").val("");
+        $("#add").css("color", "black");
+    });
+    $("#add").focusout(function() {
+        $("#add").val("Add Courses to Timetable");
+        $("#add").css("color", "gray");
+    });
+    
+    // UI stuff
+    $("button").button();
+    $( "#faq" ).dialog({
+            autoOpen: false,
+            width: 800,
+            buttons: [
+                    {
+                            text: "Close",
+                            click: function() { $( this ).dialog( "close" ); }
+                    }
+            ]
+    });
+    // Link to open the dialog
+    $( "#show-faq" ).click(function( event ) {
+            $( "#faq" ).dialog( "open" );
+            event.preventDefault();
+    });
+});
