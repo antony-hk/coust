@@ -1,13 +1,17 @@
-* { box-sizing: border-box; }
+* {
+    box-sizing: border-box;
+}
 
-body { margin: 0; }
+body {
+    margin: 0;
+}
 
-.ui-autocomplete { 
+.ui-autocomplete {
     font-size: 15px;
-    width: 400px; 
+    width: 400px;
     line-height: 1.8em;
-    max-height: 200px; 
-    overflow-y: auto; 
+    max-height: 200px;
+    overflow-y: auto;
     overflow-x: hidden;
     background: #f9f9f9;
 }
@@ -20,7 +24,7 @@ body { margin: 0; }
 .ui-widget-header .ui-state-focus {
     border: 1px solid #DB9370;
     background: #EEE9E9;
-	font-weight: 600;
+    font-weight: 600;
     color: #292421;
 }
 
@@ -35,10 +39,11 @@ body {
     font-family: 'Open Sans', sans-serif;
     margin-bottom: 30px;
 }
+
 .ui-widget, .ui-widget button, #searchBar, #add {
     font-family: 'Open Sans', sans-serif;
-	font-size: 13px;
-	font-weight: 600;
+    font-size: 13px;
+    font-weight: 600;
 }
 
 #container {
@@ -51,35 +56,39 @@ body {
     /* background: #F9F9F9; */
     /* margin: 10px; */
     /* padding: 5px 50px 40px 50px; */
-	padding: 0 0 20px 0;
+    padding: 0 0 20px 0;
 }
+
 #timetable {
     border-collapse: collapse;
-	margin: 0 auto;
+    margin: 0 auto;
 }
+
 #timetable td {
-	min-width: 42px;
+    min-width: 42px;
     text-align: center;
     vertical-align: top;
     /* padding: 7px 1px 1px 1px; */
-	padding: 0;
-	height: 50px;
+    padding: 0;
+    height: 50px;
 }
+
 th.weekday[rowspan="1"] {
-	height: 80px;
+    height: 80px;
 }
+
 #times > tr > td {
-	height: 60px;
+    height: 60px;
 }
 
 #timetable td.time {
     vertical-align: bottom;
     font-size: 12px;
-	/* border-bottom: 1px solid #ddd; */
+    /* border-bottom: 1px solid #ddd; */
 }
 
 .times-tr {
-    background: #f7f7f7;
+    background: transparent;
 }
 
 #Mo tr:first-child td {
@@ -95,9 +104,8 @@ th.weekday[rowspan="1"] {
     display: none;
     outline: 0;
     background: transparent;
-    border-width: 0 0 1px 0;
-    border-style: dashed;
-    border-color: gray;
+    border: 0 dashed gray;
+    border-bottom-width: 1px;
     padding: 1px 4px;
 }
 
@@ -115,65 +123,70 @@ th.weekday[rowspan="1"] {
 }
 
 #timetable td.time:first-child {
-	border-bottom: 1px solid transparent;
+    border-bottom: 1px solid transparent;
 }
 
 #timetable th.weekday {
     font-size: 12px;
-	line-height: 14px;
-    /* background: #F9F9F9; */
-	color: #333;
+    line-height: 14px;
+    color: #333;
     text-shadow: 0px 0px 1px gray;
-	font-weight: 600;
+    font-weight: 600;
 }
+
 #timetable tbody {
 
 }
+
 tbody.days tr:last-child > td {
     padding-bottom: 1em;
 }
-/*#Mo > tr, #Tu > tr, #We > tr, #Th > tr, #Fr > tr, #Su > tr, #Sa > tr {
-	border-bottom: 1px solid #000;
-}*/
+
 .h09, .h10, .h11, .h12, .h13, .h14, .h15, .h16, .h17, .h18, .h19, .h20, .h21, .h22 {
 
 }
+
 .m00 {
     border-left: 1px solid #ddd;
 }
+
 .m30 {
-	border-left: 1px solid transparent;
+    border-left: 1px solid transparent;
     border-right: 1px solid #ddd;
 }
+
 .m00, .m30 {
-    //border-top: 1px solid #ddd;
-    //border-bottom: 1px solid #ddd;
+    /*border-top: 1px solid #ddd;*/
+    /*border-bottom: 1px solid #ddd;*/
 }
 
-.m30[class~="occupied"][class~="m30"]  {
+.m30[class~="occupied"][class~="m30"] {
     border-right: 0px solid transparent;
 }
+
 td.alt {
     border-right: 1px transparent solid;
     visibility: hidden;
 }
+
 .timediv {
     position: relative;
     left: 20px;
-	color: #333;
+    color: #333;
     text-shadow: 0px 0px 1px gray;
-	font-weight: 600;
-	font-style: italic;
+    font-weight: 600;
+    font-style: italic;
 }
-#times {
-    /* background: #f9f9f9; */
-}
+
 .hover {
-    background-color:  #eee;
+    background-color: #eee;
 }
-.occupied { /* table cell (td) that has been occupied by course */
+
+.occupied {
+    /* table cell (td) that has been occupied by course */
 
 }
+
 .lesson {
     float: left;
     overflow: hidden;
@@ -185,17 +198,20 @@ td.alt {
     text-align: center;
     font-weight: bold;
     font-size: 12px;
-	line-height: 14px;
+    line-height: 14px;
     cursor: no-drop;
 }
+
 .draggable {
     cursor: move;
     -webkit-border-radius: 7px;
     border-radius: 7px;
 }
+
 .hidden {
-     display: none;
+    display: none;
 }
+
 .noselect {
     -webkit-touch-callout: none;
     -webkit-user-select: none;
@@ -204,76 +220,94 @@ td.alt {
     -ms-user-select: none;
     user-select: none;
 }
+
 #courselist {
 
 }
+
 #timetable_controls {
     border-collapse: collapse;
     text-align: left;
     width: 70%;
     margin: 0px 50px;
     font-size: 15px;
-	font-weight: 600;
-	line-height: 30px;
+    font-weight: 600;
+    line-height: 30px;
 }
+
 #timetable_controls thead th {
     background: #ddd;
-	color: #444;
+    color: #444;
 }
+
 #timetable_controls td, #timetable_controls th {
     border: 2px #aaa solid;
     padding: 0px 6px;
 }
+
 #timetable_controls a {
     text-decoration: none;
     color: saddlebrown;
 }
-#timetable_controls thead th:first-child { /* Course Code */
-	width: 150px;
-	
-}
-#timetable_controls thead th:last-child { /* Actions */
-	width: 100px;
+
+#timetable_controls thead th:first-child {
+    /* Course Code */
+    width: 150px;
+
 }
 
-#timetable_controls tbody td:first-child { /* Course Code */
+#timetable_controls thead th:last-child {
+    /* Actions */
+    width: 100px;
+}
+
+#timetable_controls tbody td:first-child {
+    /* Course Code */
     text-align: right;
-	width: 150px;
-	
+    width: 150px;
+
 }
-#timetable_controls tbody td:last-child { /* Actions */
+
+#timetable_controls tbody td:last-child {
+    /* Actions */
     text-align: center;
-	width: 100px;
-	
+    width: 100px;
+
 }
+
 #timetable_controls #none {
     text-align: center;
 }
+
 .actionsImg {
     width: 20px;
     height: 20px;
     vertical-align: middle;
 }
+
 .virtual {
-    border-style: dotted;
-    border-color: tomato;
+    border: dotted tomato;
     opacity: 0.5;
 }
+
 .virtual-hover {
     opacity: 1;
     border-style: dashed;
 }
+
 .move {
     opacity: 0.4;
 }
+
 .separator td, .separator th {
     height: 0px !important;
     padding: 0px !important;
     margin: 0px !important;
     border: 0px solid transparent;
 }
+
 .separator td {
-	border-top: 1px solid #ddd;
+    border-top: 1px solid #ddd;
 }
 
 #readmodebtn {
@@ -287,100 +321,109 @@ td.alt {
     display: none;
     color: red;
 }
+
 #readmode span {
     border: 1px solid red;
     border-radius: 5px;
     box-shadow: 0 0 3px;
     padding: 2px;
 }
+
 #titlesubtext {
     font-size: 0.5em;
     color: gray;
 }
 
-
 .container {
-	max-width: 1200px;
-	margin: 0 auto;
+    max-width: 1200px;
+    margin: 0 auto;
 }
+
 header {
-	position: fixed;
-	z-index: 1;
+    position: fixed;
+    z-index: 1;
     /* position: relative; */
-	top: 0;
-	left: 0;
-	width: 100%;
-	min-width: 820px;
-	height: 46px;
-	background-color: #123456;
-	content: " ";
-	display: table;
-	border-bottom: 1px solid #000;
-	text-wrap: none;
+    top: 0;
+    left: 0;
+    width: 100%;
+    min-width: 820px;
+    height: 46px;
+    background-color: #123456;
+    content: " ";
+    display: table;
+    border-bottom: 1px solid #000;
+    text-wrap: none;
 }
+
 header:before, header:after {
-	clear: both;
+    clear: both;
 }
+
 .headerFix {
-	height: 46px;
+    height: 46px;
 }
+
 .logo {
-	width: 96px;
-	background-repeat: no-repeat;
-	background-image: url("images/logo.png");
-	background-size: 96px 24px;
-	background-position: center center;
-	float: left;
-	height: 24px;
-	margin: 11px 15px;
+    width: 96px;
+    height: 24px;
+    background: transparent url("images/logo.png") no-repeat center center;
+    background-size: 96px 24px;
+    float: left;
+    margin: 11px 15px;
 }
+
 #searchBar ul {
-	display: block;
-	float: left;
-	list-style-type: none;
-	margin: 0;
-	padding: 10px 0px;
-	width: inherit;
+    display: block;
+    float: left;
+    list-style-type: none;
+    margin: 0;
+    padding: 10px 0px;
+    width: inherit;
 }
+
 #searchBar ul li {
-	display: block;
-	float: left;
+    display: block;
+    float: left;
 }
+
 #termInfo {
-	width: auto;
-	height: 24px;
-	margin: 0;
-	padding: 0 7px 0 8px;
-	line-height: 24px;
+    width: auto;
+    height: 24px;
+    margin: 0;
+    padding: 0 7px 0 8px;
+    line-height: 24px;
     border: 1px #960 solid;
     border-radius: 5px 0 0 5px;
     background: #c80;
-	color: #fff;
-	text-align: center;
+    color: #fff;
+    text-align: center;
 }
+
 #add {
     width: 555px;
-	height: 24px;
-	margin: 0;
-	padding: 0 8px 0 7px;
-	line-height: 24px;
+    height: 24px;
+    margin: 0;
+    padding: 0 8px 0 7px;
+    line-height: 24px;
     border-radius: 0 5px 5px 0;
-	border: 1px #960 solid;
-	border-left: 0;
+    border: 1px #960 solid;
+    border-left: 0;
     background: #eee;
-	color: #888;
+    color: #888;
 }
+
 #add:focus {
-	outline: 0px;
-	/* box-shadow: 0px 0px 5px #960; */
+    outline: 0px;
+    /* box-shadow: 0px 0px 5px #960; */
 }
+
 .time-conflict {
     box-shadow: 0px 0px 10px red;
 }
+
 .content {
     display: none;
 }
-
 
 .spare-tr {
     height: 30px !important;
@@ -391,54 +434,48 @@ header:before, header:after {
 }
 
 /* css to add for vertical timetable */
-.vertical-timetable #timetable-div{
-    height: 1280px;
+.vertical-timetable #timetable-div {
+    height: 1215px;
+
+    -ms-transform: scaleX(-1) rotate(90deg);
+    -webkit-transform: scaleX(-1) rotate(90deg);
+    transform: scaleX(-1) rotate(90deg);
+
+    -ms-transform-origin: top left;
+    -webkit-transform-origin: top left;
+    transform-origin: top left;
 }
 
-.vertical-timetable #timetable {
-    -ms-transform: rotate(90deg) translateX(1280px) translateY(300px); /* IE 9 */
-    -webkit-transform: rotate(90deg) translateX(1280px) translateY(300px); /* Chrome, Safari, Opera */
-    transform: rotate(90deg) translateX(1280px) translateY(300px);
-    -ms-transform-origin: top left; /* IE 9 */
-    -webkit-transform-origin: top left; /* Chrome, Safari, Opera */
-    transform-origin: top right;
+.vertical-timetable th.weekday {
+    -ms-transform: scaleX(-1) rotate(90deg) translateY(10px);
+    -webkit-transform: scaleX(-1) rotate(90deg) translateY(10px);
+    transform: scaleX(-1) rotate(90deg) translateY(10px);
 }
 
-.vertical-timetable #timetable .lesson > div {
-    -ms-transform: rotate(-90deg); /* IE 9 */
-    -webkit-transform: rotate(-90deg); /* Chrome, Safari, Opera */
-    transform: rotate(-90deg);
-}
-
-.vertical-timetable .lesson > div {
-    vertical-align: middle;
-    height: auto;
-    display: inline-block;
-    position: relative;
-    top: 20px;
-}
-
-.vertical-timetable #timetable td {
-    height: 100px;
-    width: 20px;
+.vertical-timetable .timediv {
+    -ms-transform: scaleX(-1) rotate(90deg) translateX(-14px) translateY(2px);
+    -webkit-transform: scaleX(-1) rotate(90deg) translateX(-14px) translateY(2px);
+    transform: scaleX(-1) rotate(90deg) translateX(-14px) translateY(2px);
 }
 
 .vertical-timetable .lesson {
     height: 80px;
 }
 
-.vertical-timetable .weekday {
-    -ms-transform: rotate(-90deg); /* IE 9 */
-    -webkit-transform: rotate(-90deg); /* Chrome, Safari, Opera */
-    transform: rotate(-90deg);
+.vertical-timetable .lesson div {
+    -ms-transform: scaleX(-1) rotate(90deg) translateX(-21px);
+    -webkit-transform: scaleX(-1) rotate(90deg) translateX(-21px);
+    transform: scaleX(-1) rotate(90deg) translateX(-21px);
 }
 
-.vertical-timetable .timediv {
-    -ms-transform: rotate(-90deg) translate(73px, 0px); /* IE 9 */
-    -webkit-transform: rotate(-90deg) translate(73px, 0px); /* Chrome, Safari, Opera */
-    transform: rotate(-90deg) translate(73px, 0px);
+.lesson {
+    -webkit-transform-style: preserve-3d;
+    -moz-transform-style: preserve-3d;
+    transform-style: preserve-3d;
 }
 
-.vertical-timetable .spare-tr td {
-    width: 30px !important;
+.lesson div {
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
 }
