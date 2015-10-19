@@ -850,7 +850,7 @@ $(document).ready(function () {
         position: {my: "left+15 center", at: "right center+5"},
         tooltipClass: "custom-tooltip-styling"
     });
-    if (getStoredValue('vertical') && !$("#timetable_wrapper").hasClass("vertical-timetable")) {
+    if (getStoredValue('vertical') == 'true' && !$("#timetable_wrapper").hasClass("vertical-timetable")) {
         $("#timetable_wrapper").addClass("vertical-timetable");
     }
     $.ajax({
