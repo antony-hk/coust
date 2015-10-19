@@ -463,9 +463,16 @@ header:before, header:after {
 }
 
 .vertical-timetable .lesson div {
-    -ms-transform: scaleX(-1) rotate(90deg) translateX(-21px);
-    -webkit-transform: scaleX(-1) rotate(90deg) translateX(-21px);
-    transform: scaleX(-1) rotate(90deg) translateX(-21px);
+    position: relative;
+    left: 50%;
+
+    -ms-transform: scaleX(-1) rotate(90deg) translateX(-50%) translateY(-50%);
+    -webkit-transform: scaleX(-1) rotate(90deg) translateX(-50%) translateY(-50%);
+    transform: scaleX(-1) rotate(90deg) translateX(-50%) translateY(-50%);
+
+    -ms-transform-origin: top left;
+    -webkit-transform-origin: top left;
+    transform-origin: top left;
 }
 
 .lesson {

@@ -11,6 +11,7 @@ var readMode = false,
     timetable = []; // store the timetable
 
 var HTTP_PATH = 'http://local.coust.hk/';
+//var HTTP_PATH = 'http://coust.442.hk/';
 var COOKIE_EXPIRE_DAYS = 50;
 
 function getSections(code) {
@@ -316,18 +317,19 @@ function addCourseBox(code, section, weekday, start, end, singleton, virtual, da
                 }
                 else { // virtual
                     // attach jQuery droppable
-                    var virtualcell = $("div.lesson.virtual." + code + "." + section);
-                    $("div.lesson.virtual." + code + "." + section).droppable({
+                    var $virtualcell = $("div.lesson.virtual." + code + "." + section);
+                    $virtualcell.droppable({
                         drop: function () {
                             // drop() of droppable fires before stop() of draggable
-                            $(virtualcell).addClass("toadd");
-                            $(virtualcell).removeClass("virtual-hover");
+                            $virtualcell.addClass("toadd");
+                            $virtualcell.removeClass("virtual-hover");
                         },
                         over: function (event, ui) {
-                            $(virtualcell).addClass("virtual-hover");
+                            $virtualcell.addClass("virtual-hover");
+                            console.info("Event: ", {clientX: event['clientX'], clientY: event['clientY']}, "UI: ", ui['offset']);
                         },
                         out: function (event, ui) {
-                            $(virtualcell).removeClass("virtual-hover");
+                            $virtualcell.removeClass("virtual-hover");
                         }
                     });
                 }
