@@ -10,8 +10,7 @@ var readMode = false,
     semester = null, // store term in use
     timetable = []; // store the timetable
 
-var HTTP_PATH = 'http://local.coust.hk/';
-//var HTTP_PATH = 'http://coust.442.hk/';
+var HTTP_PATH = 'http://coust.442.hk/';
 var COOKIE_EXPIRE_DAYS = 50;
 
 function getSections(code) {
