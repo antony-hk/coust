@@ -8,4 +8,4 @@ Website: http://coust.442.hk
 Facebook: https://www.facebook.com/CoUST.HK
 
 ## License
-This project is licensed under the terms of the [MIT license](https://github.com/antonytse/CoUST/blob/master/LICENSE)
+This project is licensed under the terms of the [MIT license](https://github.com/antonytse/coust/blob/master/LICENSE)
