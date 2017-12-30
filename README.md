@@ -1,8 +1,8 @@
-# [CoUST](http://coust.442.hk)
+# [CoUST](https://coust.github.io)
 
 A visualized course planner which enables you to manage timetable by drag and drop. Specialized for HKUST students.
 
-Website: http://coust.442.hk
+Website: http://coust.github.io
 
 ## Also find us on...
 Facebook: https://www.facebook.com/CoUST.HK
