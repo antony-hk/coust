@@ -12,16 +12,16 @@
         <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/jquery-ui.min.js"></script>
         <script src="jquery.ui.touch-punch.min.js"></script>
         <link rel="stylesheet" href="style.css" />
-		<link rel="stylesheet" href="color.php" />
+		<link rel="stylesheet" href="//coust.442.hk/color.php" />
         <script src="timetable.js"></script>
-		<link href="http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
+		<link href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
         <title>CoUST | HKUST Timetable Planner</title>
-        
-        <meta property="og:url"           content="http://coust.442.hk/" />
+
+        <meta property="og:url"           content="https://coust.github.io/" />
         <meta property="og:type"          content="website" />
         <meta property="og:title"         content="CoUST | HKUST Timetable Planner" />
         <meta property="og:description"   content="CoUST - A visualized course planner which enables you to manage timetable by drag and drop. Specialized for HKUST students." />
-        <meta property="og:image"         content="http://coust.442.hk/favicon.png" />
+        <meta property="og:image"         content="https://coust.github.io/favicon.png" />
     </head>
     <body>
     <script>
@@ -364,7 +364,6 @@
                     <p id="copyResult"></p>
                     <p><button onclick="getShareLink()">Get Share Link</button></p>
                     <p><button id="show-faq" style="width: 120px">Show FAQ</button></p>
-                    <?php if(isset($_GET["debug"])) echo '<p><button id="switch-view" style="width: 120px" onclick="switchView()">Switch View</button></p>'; ?>
                 </div>
                 <div>
                     <p style="font-size: 10px; color: gray;">Data Last Updated: <br/><span id="update-time"></span></p>
@@ -391,7 +390,7 @@
         <div title="FAQ" id="faq" style="display: none; line-height: 25px; text-align: left; padding: 20px 20px; font-size: 15px;">
             <p>
             <div><strong>Q:</strong> Is data always up-to-date?</div>
-            <div><strong>A:</strong> No, data have to be manually updated by running <a style="color: darkblue" target="_blank" href="http://coust.442.hk/json/mkdata.php">this page</a> to obtain and save data from <a style="color: darkblue" target="_blank" href="https://w5.ab.ust.hk/wcq/cgi-bin/">HKUST Class Schedule and Quota</a> by crawling and parsing the website, i.e. data are correct up to the latest time of running the data retrieving page.</div>
+            <div><strong>A:</strong> No, data have to be manually updated by running <a style="color: darkblue" target="_blank" href="//coust.442.hk/json/mkdata.php">this page</a> to obtain and save data from <a style="color: darkblue" target="_blank" href="https://w5.ab.ust.hk/wcq/cgi-bin/">HKUST Class Schedule and Quota</a> by crawling and parsing the website, i.e. data are correct up to the latest time of running the data retrieving page.</div>
             </p>
             <p>
             <div><strong>Q:</strong> What is READ-ONLY Mode?</div>
@@ -402,7 +401,7 @@
             <div><strong>A:</strong> No, the web app uses jQuery and thus requires browser version supporting jQuery (e.g. IE9+).</div>
             </p>
             <p>
-			<div><strong>If you any enquires, please find us on <a href="http://www.facebook.com/CoUST.HK">our Facebook page</a>.</strong></div>
+			<div><strong>If you any enquires, please find us on <a href="https://www.facebook.com/CoUST.HK">our Facebook page</a>.</strong></div>
 			</p>
             <div><strong>GitHub:</strong> <a target="_blank" href="https://github.com/antonytse/CoUST">https://github.com/antonytse/CoUST</a></div>
             </p>

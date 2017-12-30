@@ -10,7 +10,8 @@ var readMode = false,
     semester = null, // store term in use
     timetable = []; // store the timetable
 
-var HTTP_PATH = 'http://coust.442.hk/';
+var API_PATH = 'https://coust.442.hk/';
+var CLIENT_PATH = 'https://coust.github.io/';
 var COOKIE_EXPIRE_DAYS = 50;
 
 function getSections(code) {
@@ -730,7 +731,7 @@ function loadFromUrlOrStorage() {
             $("#readmode").show();
         }
         else {
-            location.replace(HTTP_PATH);
+            location.replace(CLIENT_PATH);
         }
     }
     else {
@@ -820,7 +821,7 @@ function switchView() {
 
 function shareTimetable() {
     var url = getURL();
-    url = HTTP_PATH + url.substr(2);
+    url = CLIENT_PATH + url.substr(2);
     FB.ui(
         {
             method: 'share',
@@ -831,7 +832,7 @@ function shareTimetable() {
 
 function getShareLink() {
     var url = getURL();
-    url = HTTP_PATH + url.substr(2);
+    url = CLIENT_PATH + url.substr(2);
     $("#shareLinkInput").val(url).show().select();
     var failmsg = "Press CTRL+C (Windows) to Copy.";
     try {
@@ -854,7 +855,7 @@ $(document).ready(function () {
     }
     $.ajax({
         cache: true,
-        url: HTTP_PATH + 'json/data.php',
+        url: API_PATH + 'json/data.php',
         type: "GET",
         dataType: "json"
     }).done(function (_data) {
