@@ -19,6 +19,8 @@ import 'jquery-ui/themes/base/draggable.css';
 import 'jquery-ui/themes/base/menu.css';
 import 'jquery-ui/themes/base/tooltip.css';
 
+import './override-jquery-ui.css';
+
 import addCourse from './timetable/addCourse';
 import compactTable from './timetable/compactTable';
 import getStoredValue from './timetable/getStoredValue';
