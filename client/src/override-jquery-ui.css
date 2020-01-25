@@ -20,7 +20,7 @@
     color: #292421;
 }
 
-.ui-widget, .ui-widget button, #searchBar, #add {
+.ui-widget, .ui-widget button {
     font-family: 'Open Sans', sans-serif;
     font-size: 13px;
     font-weight: 600;

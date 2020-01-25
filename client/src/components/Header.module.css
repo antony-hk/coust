@@ -1,0 +1,28 @@
+.header {
+    position: sticky;
+    width: 100%;
+    min-width: 820px;
+    height: 46px;
+    background-color: #123456;
+    content: " ";
+    display: table;
+    border-bottom: 1px solid #000;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.logo {
+    width: 96px;
+    height: 24px;
+    background: transparent url('../images/logo.png') no-repeat center center;
+    background-size: 96px 24px;
+    float: left;
+    margin: 11px 15px;
+}
+
+.siteName {
+    visibility: hidden;
+}

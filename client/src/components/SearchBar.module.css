@@ -1,0 +1,50 @@
+.searchBar {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.searchBar ul {
+    display: block;
+    float: left;
+    list-style-type: none;
+    margin: 0;
+    padding: 10px 0px;
+    width: inherit;
+}
+
+.searchBar ul li {
+    display: block;
+    float: left;
+}
+
+.termInfo {
+    width: auto;
+    height: 24px;
+    margin: 0;
+    padding: 0 7px 0 8px;
+    line-height: 24px;
+    border: 1px #960 solid;
+    border-radius: 5px 0 0 5px;
+    background: #c80;
+    color: #fff;
+    text-align: center;
+}
+
+.input {
+    font: inherit;
+    width: 555px;
+    height: 24px;
+    margin: 0;
+    padding: 0 8px 0 7px;
+    line-height: 24px;
+    border-radius: 0 5px 5px 0;
+    border: 1px #960 solid;
+    border-left: 0;
+    background: #eee;
+    color: #888;
+}
+
+.input:focus {
+    outline: 0px;
+}

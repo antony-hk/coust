@@ -106,16 +106,8 @@ th.weekday[rowspan="1"] {
     font-weight: 600;
 }
 
-#timetable tbody {
-
-}
-
 tbody.days tr:last-child > td {
     padding-bottom: 1em;
-}
-
-.h09, .h10, .h11, .h12, .h13, .h14, .h15, .h16, .h17, .h18, .h19, .h20, .h21, .h22 {
-
 }
 
 .m00 {
@@ -125,11 +117,6 @@ tbody.days tr:last-child > td {
 .m30 {
     border-left: 1px solid transparent;
     border-right: 1px solid #ddd;
-}
-
-.m00, .m30 {
-    /*border-top: 1px solid #ddd;*/
-    /*border-bottom: 1px solid #ddd;*/
 }
 
 .m30[class~="occupied"][class~="m30"] {
@@ -152,11 +139,6 @@ td.alt {
 
 .hover {
     background-color: #eee;
-}
-
-.occupied {
-    /* table cell (td) that has been occupied by course */
-
 }
 
 .lesson {
@@ -191,10 +173,6 @@ td.alt {
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
-}
-
-#courselist {
-
 }
 
 #timetable_controls {
@@ -309,84 +287,6 @@ td.alt {
 .container {
     max-width: 1200px;
     margin: 0 auto;
-}
-
-header {
-    position: fixed;
-    z-index: 1;
-    /* position: relative; */
-    top: 0;
-    left: 0;
-    width: 100%;
-    min-width: 820px;
-    height: 46px;
-    background-color: #123456;
-    content: " ";
-    display: table;
-    border-bottom: 1px solid #000;
-    text-wrap: none;
-}
-
-header:before, header:after {
-    clear: both;
-}
-
-.headerFix {
-    height: 46px;
-}
-
-.logo {
-    width: 96px;
-    height: 24px;
-    background: transparent url("images/logo.png") no-repeat center center;
-    background-size: 96px 24px;
-    float: left;
-    margin: 11px 15px;
-}
-
-#searchBar ul {
-    display: block;
-    float: left;
-    list-style-type: none;
-    margin: 0;
-    padding: 10px 0px;
-    width: inherit;
-}
-
-#searchBar ul li {
-    display: block;
-    float: left;
-}
-
-#termInfo {
-    width: auto;
-    height: 24px;
-    margin: 0;
-    padding: 0 7px 0 8px;
-    line-height: 24px;
-    border: 1px #960 solid;
-    border-radius: 5px 0 0 5px;
-    background: #c80;
-    color: #fff;
-    text-align: center;
-}
-
-#add {
-    width: 555px;
-    height: 24px;
-    margin: 0;
-    padding: 0 8px 0 7px;
-    line-height: 24px;
-    border-radius: 0 5px 5px 0;
-    border: 1px #960 solid;
-    border-left: 0;
-    background: #eee;
-    color: #888;
-}
-
-#add:focus {
-    outline: 0px;
-    /* box-shadow: 0px 0px 5px #960; */
 }
 
 .time-conflict {
