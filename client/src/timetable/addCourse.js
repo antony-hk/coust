@@ -3,6 +3,9 @@ import $ from 'jquery';
 import addSection from './addSection';
 import getSections from './getSections';
 import getURL from './getURL';
+import removeCourse from './removeCourse';
+
+window.removeCourse = removeCourse;
 
 export default function addCourse(_code, sections) {
     if (!window.loaded) {
