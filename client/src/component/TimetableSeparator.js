@@ -5,7 +5,7 @@ export default class TimetableSeparator extends React.PureComponent {
         return (
             <tr className="separator">
                 <th />
-                <td colspan={28} />
+                <td colSpan={28} />
             </tr>
         );
     }

@@ -1,5 +1,6 @@
 import React from 'react';
 
+import Aside from './Aside';
 import Header from './Header';
 import Timetable from './Timetable';
 
@@ -26,6 +27,7 @@ export default class App extends React.Component {
                             <span>Loading...</span>
                         </div>
                         <Timetable />
+                        <Aside />
                     </div>
                 </div>
             </React.Fragment>
