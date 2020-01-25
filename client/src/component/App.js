@@ -6,7 +6,12 @@ import Faq from './Faq';
 import Header from './Header';
 import Timetable from './Timetable';
 
-export default class App extends React.Component {
+import oldTimetableScript from '../timetable';
+
+class App extends React.PureComponent {
+    componentDidMount() {
+        oldTimetableScript();
+    }
 
     render() {
         const loadingDivStyle = {
@@ -18,7 +23,7 @@ export default class App extends React.Component {
         };
 
         return (
-            <React.Fragment>
+            <>
                 <Header />
                 <div className="container">
                     <div id="timetable_wrapper" className="content">
@@ -34,7 +39,9 @@ export default class App extends React.Component {
                     </div>
                     <Faq />
                 </div>
-            </React.Fragment>
+            </>
         );
     }
 }
+
+export default App;

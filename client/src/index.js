@@ -4,8 +4,6 @@ import './index.css';
 import App from './component/App';
 import * as serviceWorker from './serviceWorker';
 
-import './timetable';
-
 ReactDOM.render(<App />, document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change

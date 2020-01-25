@@ -2,7 +2,7 @@ import React from 'react';
 
 const CourseInfoSection = (props) => {
     return (
-        <React.Fragment>
+        <>
             <div
                 id="tba-courses-div"
                 style={{
@@ -29,7 +29,7 @@ const CourseInfoSection = (props) => {
                 <tbody id="courselist">
                 </tbody>
             </table>
-        </React.Fragment>
+        </>
     );
 };
 

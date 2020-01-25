@@ -41,7 +41,7 @@ window.API_PATH = 'https://coust.442.hk/';
 window.CLIENT_PATH = 'https://coust.github.io/';
 window.COOKIE_EXPIRE_DAYS = 50;
 
-$(document).ready(function () {
+function timetable() {
     $(document).tooltip({
         //track: true,
         position: {my: "left+15 center", at: "right center+5"},
@@ -139,4 +139,6 @@ $(document).ready(function () {
         $("#faq").dialog("open");
         event.preventDefault();
     });
-});
+}
+
+export default timetable;
