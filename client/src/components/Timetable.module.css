@@ -1,0 +1,56 @@
+.timetable {
+    border-collapse: collapse;
+    margin: 0 auto;
+}
+
+.timetable td {
+    min-width: 42px;
+    text-align: center;
+    vertical-align: top;
+    /* padding: 7px 1px 1px 1px; */
+    padding: 0;
+    height: 50px;
+}
+
+.timetable th.time {
+    vertical-align: bottom;
+    font-size: 12px;
+}
+
+.timetable td.time:first-child {
+    border-bottom: 1px solid transparent;
+}
+
+.timetable th.weekday {
+    font-size: 12px;
+    line-height: 14px;
+    color: #333;
+    text-shadow: 0px 0px 1px gray;
+    font-weight: 600;
+}
+
+.timesTr {
+    background: transparent;
+}
+
+.time {
+    height: 60px;
+}
+
+.alt {
+    border-right: 1px transparent solid;
+    visibility: hidden;
+}
+
+.timeDiv {
+    position: relative;
+    left: 20px;
+    color: #333;
+    text-shadow: 0px 0px 1px gray;
+    font-weight: 600;
+    font-style: italic;
+}
+
+.weekday {
+    height: 80px;
+}

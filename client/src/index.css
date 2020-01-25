@@ -31,38 +31,6 @@ body {
     padding: 0 0 20px 0;
 }
 
-#timetable {
-    border-collapse: collapse;
-    margin: 0 auto;
-}
-
-#timetable td {
-    min-width: 42px;
-    text-align: center;
-    vertical-align: top;
-    /* padding: 7px 1px 1px 1px; */
-    padding: 0;
-    height: 50px;
-}
-
-th.weekday[rowspan="1"] {
-    height: 80px;
-}
-
-#times > tr > td {
-    height: 60px;
-}
-
-#timetable td.time {
-    vertical-align: bottom;
-    font-size: 12px;
-    /* border-bottom: 1px solid #ddd; */
-}
-
-.times-tr {
-    background: transparent;
-}
-
 #Mo tr:first-child td {
     border-top: 1px solid #ddd;
 }
@@ -94,18 +62,6 @@ th.weekday[rowspan="1"] {
     height: 50px;
 }
 
-#timetable td.time:first-child {
-    border-bottom: 1px solid transparent;
-}
-
-#timetable th.weekday {
-    font-size: 12px;
-    line-height: 14px;
-    color: #333;
-    text-shadow: 0px 0px 1px gray;
-    font-weight: 600;
-}
-
 tbody.days tr:last-child > td {
     padding-bottom: 1em;
 }
@@ -121,20 +77,6 @@ tbody.days tr:last-child > td {
 
 .m30[class~="occupied"][class~="m30"] {
     border-right: 0px solid transparent;
-}
-
-td.alt {
-    border-right: 1px transparent solid;
-    visibility: hidden;
-}
-
-.timediv {
-    position: relative;
-    left: 20px;
-    color: #333;
-    text-shadow: 0px 0px 1px gray;
-    font-weight: 600;
-    font-style: italic;
 }
 
 .hover {
@@ -247,17 +189,6 @@ td.alt {
 
 .move {
     opacity: 0.4;
-}
-
-.separator td, .separator th {
-    height: 0px !important;
-    padding: 0px !important;
-    margin: 0px !important;
-    border: 0px solid transparent;
-}
-
-.separator td {
-    border-top: 1px solid #ddd;
 }
 
 #readmodebtn {
