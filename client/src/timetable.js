@@ -23,7 +23,6 @@ import './override-jquery-ui.css';
 
 import addCourse from './timetable/addCourse';
 import compactTable from './timetable/compactTable';
-import getStoredValue from './timetable/getStoredValue';
 import getURL from './timetable/getURL';
 import loadFromUrlOrStorage from './timetable/loadFromUrlOrStorage';
 
@@ -47,9 +46,6 @@ function timetable() {
         position: {my: "left+15 center", at: "right center+5"},
         tooltipClass: "custom-tooltip-styling"
     });
-    if (getStoredValue('vertical') == 'true' && !$("#timetable_wrapper").hasClass("vertical-timetable")) {
-        $("#timetable_wrapper").addClass("vertical-timetable");
-    }
     $.ajax({
         cache: true,
         url: window.API_PATH + 'json/data.php',

@@ -109,14 +109,8 @@ export default function addCourseBox(code, section, weekday, start, end, singlet
                             start: function (event, ui) {
                                 var lessontd = $(realcell).eq(0).parentsUntil("td").parent();
                                 var lessondiv = $(realcell).eq(0);
-                                if (!$("#timetable_wrapper").hasClass("vertical-timetable")) {
-                                    $(ui.helper).css("width", $(lessondiv).outerWidth());
-                                    $(ui.helper).css("height", $(lessondiv).outerHeight());
-                                }
-                                else {
-                                    $(ui.helper).css("width", $(lessondiv).outerHeight());
-                                    $(ui.helper).css("height", $(lessondiv).outerWidth());
-                                }
+                                $(ui.helper).css("width", $(lessondiv).outerWidth());
+                                $(ui.helper).css("height", $(lessondiv).outerHeight());
                                 $(ui.helper).addClass("move");
                                 $(ui.helper).removeAttr("title");
                                 addVirtualCourse(code, section);
