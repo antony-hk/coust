@@ -1,6 +1,8 @@
 import React from 'react';
 
 import Aside from './Aside';
+import CourseInfoSection from './CourseInfoSection';
+import Faq from './Faq';
 import Header from './Header';
 import Timetable from './Timetable';
 
@@ -28,7 +30,9 @@ export default class App extends React.Component {
                         </div>
                         <Timetable />
                         <Aside />
+                        <CourseInfoSection />
                     </div>
+                    <Faq />
                 </div>
             </React.Fragment>
         );
