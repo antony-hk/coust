@@ -20,6 +20,9 @@ import compactTable from './timetable/compactTable';
 import getURL from './timetable/getURL';
 import loadFromUrlOrStorage from './timetable/loadFromUrlOrStorage';
 
+window.jQuery = $;
+require('jquery-ui-touch-punch');
+
 window.readMode = false;
 window.color = 0;
 window.courseColor = [];
