@@ -117,60 +117,6 @@ tbody.days tr:last-child > td {
     user-select: none;
 }
 
-#timetable_controls {
-    border-collapse: collapse;
-    text-align: left;
-    width: 70%;
-    margin: 0px 50px;
-    font-size: 15px;
-    font-weight: 600;
-    line-height: 30px;
-}
-
-#timetable_controls thead th {
-    background: #ddd;
-    color: #444;
-}
-
-#timetable_controls td, #timetable_controls th {
-    border: 2px #aaa solid;
-    padding: 0px 6px;
-}
-
-#timetable_controls a {
-    text-decoration: none;
-    color: saddlebrown;
-}
-
-#timetable_controls thead th:first-child {
-    /* Course Code */
-    width: 150px;
-
-}
-
-#timetable_controls thead th:last-child {
-    /* Actions */
-    width: 100px;
-}
-
-#timetable_controls tbody td:first-child {
-    /* Course Code */
-    text-align: right;
-    width: 150px;
-
-}
-
-#timetable_controls tbody td:last-child {
-    /* Actions */
-    text-align: center;
-    width: 100px;
-
-}
-
-#timetable_controls #none {
-    text-align: center;
-}
-
 .actionsImg {
     width: 20px;
     height: 20px;

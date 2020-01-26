@@ -1,10 +1,11 @@
 import React from 'react';
 
+import styles from './CourseInfoSection.module.css';
+
 const CourseInfoSection = (props) => {
     return (
         <>
             <div
-                id="tba-courses-div"
                 style={{
                     color: 'gray',
                     fontSize: 14,
@@ -15,14 +16,14 @@ const CourseInfoSection = (props) => {
                 <span id="no-tba">None</span>
                 <span id="tba-courses"></span>
             </div>
-            <table id="timetable_controls">
+            <table id="timetable_controls" className={styles.timetableControls}>
                 <thead>
                 <tr>
                     <th>Code</th>
                     <th>Title</th>
                     <th>Actions</th>
                 </tr>
-                <tr id="none">
+                <tr id="none" className={styles.none}>
                     <td colspan="3">No courses added.</td>
                 </tr>
                 </thead>
