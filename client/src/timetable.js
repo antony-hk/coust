@@ -6,18 +6,12 @@ import 'jquery-ui/themes/base/core.css';
 import 'jquery-ui/themes/base/theme.css';
 
 import 'jquery-ui/ui/widgets/autocomplete';
-import 'jquery-ui/ui/widgets/button';
 import 'jquery-ui/ui/widgets/draggable';
 import 'jquery-ui/ui/widgets/droppable';
-import 'jquery-ui/ui/widgets/dialog';
-import 'jquery-ui/ui/widgets/tooltip';
 
 import 'jquery-ui/themes/base/autocomplete.css';
-import 'jquery-ui/themes/base/button.css';
-import 'jquery-ui/themes/base/dialog.css';
 import 'jquery-ui/themes/base/draggable.css';
 import 'jquery-ui/themes/base/menu.css';
-import 'jquery-ui/themes/base/tooltip.css';
 
 import './override-jquery-ui.css';
 
@@ -41,11 +35,6 @@ window.CLIENT_PATH = 'https://coust.github.io/';
 window.COOKIE_EXPIRE_DAYS = 50;
 
 function timetable() {
-    $(document).tooltip({
-        //track: true,
-        position: {my: "left+15 center", at: "right center+5"},
-        tooltipClass: "custom-tooltip-styling"
-    });
     $.ajax({
         cache: true,
         url: window.API_PATH + 'json/data.php',
@@ -86,54 +75,6 @@ function timetable() {
         // load courses added from cookies
         loadFromUrlOrStorage();
         compactTable();
-    });
-    $("#timetable").delegate('td', 'mouseover mouseleave', function (e) {
-        if (e.target.className === "separator" || e.target.className === "times-tr"
-            || e.target.className === "timediv" || e.target.className === "time") {
-
-        }
-        else if (e.type === 'mouseover') {
-            var $el = $(this);
-            $el.parent().parent().find("td").addClass("hover"); // weekday
-            var hour_class = $el.attr("class").match(/h[0-2][0-9]/i);
-            if (hour_class) $("." + hour_class).addClass("hover");
-
-        }
-        else {
-            var $el = $(this);
-            $el.parent().parent().find("td").removeClass("hover"); // weekday
-            var hour_class = $el.attr("class").match(/h[0-2][0-9]/i);
-            if (hour_class) $("." + hour_class).removeClass("hover");
-
-        }
-    });
-    $("#add").focusin(function () {
-        $("#add").val("");
-        $("#add").css("color", "black");
-    });
-    $("#add").focusout(function () {
-        $("#add").val("Add Courses to Timetable");
-        $("#add").css("color", "gray");
-    });
-
-    // UI stuff
-    $("button").button();
-    $("#faq").dialog({
-        autoOpen: false,
-        width: 800,
-        buttons: [
-            {
-                text: "Close",
-                click: function () {
-                    $(this).dialog("close");
-                }
-            }
-        ]
-    });
-    // Link to open the dialog
-    $("#show-faq").click(function (event) {
-        $("#faq").dialog("open");
-        event.preventDefault();
     });
 }
 

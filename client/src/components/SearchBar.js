@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import styles from './SearchBar.module.css';
 
 const SearchBar = () => {
+    const [inputValue, setInputValue] = useState('');
+
     const handleSubmit = (event) => {
         event.preventDefault();
     }
@@ -18,6 +20,9 @@ const SearchBar = () => {
                             id="add"
                             type="text"
                             placeholder="Add Courses to Timetable"
+                            value={inputValue}
+                            onChange={(event) => setInputValue(event.target.value)}
+                            onBlur={() => setInputValue('')}
                         />
                     </li>
                 </ul>

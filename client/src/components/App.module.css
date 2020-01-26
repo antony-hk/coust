@@ -1,0 +1,38 @@
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.customTooltipStyle {
+    white-space: pre-wrap;
+    opacity: 0.9;
+}
+
+.timetableWrapper {
+    padding: 0 0 20px 0;
+}
+
+.noSelect {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.readMode {
+    height: 50px;
+    text-align: left;
+    padding: 8px 0 0 15px;
+    margin: 10px 5px -35px 5px;
+    display: none;
+    color: red;
+}
+
+.readMode span {
+    border: 1px solid red;
+    border-radius: 5px;
+    box-shadow: 0 0 3px;
+    padding: 2px;
+}

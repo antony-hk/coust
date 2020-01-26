@@ -5,6 +5,9 @@ import TimetableSeparator from './TimetableSeparator';
 
 import styles from './Timetable.module.css';
 
+// jQuery stuffs, should be removed in the future.
+import $ from 'jquery';
+
 function twoDigits(hour) {
     return (`${hour}`.length === 1) ? `0${hour}` : `${hour}`;
 }
@@ -20,6 +23,33 @@ export default class Timetable extends React.PureComponent {
         Sa: 'SAT',
         Su: 'SUN',
     };
+
+    timetable = React.createRef();
+
+    componentDidMount() {
+        const timetableEl = this.timetable.current;
+
+        $(timetableEl).on('mouseover mouseleave', 'td', function (e) {
+            if (e.target.className === "separator" || e.target.className === "times-tr"
+                || e.target.className === "timediv" || e.target.className === "time") {
+
+            }
+            else if (e.type === 'mouseover') {
+                var $el = $(this);
+                $el.parent().parent().find("td").addClass("hover"); // weekday
+                var hour_class = $el.attr("class").match(/h[0-2][0-9]/i);
+                if (hour_class) $("." + hour_class).addClass("hover");
+
+            }
+            else {
+                var $el = $(this);
+                $el.parent().parent().find("td").removeClass("hover"); // weekday
+                var hour_class = $el.attr("class").match(/h[0-2][0-9]/i);
+                if (hour_class) $("." + hour_class).removeClass("hover");
+
+            }
+        });
+    }
 
     _renderHour(hour, index) {
         return (
@@ -59,7 +89,11 @@ export default class Timetable extends React.PureComponent {
 
     render() {
         return (
-            <table id="timetable" className={clsx(styles.timetable, 'content')}>
+            <table
+                ref={this.timetable}
+                id="timetable"
+                className={clsx(styles.timetable, 'content')}
+            >
                 <colgroup />
                 {this.hours.map((hour, index) => (
                     <colgroup key={index} span={2} />

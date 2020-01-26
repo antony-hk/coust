@@ -1,31 +1,44 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import getShareLink from '../timetable/getShareLink';
 
-const Aside = (props) => {
+import Button from './Button';
+
+import styles from './Aside.module.css';
+
+// jQuery stuffs, should be removed in the future.
+import $ from 'jquery';
+
+const Aside = () => {
+    useEffect(() => {
+        // Link to open the dialog
+        $("#show-faq").click(function (event) {
+            $("#faq").dialog("open");
+            event.preventDefault();
+        });
+    });
+
     return (
-        <div
-            style={{
-                marginRight: 50,
-                float: 'right',
-            }}
-        >
+        <div className={styles.aside}>
             <div id="dialog" />
             <div>
-                <p><input type="text" id="shareLinkInput" /></p>
-                <p id="copyResult"></p>
-                <p><button onClick={getShareLink}>Get Share Link</button></p>
                 <p>
-                    <button
-                        id="show-faq"
-                        style={{ width: 120 }}
-                    >
+                    <input
+                        id="shareLinkInput"
+                        className={styles.shareLinkInput}
+                        type="text"
+                    />
+                </p>
+                <p className={styles.copyResult} id="copyResult"></p>
+                <p><Button onClick={() => getShareLink()}>Get Share Link</Button></p>
+                <p>
+                    <Button id="show-faq" className={styles.faqButton}>
                         Show FAQ
-                    </button>
+                    </Button>
                 </p>
             </div>
             <div>
-                <p style={{ fontSize: 10, color: 'gray' }}>
+                <p className={styles.lastUpdate}>
                     {`Data Last Updated: `}
                     <br />
                     <span id="update-time" />
