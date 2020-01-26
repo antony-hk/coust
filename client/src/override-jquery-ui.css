@@ -1,0 +1,27 @@
+.ui-autocomplete {
+    font-size: 15px;
+    width: 400px;
+    line-height: 1.8em;
+    max-height: 200px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    background: #f9f9f9;
+}
+
+.ui-state-hover,
+.ui-widget-content .ui-state-hover,
+.ui-widget-header .ui-state-hover,
+.ui-state-focus,
+.ui-widget-content .ui-state-focus,
+.ui-widget-header .ui-state-focus {
+    border: 1px solid #DB9370;
+    background: #EEE9E9;
+    font-weight: 600;
+    color: #292421;
+}
+
+.ui-widget, .ui-widget button {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+}

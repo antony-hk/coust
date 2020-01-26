@@ -1,0 +1,30 @@
+.aside {
+    margin-right: 50px;
+    float: right;
+}
+
+.shareLinkInput, .shareLinkInput:focus {
+    width: 155px;
+    display: none;
+    outline: 0;
+    background: transparent;
+    border: 0 dashed gray;
+    border-bottom-width: 1px;
+    padding: 1px 4px;
+}
+
+.copyResult {
+    margin-left: 5px;
+    font-size: 12px;
+    color: dimgray;
+    font-style: italic;
+}
+
+.faqButton {
+    width: 120px;
+}
+
+.lastUpdate {
+    font-size: 10px;
+    color: gray;
+}

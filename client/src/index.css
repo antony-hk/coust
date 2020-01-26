@@ -1,0 +1,113 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+}
+
+body {
+    background: #f7f7f7;
+    /* font-size: 16px; */
+    font-family: 'Open Sans', sans-serif;
+    margin-bottom: 30px;
+}
+
+#Mo tr:first-child td {
+    border-top: 1px solid #ddd;
+}
+
+#Mo tr:last-child td {
+    border-bottom: 1px solid #ddd;
+}
+
+tbody.days tr:last-child > td {
+    padding-bottom: 1em;
+}
+
+.m00 {
+    border-left: 1px solid #ddd;
+}
+
+.m30 {
+    border-left: 1px solid transparent;
+    border-right: 1px solid #ddd;
+}
+
+.m30[class~="occupied"][class~="m30"] {
+    border-right: 0px solid transparent;
+}
+
+.hover {
+    background-color: #eee;
+}
+
+.lesson {
+    float: left;
+    overflow: hidden;
+    height: 50px;
+    width: 100%;
+    margin: 0px auto;
+    border: 2px solid;
+    padding: 2px 4px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 12px;
+    line-height: 14px;
+    cursor: no-drop;
+}
+
+.draggable {
+    cursor: move;
+    -webkit-border-radius: 7px;
+    border-radius: 7px;
+}
+
+.hidden {
+    display: none;
+}
+
+.actionsImg {
+    width: 20px;
+    height: 20px;
+    vertical-align: middle;
+}
+
+.virtual {
+    border: dotted tomato;
+    opacity: 0.5;
+}
+
+.virtual-hover {
+    opacity: 1;
+    border-style: dashed;
+}
+
+.move {
+    opacity: 0.4;
+}
+
+#readmodebtn {
+    display: none;
+}
+
+#titlesubtext {
+    font-size: 0.5em;
+    color: gray;
+}
+
+.time-conflict {
+    box-shadow: 0px 0px 10px red;
+}
+
+.content {
+    display: none;
+}
+
+.spare-tr {
+    height: 30px !important;
+}
+
+.spare-tr td {
+    height: 30px !important;
+}

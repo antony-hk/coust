@@ -1,0 +1,50 @@
+.timetableControls {
+    border-collapse: collapse;
+    text-align: left;
+    width: 70%;
+    margin: 0px 50px;
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 30px;
+}
+
+.timetableControls thead th {
+    background: #ddd;
+    color: #444;
+}
+
+.timetableControls td, .timetableControls th {
+    border: 2px #aaa solid;
+    padding: 0px 6px;
+}
+
+.timetableControls a {
+    text-decoration: none;
+    color: saddlebrown;
+}
+
+.timetableControls thead th:first-child {
+    /* Course Code */
+    width: 150px;
+}
+
+.timetableControls thead th:last-child {
+    /* Actions */
+    width: 100px;
+}
+
+.timetableControls tbody td:first-child {
+    /* Course Code */
+    text-align: right;
+    width: 150px;
+}
+
+.timetableControls tbody td:last-child {
+    /* Actions */
+    text-align: center;
+    width: 100px;
+}
+
+.timetableControls .none {
+    text-align: center;
+}
