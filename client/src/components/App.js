@@ -38,12 +38,8 @@ class App extends React.PureComponent {
             fontSize: 50,
         };
 
-        const {
-            onFaqDialogOpen,
-        } = this.props;
-
         return (
-            <>
+            <div className={styles.app}>
                 <Header />
                 <div className={styles.container}>
                     <div id="timetable_wrapper" className={clsx(styles.timetableWrapper, styles.noSelect)}>
@@ -56,14 +52,12 @@ class App extends React.PureComponent {
                         <Timetable />
                     </div>
                     <div className="content">
-                        <Aside
-                            onFaqDialogOpen={() => onFaqDialogOpen()}
-                        />
+                        <Aside />
                         <CourseInfoSection />
                     </div>
                     <FaqDialog />
                 </div>
-            </>
+            </div>
         );
     }
 }

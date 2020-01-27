@@ -89,22 +89,24 @@ export default class Timetable extends React.PureComponent {
 
     render() {
         return (
-            <table
-                ref={this.timetable}
-                id="timetable"
-                className={clsx(styles.timetable, 'content')}
-            >
-                <colgroup />
-                {this.hours.map((hour, index) => (
-                    <colgroup key={index} span={2} />
-                ))}
-                <tbody>
-                    <tr className={styles.timesTr}>
-                        {this.hours.map((hour, index) => this._renderHour(hour, index))}
-                    </tr>
-                </tbody>
-                {Object.keys(this.weekdays).map((weekdayId, index) => this._renderWeekday(weekdayId, index))}
-            </table>
+            <div className={styles.timetableContainer}>
+                <table
+                    ref={this.timetable}
+                    id="timetable"
+                    className={clsx(styles.timetable, 'content')}
+                >
+                    <colgroup />
+                    {this.hours.map((hour, index) => (
+                        <colgroup key={index} span={2} />
+                    ))}
+                    <tbody>
+                        <tr className={styles.timesTr}>
+                            {this.hours.map((hour, index) => this._renderHour(hour, index))}
+                        </tr>
+                    </tbody>
+                    {Object.keys(this.weekdays).map((weekdayId, index) => this._renderWeekday(weekdayId, index))}
+                </table>
+            </div>
         );
     }
 }

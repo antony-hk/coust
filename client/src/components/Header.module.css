@@ -1,28 +1,52 @@
 .header {
+    position: -webkit-sticky;
     position: sticky;
-    width: 100%;
-    min-width: 820px;
-    height: 46px;
+    top: 0;
     background-color: #123456;
-    content: " ";
-    display: table;
     border-bottom: 1px solid #000;
+    z-index: 1;
 }
 
-.container {
+.headerInner {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
     max-width: 1200px;
     margin: 0 auto;
+    padding: 0 16px;
 }
 
 .logo {
-    width: 96px;
-    height: 24px;
+    display: block;
+    width: 128px;
+    height: 48px;
     background: transparent url('../images/logo.png') no-repeat center center;
     background-size: 96px 24px;
-    float: left;
-    margin: 11px 15px;
+    padding: 12px 16px;
+    margin: 0 -16px;
+
 }
 
 .siteName {
     visibility: hidden;
+}
+
+.searchBarContainer {
+    margin-left: 16px;
+    flex: 1;
+}
+
+@media (max-width: 680px) {
+    .logo {
+        width: 100%;
+    }
+
+    .searchBarContainer {
+        flex: unset;
+        width: 100%;
+        margin-left: 0;
+        padding-bottom: 12px;
+    }
 }
