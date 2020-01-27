@@ -3,7 +3,7 @@ import clsx from 'clsx';
 
 import Aside from './Aside';
 import CourseInfoSection from './CourseInfoSection';
-import Faq from './Faq';
+import FaqDialog from './FaqDialog';
 import Header from './Header';
 import Timetable from './Timetable';
 
@@ -38,6 +38,10 @@ class App extends React.PureComponent {
             fontSize: 50,
         };
 
+        const {
+            onFaqDialogOpen,
+        } = this.props;
+
         return (
             <>
                 <Header />
@@ -52,10 +56,12 @@ class App extends React.PureComponent {
                         <Timetable />
                     </div>
                     <div className="content">
-                        <Aside />
+                        <Aside
+                            onFaqDialogOpen={() => onFaqDialogOpen()}
+                        />
                         <CourseInfoSection />
                     </div>
-                    <Faq />
+                    <FaqDialog />
                 </div>
             </>
         );

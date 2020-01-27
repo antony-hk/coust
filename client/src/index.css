@@ -87,15 +87,6 @@ tbody.days tr:last-child > td {
     opacity: 0.4;
 }
 
-#readmodebtn {
-    display: none;
-}
-
-#titlesubtext {
-    font-size: 0.5em;
-    color: gray;
-}
-
 .time-conflict {
     box-shadow: 0px 0px 10px red;
 }

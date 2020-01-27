@@ -1,22 +1,15 @@
-import React, { useEffect } from 'react';
+import React from 'react';
+import { useDispatch } from 'react-redux';
 
+import { openFaqDialog } from '../actions/faqDialog';
 import getShareLink from '../timetable/getShareLink';
 
 import Button from './Button';
 
 import styles from './Aside.module.css';
 
-// jQuery stuffs, should be removed in the future.
-import $ from 'jquery';
-
-const Aside = () => {
-    useEffect(() => {
-        // Link to open the dialog
-        $("#show-faq").click(function (event) {
-            $("#faq").dialog("open");
-            event.preventDefault();
-        });
-    });
+const Aside = (props) => {
+    const dispatch = useDispatch();
 
     return (
         <div className={styles.aside}>
@@ -32,7 +25,10 @@ const Aside = () => {
                 <p className={styles.copyResult} id="copyResult"></p>
                 <p><Button onClick={() => getShareLink()}>Get Share Link</Button></p>
                 <p>
-                    <Button id="show-faq" className={styles.faqButton}>
+                    <Button
+                        className={styles.faqButton}
+                        onClick={() => dispatch(openFaqDialog)}
+                    >
                         Show FAQ
                     </Button>
                 </p>

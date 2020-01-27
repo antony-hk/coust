@@ -23,6 +23,7 @@ import loadFromUrlOrStorage from './timetable/loadFromUrlOrStorage';
 window.jQuery = $;
 require('jquery-ui-touch-punch');
 
+// TODO: Remove global variables
 window.readMode = false;
 window.color = 0;
 window.courseColor = [];
@@ -31,7 +32,7 @@ window.data = ""; // data get from courseInfo.json (via data.php and .json updat
 window.loaded = false; // check if data loaded when adding course
 window.searchhints = [];
 window.semester = null; // store term in use
-window.timetable = []; // store the timetable
+window.timetable = {}; // store the timetable
 
 window.API_PATH = 'https://coust.442.hk/';
 window.CLIENT_PATH = 'https://coust.github.io/';
