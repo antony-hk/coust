@@ -51,9 +51,13 @@ class App extends React.PureComponent {
                         </div>
                         <Timetable />
                     </div>
-                    <div className="content">
-                        <Aside />
-                        <CourseInfoSection />
+                    <div className={clsx(styles.controlPanel, 'content')}>
+                        <div className={styles.courseInfoSectionContainer}>
+                            <CourseInfoSection />
+                        </div>
+                        <div className={styles.asideContainer}>
+                            <Aside />
+                        </div>
                     </div>
                     <FaqDialog />
                 </div>

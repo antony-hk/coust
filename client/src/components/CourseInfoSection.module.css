@@ -1,21 +1,51 @@
+.courseListContainer {
+    border: 1px solid #aaaaaa;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.tbaCourses {
+    color: #444444;
+    font-size: 14px;
+    height: 24px;
+}
+
 .timetableControls {
     border-collapse: collapse;
-    text-align: left;
-    width: 70%;
-    margin: 0px 50px;
-    font-size: 15px;
-    font-weight: 600;
-    line-height: 30px;
+    font-size: 14px;
+    font-weight: 500;
+    width: 100%;
 }
 
 .timetableControls thead th {
     background: #ddd;
     color: #444;
+    text-align: left;
 }
 
 .timetableControls td, .timetableControls th {
-    border: 2px #aaa solid;
-    padding: 0px 6px;
+    border: 1px solid #aaaaaa;
+    padding: 6px;
+}
+
+.timetableControls tr:first-child td,
+.timetableControls tr:first-child th {
+    border-top: 0;
+}
+
+.timetableControls tr:last-child td,
+.timetableControls tr:last-child th {
+    border-bottom: 0;
+}
+
+.timetableControls td:first-child,
+.timetableControls th:first-child {
+    border-left: 0;
+}
+
+.timetableControls td:last-child,
+.timetableControls th:last-child {
+    border-right: 0;
 }
 
 .timetableControls a {
@@ -23,26 +53,18 @@
     color: saddlebrown;
 }
 
+.timetableControls tbody td:first-child,
 .timetableControls thead th:first-child {
     /* Course Code */
-    width: 150px;
+    text-align: center;
+    width: 96px;
 }
 
+.timetableControls tbody td:last-child,
 .timetableControls thead th:last-child {
     /* Actions */
-    width: 100px;
-}
-
-.timetableControls tbody td:first-child {
-    /* Course Code */
-    text-align: right;
-    width: 150px;
-}
-
-.timetableControls tbody td:last-child {
-    /* Actions */
     text-align: center;
-    width: 100px;
+    width: 96px;
 }
 
 .timetableControls .none {

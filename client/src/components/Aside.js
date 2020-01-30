@@ -13,29 +13,37 @@ const Aside = (props) => {
 
     return (
         <div className={styles.aside}>
-            <div id="dialog" />
             <div>
-                <p>
+                <div className={styles.shareLinkInputContainer}>
                     <input
                         id="shareLinkInput"
                         className={styles.shareLinkInput}
                         type="text"
                     />
-                </p>
-                <p className={styles.copyResult} id="copyResult"></p>
-                <p><Button onClick={() => getShareLink()}>Get Share Link</Button></p>
-                <p>
-                    <Button
-                        className={styles.faqButton}
-                        onClick={() => dispatch(openFaqDialog)}
-                    >
-                        Show FAQ
-                    </Button>
-                </p>
+                </div>
+                <div className={styles.copyResult} id="copyResult" />
+                <div className={styles.buttonSet}>
+                    <div className={styles.buttonContainer}>
+                        <Button
+                            className={styles.shareButton}
+                            onClick={() => getShareLink()}
+                        >
+                            Get Share Link
+                        </Button>
+                    </div>
+                    <div className={styles.buttonContainer}>
+                        <Button
+                            className={styles.faqButton}
+                            onClick={() => dispatch(openFaqDialog)}
+                        >
+                            Show FAQ
+                        </Button>
+                    </div>
+                </div>
             </div>
             <div>
                 <p className={styles.lastUpdate}>
-                    {`Data Last Updated: `}
+                    {`Data last updated: `}
                     <br />
                     <span id="update-time" />
                 </p>
