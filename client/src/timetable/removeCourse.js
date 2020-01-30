@@ -1,43 +1,46 @@
 import $ from 'jquery';
 
 import compactTable from './compactTable';
-import getURL from './getURL';
 import saveTimetableToStorage from './saveTimetableToStorage';
 
+// TODO: Redux flow should be put back into React components
+import store from '../store';
+import { getRemoveCourseAction } from '../actions/course';
+
 // remove course from timetable and control table
-export default function removeCourse(code) {
+export default function removeCourse(courseCode) {
     if (window.readMode) {
-        alert("Not allowed in Read-Only Mode");
+        console.warn("Not allowed in Read-Only Mode");
         return;
     }
-    $(".tba." + code).remove();
-    if ($("#tba-courses").children().length === 0) {
-        $("#no-tba").show();
+
+    $('.tba.' + courseCode).remove();
+    if ($('#tba-courses').children().length === 0) {
+        $('#no-tba').show();
     }
-    $("td.occupied div.lesson." + code).each(function () {
-        var cell = $(this).parent();
-        var colspan = $(cell).attr("colspan");
-        $(cell).removeAttr("colspan");
-        $(cell).removeClass("occupied");
-        var next = $(cell).next();
-        for (var i = 1; i < colspan; i++) {
-            $(next).removeClass("hidden");
+    $('td.occupied div.lesson.' + courseCode).each(function () {
+        const cell = $(this).parent();
+        const colspan = $(cell).attr('colspan');
+        $(cell).removeAttr('colspan');
+        $(cell).removeClass('occupied');
+        let next = $(cell).next();
+        for (let i = 1; i < colspan; i++) {
+            $(next).removeClass('hidden');
             next = $(next).next();
         }
         $(this).remove();
     });
-    $("#courselist ." + code).remove();
-    if ($("#courselist").children("tr").length === 0) {
-        $("#none").show();
-    }
+
     // add back to search hints of autocomplete
-    window.searchhints.push(code + ": " + window.data[code]["name"]);
-    window.searchhints.sort();
-    delete window.timetable[code];
-    delete window.courseColor[code];
+    window.searchHints.push(`${courseCode}: ${window.data[courseCode].name}`);
+    window.searchHints.sort();
+    delete window.timetable[courseCode];
+    delete window.courseColor[courseCode];
+
     // save to cookies
     saveTimetableToStorage();
     compactTable();
-    // update Read-Only Mode url
-    getURL();
+
+    // TODO: Redux flow should be put back into React components
+    store.dispatch(getRemoveCourseAction(courseCode));
 }

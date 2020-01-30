@@ -11,7 +11,7 @@ import oldTimetableScript from '../timetable';
 
 import styles from './App.module.css';
 
-// jQuery stuffs, should be removed in the future.
+// TODO: jQuery stuffs, should be removed in the future.
 import $ from 'jquery';
 import 'jquery-ui/ui/widgets/tooltip';
 import 'jquery-ui/themes/base/tooltip.css';

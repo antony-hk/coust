@@ -7,10 +7,10 @@ import App from './components/App';
 import * as serviceWorker from './serviceWorker';
 
 // Redux
-import configureStore from './store';
+import store from './store';
 
 ReactDOM.render(
-    <Provider store={configureStore()}>
+    <Provider store={store}>
         <App />
     </Provider>
 , document.getElementById('root'));

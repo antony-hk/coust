@@ -2,31 +2,33 @@ export default function getSections(code) {
     if (!window.loaded) {
         return null;
     }
+
     if (!window.data.hasOwnProperty(code)) {
         return null;
     }
-    var course = window.data[code];
-    var sections = course["sections"];
-    var types = {};
-    for (var i = 0; i < sections.length; i++) {
-        var type = sections[i]["section"].match(/[A-Za-z]+/i);
-        if (typeof types[type] === "undefined") {
-            types[type] = [];
+
+    const course = window.data[code];
+    const { sections } = course;
+
+    const ret = {};
+    sections.forEach(section => {
+        const type = section.section.match(/[A-Za-z]+/i);
+
+        if (!(type in ret)) {
+            ret[type] = [];
         }
-        var duplicate = false;
-        for (var j = 0; j < types[type].length; j++) {
-            if (sections[i]["section"] === types[type][j]) {
-                duplicate = true;
+
+        let isDuplicate = false;
+        for (let j = 0; j < ret[type].length; j++) {
+            if (section.section === ret[type][j]) {
+                isDuplicate = true;
             }
         }
-        if (!duplicate) {
-            types[type].push(sections[i]["section"]);
+
+        if (!isDuplicate) {
+            ret[type].push(section.section);
         }
-    }
-    var keys = [];
-    for (var k in types) {
-        keys.push(k);
-    }
-    types["types"] = keys;
-    return types;
+    });
+
+    return ret;
 }

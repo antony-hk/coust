@@ -62,12 +62,6 @@ tbody.days tr:last-child > td {
     display: none;
 }
 
-.actionsImg {
-    width: 20px;
-    height: 20px;
-    vertical-align: middle;
-}
-
 .virtual {
     border: dotted tomato;
     opacity: 0.5;

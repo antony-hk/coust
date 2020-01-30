@@ -33,8 +33,7 @@
     border-top: 0;
 }
 
-.timetableControls tr:last-child td,
-.timetableControls tr:last-child th {
+.timetableControls tr:last-child td {
     border-bottom: 0;
 }
 

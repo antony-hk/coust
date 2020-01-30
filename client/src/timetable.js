@@ -30,7 +30,7 @@ window.courseColor = [];
 window.terms = ""; // store terms info
 window.data = ""; // data get from courseInfo.json (via data.php and .json updated by mkdata.php)
 window.loaded = false; // check if data loaded when adding course
-window.searchhints = [];
+window.searchHints = [];
 window.semester = null; // store term in use
 window.timetable = {}; // store the timetable
 
@@ -52,21 +52,23 @@ function timetable() {
         window.loaded = true;
         $.each(window.data, function (key, val) {
             if (key === "terms" || key === "lastUpdated") return true;
-            window.searchhints.push(key + ': ' + val["name"]);
+            window.searchHints.push(key + ': ' + val["name"]);
         });
         getURL();
 
         $("#add").autocomplete({
-            // source: "http://coust.442.hk/json/parser.php?type=searchhints",
-            source: window.searchhints,
+            // source: "http://coust.442.hk/json/parser.php?type=searchHints",
+            source: window.searchHints,
             minLength: 0,
             focus: function (event, ui) {
                 event.preventDefault();
             },
-            select: function (event, ui) {
+            select: (event, ui) => {
                 event.preventDefault();
-                addCourse(ui.item.value, "");
-            }
+
+                const courseCode = ui.item.value.split(': ')[0];
+                addCourse(courseCode);
+            },
         }).focus(function () {
             $(this).autocomplete("search", "");
         });
