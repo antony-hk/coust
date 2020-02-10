@@ -1,6 +1,10 @@
+.app {
+    background: #f7f7f7;
+    min-height: 100vh;
+}
+
 .container {
-    max-width: 1200px;
-    margin: 0 auto;
+    position: relative;
 }
 
 .customTooltipStyle {
@@ -35,4 +39,37 @@
     border-radius: 5px;
     box-shadow: 0 0 3px;
     padding: 2px;
+}
+
+.controlPanel {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 16px;
+
+    display: flex;
+    justify-content: space-between;
+}
+
+.courseInfoSectionContainer {
+    flex-basis: 680px;
+}
+
+.asideContainer {
+    margin-left: 12px;
+    width: 160px;
+}
+
+@media (max-width: 680px) {
+    .controlPanel {
+        flex-direction: column;
+    }
+
+    .courseInfoSectionContainer {
+        flex-basis: unset;
+    }
+
+    .asideContainer {
+        margin: 0;
+        width: unset;
+    }
 }

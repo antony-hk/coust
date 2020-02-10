@@ -10,24 +10,23 @@ const SearchBar = () => {
     }
 
     return (
-        <div className={styles.searchBar}>
-            <form onSubmit={handleSubmit}>
-                <ul>
-                    <li className={styles.termInfo} id="termInfo">Loading...</li>
-                    <li>
-                        <input
-                            className={styles.input}
-                            id="add"
-                            type="text"
-                            placeholder="Add Courses to Timetable"
-                            value={inputValue}
-                            onChange={(event) => setInputValue(event.target.value)}
-                            onBlur={() => setInputValue('')}
-                        />
-                    </li>
-                </ul>
-            </form>
-        </div>
+        <form
+            className={styles.searchBar}
+            onSubmit={handleSubmit}
+        >
+            <div className={styles.termInfo} id="termInfo">Loading...</div>
+            <div className={styles.inputContainer}>
+                <input
+                    className={styles.input}
+                    id="add"
+                    type="text"
+                    placeholder="Add Courses to Timetable"
+                    value={inputValue}
+                    onChange={(event) => setInputValue(event.target.value)}
+                    onBlur={() => setInputValue('')}
+                />
+            </div>
+        </form>
     );
 };
 

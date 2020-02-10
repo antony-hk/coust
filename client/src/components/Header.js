@@ -7,11 +7,13 @@ import styles from './Header.module.css';
 const Header = () => {
     return (
         <header className={styles.header}>
-            <div className={styles.container}>
+            <div className={styles.headerInner}>
                 <a className={styles.logo} href=".">
                     <span className={styles.siteName}>CoUST</span>
                 </a>
-                <SearchBar />
+                <div className={styles.searchBarContainer}>
+                    <SearchBar />
+                </div>
             </div>
         </header>
     );

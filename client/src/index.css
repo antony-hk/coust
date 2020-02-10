@@ -3,14 +3,9 @@
 }
 
 body {
+    background: #123456;
     margin: 0;
-}
-
-body {
-    background: #f7f7f7;
-    /* font-size: 16px; */
     font-family: 'Open Sans', sans-serif;
-    margin-bottom: 30px;
 }
 
 #Mo tr:first-child td {
@@ -67,12 +62,6 @@ tbody.days tr:last-child > td {
     display: none;
 }
 
-.actionsImg {
-    width: 20px;
-    height: 20px;
-    vertical-align: middle;
-}
-
 .virtual {
     border: dotted tomato;
     opacity: 0.5;
@@ -85,15 +74,6 @@ tbody.days tr:last-child > td {
 
 .move {
     opacity: 0.4;
-}
-
-#readmodebtn {
-    display: none;
-}
-
-#titlesubtext {
-    font-size: 0.5em;
-    color: gray;
 }
 
 .time-conflict {

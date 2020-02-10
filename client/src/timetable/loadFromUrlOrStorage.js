@@ -4,6 +4,24 @@ import addCourse from './addCourse';
 import getStoredValue from './getStoredValue';
 import getURLParameter from './getURLParameter';
 
+function decodeTimetableStr(timetableStr) {
+    const courseStrings = timetableStr.split('!');
+    const ret = {};
+
+    courseStrings.forEach(courseString => {
+        if (courseString.length === 0) {
+            return;
+        }
+
+        const [courseCode, sectionString] = courseString.split(':_');
+        const sections = sectionString.split(',');
+
+        ret[courseCode] = sections;
+    });
+
+    return ret;
+}
+
 export default function loadFromUrlOrStorage() {
     var timetableStr = "";
     if (getURLParameter("timetable") !== null) {
@@ -25,12 +43,13 @@ export default function loadFromUrlOrStorage() {
         $("#readmode").hide();
     }
     timetableStr = decodeURIComponent(timetableStr);
+
+    const timetableData = decodeTimetableStr(timetableStr);
+
     $("#loading").show();
-    var res = timetableStr.split("!");
-    for (var i = 0; i < res.length; i++) {
-        if (res[i] === "") continue;
-        var rc = res[i].split("_");
-        addCourse(rc[0], rc[1].split(","));
+    for (const courseCode in timetableData) {
+        const sections = timetableData[courseCode];
+        addCourse(courseCode, sections);
     }
     $("#loading").hide();
     $(".content").show();

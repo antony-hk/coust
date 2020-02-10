@@ -1,18 +1,17 @@
-import $ from 'jquery';
-
 export default function getURL() {
-    var timetableStr = "";
-    for (var code in window.timetable) {
-        var sectionStr = "";
-        for (var i = 0; i < window.timetable[code].length; i++) {
-            if (i !== 0) sectionStr += ",";
-            sectionStr += window.timetable[code][i];
-        }
-        timetableStr += code + ":_" + sectionStr + "!";
-    }
-    var url = "./?semester="+window.semester["num"]+"&timetable=" + encodeURIComponent(timetableStr);
-    $("#dialog").children().remove();
-    $("#dialog").append("<a href='" + url + "' target='_blank'><button id='readmodebtn' style='width: 120px;'>READ-ONLY</button></a>");
-    $("#readmodebtn").button();
-    return url;
+    // TODO: Remove usages of global variables
+    const semester = window.semester;
+    const timetable = window.timetable;
+
+    const courseCodes = Object.keys(timetable);
+    const timetableStr = courseCodes
+        .map((courseCode) => {
+            const sections = timetable[courseCode];
+            const sectionStr = sections.join(',');
+
+            return `${courseCode}:_${sectionStr}!`;
+        })
+        .join('');
+
+    return `./?semester=${semester.num}&timetable=${encodeURIComponent(timetableStr)}`;
 }

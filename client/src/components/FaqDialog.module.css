@@ -1,0 +1,10 @@
+.faq {
+    line-height: 25px;
+    text-align: left;
+    padding: 20px 20px;
+    font-size: 14px;
+}
+
+.faq a {
+    color: darkblue;
+}

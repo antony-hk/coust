@@ -9,7 +9,7 @@ export default function getShareLink() {
     var failmsg = "Press CTRL+C (Windows) to Copy.";
     try {
         var successful = document.execCommand('copy');
-        if (successful) $("#copyResult").text('Auto Copied to Clip Board.');
+        if (successful) $("#copyResult").text('Copied to the clipboard automatically.');
         else $("#copyResult").text(failmsg);
     } catch (e) {
         $("#copyResult").text(failmsg);
