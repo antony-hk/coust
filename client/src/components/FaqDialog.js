@@ -33,8 +33,8 @@ const FaqDialog = () => {
                         <strong>A:</strong> In READ-ONLY Mode, you can only view the timetable. And your original timetable in non read mode will not be affected. You may exit read mode and view your own timetable by clicking the logo (which returns to the home page).<br />
                     </p>
                     <p>
-                        <strong>Q:</strong> Does the web app supports all browsers?<br />
-                        <strong>A:</strong> No, the web app uses jQuery and thus requires browser version supporting jQuery (e.g. IE9+).<br />
+                        <strong>Q:</strong> What browsers does the web-app support?<br />
+                        <strong>A:</strong> This web-app supports the latest version of Chrome, Firefox, Safari and Microsoft Edge.<br />
                     </p>
                     <p>
                         <strong>If you any enquires, please find us on <a href="https://www.facebook.com/CoUST.HK">our Facebook page</a>.</strong><br />

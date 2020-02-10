@@ -11,21 +11,8 @@ import oldTimetableScript from '../timetable';
 
 import styles from './App.module.css';
 
-// TODO: jQuery stuffs, should be removed in the future.
-import $ from 'jquery';
-import 'jquery-ui/ui/widgets/tooltip';
-import 'jquery-ui/themes/base/tooltip.css';
-
 class App extends React.PureComponent {
     componentDidMount() {
-        $(document).tooltip({
-            position: {
-                my: 'left+15 center',
-                at: 'right center+5',
-            },
-            tooltipClass: styles.customTooltipStyle,
-        })
-
         oldTimetableScript();
     }
 

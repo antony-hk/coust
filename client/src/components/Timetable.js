@@ -5,8 +5,10 @@ import TimetableSeparator from './TimetableSeparator';
 
 import styles from './Timetable.module.css';
 
-// jQuery stuffs, should be removed in the future.
+// TODO: jQuery stuffs, should be removed in the future.
 import $ from 'jquery';
+import 'jquery-ui/ui/widgets/tooltip';
+import 'jquery-ui/themes/base/tooltip.css';
 
 function twoDigits(hour) {
     return (`${hour}`.length === 1) ? `0${hour}` : `${hour}`;
@@ -28,6 +30,14 @@ export default class Timetable extends React.PureComponent {
 
     componentDidMount() {
         const timetableEl = this.timetable.current;
+
+        $(timetableEl).tooltip({
+            position: {
+                my: 'left+15 center',
+                at: 'right center+5',
+            },
+            tooltipClass: styles.customTooltipStyle,
+        });
 
         $(timetableEl).on('mouseover mouseleave', 'td', function (e) {
             if (e.target.className === "separator" || e.target.className === "times-tr"

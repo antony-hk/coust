@@ -1,5 +1,8 @@
 import React, { useCallback } from 'react';
 
+import Tippy from '@tippy.js/react';
+import 'tippy.js/dist/tippy.css';
+
 import removeCourse from '../timetable/removeCourse';
 
 import styles from './CourseRow.module.css';
@@ -22,23 +25,25 @@ const CourseRow = props => {
             <td>{courseCode}</td>
             <td>{window.data[courseCode].name}</td>
             <td>
-                <a
-                    className={styles.iconButton}
-                    href={infoLink}
-                    rel="noopener noreferrer"
-                    target="_blank"
-                    title="Details"
-                >
-                    <img className={styles.icon} src={infoIcon} />
-                </a>
-                {'  '}
-                <a
-                    className={styles.iconButton}
-                    title="Remove"
-                    onClick={handleCourseRemove}
-                >
-                    <img className={styles.icon} src={removeIcon} />
-                </a>
+                <Tippy content="Details">
+                    <a
+                        className={styles.iconButton}
+                        href={infoLink}
+                        rel="noopener noreferrer"
+                        target="_blank"
+                    >
+                        <img alt="Details" className={styles.icon} src={infoIcon} />
+                    </a>
+                </Tippy>
+                &nbsp;&nbsp;
+                <Tippy content="Remove">
+                    <a
+                        className={styles.iconButton}
+                        onClick={handleCourseRemove}
+                    >
+                        <img alt="Remove" className={styles.icon} src={removeIcon} />
+                    </a>
+                </Tippy>
             </td>
         </tr>
     );
