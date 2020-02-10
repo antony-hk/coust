@@ -1,6 +1,6 @@
 {
   "name": "coust-client",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "A visualized course planner which enables you to manage timetable by drag and drop. Specialized for HKUST students.",
   "author": "Antony Tse, Alan Chung",
   "license": "MIT",
