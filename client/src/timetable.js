@@ -13,6 +13,7 @@ import 'jquery-ui/themes/base/autocomplete.css';
 import 'jquery-ui/themes/base/draggable.css';
 import 'jquery-ui/themes/base/menu.css';
 
+import './color.css';
 import './override-jquery-ui.css';
 
 import addCourse from './timetable/addCourse';
