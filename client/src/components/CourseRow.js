@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import { useCallback } from 'react';
 
 import Tippy from '@tippy.js/react';
 import 'tippy.js/dist/tippy.css';

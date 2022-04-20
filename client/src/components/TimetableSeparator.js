@@ -1,5 +1,4 @@
 import React from 'react';
-
 import styles from './TimetableSeparator.module.css';
 
 export default class TimetableSeparator extends React.PureComponent {
