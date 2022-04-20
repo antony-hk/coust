@@ -1,13 +1,13 @@
-import React from 'react';
+import { memo } from 'react';
 import styles from './TimetableSeparator.module.css';
 
-export default class TimetableSeparator extends React.PureComponent {
-    render() {
-        return (
-            <tr className={styles.separator}>
-                <th />
-                <td colSpan={28} />
-            </tr>
-        );
-    }
-}
+const TimetableSeparator = memo(() => {
+    return (
+        <tr className={styles.separator}>
+            <th />
+            <td colSpan={28} />
+        </tr>
+    );
+});
+
+export default TimetableSeparator;
