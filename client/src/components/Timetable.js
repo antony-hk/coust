@@ -1,4 +1,9 @@
-import React from 'react';
+import {
+    Fragment,
+    memo,
+    useLayoutEffect,
+    useRef,
+} from 'react';
 import clsx from 'clsx';
 
 import TimetableSeparator from './TimetableSeparator';
@@ -14,22 +19,58 @@ function twoDigits(hour) {
     return (`${hour}`.length === 1) ? `0${hour}` : `${hour}`;
 }
 
-export default class Timetable extends React.PureComponent {
-    hours = [9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23];
-    weekdays = {
-        Mo: 'MON',
-        Tu: 'TUE',
-        We: 'WED',
-        Th: 'THU',
-        Fr: 'FRI',
-        Sa: 'SAT',
-        Su: 'SUN',
-    };
+const HOURS = [9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23];
+const WEEKDAYS = {
+    Mo: 'MON',
+    Tu: 'TUE',
+    We: 'WED',
+    Th: 'THU',
+    Fr: 'FRI',
+    Sa: 'SAT',
+    Su: 'SUN',
+};
 
-    timetable = React.createRef();
+const TimetableHour = memo(({ hour }) => {
+    return (
+        <>
+            <th className={styles.time}>
+                <div className={styles.timeDiv}>{twoDigits(hour)}:00</div>
+            </th>
+            <th className={clsx(styles.time, styles.alt)}>
+                <div className={styles.timeDiv}>
+                    {twoDigits(hour)}:30
+                </div>
+            </th>
+        </>
+    );
+});
 
-    componentDidMount() {
-        const timetableEl = this.timetable.current;
+const TimetableWeekday = memo(({ weekdayId, index }) => {
+    return (
+        <>
+            <tbody id={weekdayId} className={clsx(styles.days, 'days')}>
+                <tr>
+                    <th className={clsx(styles.weekday, 'weekday')} rowSpan={1}>
+                        {WEEKDAYS[weekdayId]}
+                    </th>
+                    {HOURS.map((hour, index) => ((hour === 23) ? null : (
+                        <Fragment key={index}>
+                            <td className={`h${twoDigits(hour)} m00`} />
+                            <td className={`h${twoDigits(hour)} m30`} />
+                        </Fragment>
+                    )))}
+                </tr>
+            </tbody>
+            {(index < WEEKDAYS.size - 1) ? null : <TimetableSeparator />}
+        </>
+    );
+});
+
+const Timetable = memo(() => {
+    const timetableRef = useRef();
+
+    useLayoutEffect(() => {
+        const timetableEl = timetableRef.current;
 
         $(timetableEl).tooltip({
             position: {
@@ -59,64 +100,34 @@ export default class Timetable extends React.PureComponent {
 
             }
         });
-    }
+    }, [timetableRef]);
 
-    _renderHour(hour, index) {
-        return (
-            <React.Fragment key={index}>
-                <th className={styles.time}>
-                    <div className={styles.timeDiv}>{twoDigits(hour)}:00</div>
-                </th>
-                <th className={clsx(styles.time, styles.alt)}>
-                    <div className={styles.timeDiv}>
-                        {twoDigits(hour)}:30
-                    </div>
-                </th>
-            </React.Fragment>
-        );
-    }
-
-    _renderWeekday(weekdayId, index) {
-        return (
-            <React.Fragment key={index}>
-                <tbody id={weekdayId} className={clsx(styles.days, 'days')}>
-                    <tr>
-                        <th className={clsx(styles.weekday, 'weekday')} rowSpan={1}>
-                            {this.weekdays[weekdayId]}
-                        </th>
-                        {this.hours.map((hour, index) => ((hour === 23) ? null : (
-                            <React.Fragment key={index}>
-                                <td className={`h${twoDigits(hour)} m00`} />
-                                <td className={`h${twoDigits(hour)} m30`} />
-                            </React.Fragment>
-                        )))}
+    return (
+        <div className={styles.timetableContainer}>
+            <table
+                ref={timetableRef}
+                id="timetable"
+                className={clsx(styles.timetable, 'content')}
+            >
+                <colgroup />
+                {HOURS.map((hour, index) => (
+                    <colgroup key={index} span={2} />
+                ))}
+                <tbody>
+                    <tr className={styles.timesTr}>
+                        {HOURS.map((hour, index) => <TimetableHour key={index} hour={hour} />)}
                     </tr>
                 </tbody>
-                {(index < this.weekdays.size - 1) ? null : <TimetableSeparator />}
-            </React.Fragment>
-        );
-    }
+                {Object.keys(WEEKDAYS).map((weekdayId, index) => (
+                    <TimetableWeekday
+                        key={index}
+                        weekdayId={weekdayId}
+                        index={index}
+                    />
+                ))}
+            </table>
+        </div>
+    );
+});
 
-    render() {
-        return (
-            <div className={styles.timetableContainer}>
-                <table
-                    ref={this.timetable}
-                    id="timetable"
-                    className={clsx(styles.timetable, 'content')}
-                >
-                    <colgroup />
-                    {this.hours.map((hour, index) => (
-                        <colgroup key={index} span={2} />
-                    ))}
-                    <tbody>
-                        <tr className={styles.timesTr}>
-                            {this.hours.map((hour, index) => this._renderHour(hour, index))}
-                        </tr>
-                    </tbody>
-                    {Object.keys(this.weekdays).map((weekdayId, index) => this._renderWeekday(weekdayId, index))}
-                </table>
-            </div>
-        );
-    }
-}
+export default Timetable;
