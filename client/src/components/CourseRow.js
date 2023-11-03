@@ -14,10 +14,9 @@ import removeIcon from '../images/cross.png';
 const CourseRow = props => {
     // TODO: Remove usages of global variables
     const { courseCode } = props;
+    const data = useContext(dataContext);
     const department = courseCode.substring(0, 4);
     const infoLink = `https://w5.ab.ust.hk/wcq/cgi-bin/${data.terms[0].num}/subject/${department}#${courseCode}`;
-
-    const data = useContext(dataContext);
 
     const handleCourseRemove = useCallback(() => {
         removeCourse(data, courseCode);
