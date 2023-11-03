@@ -7,13 +7,13 @@ import saveTimetableToStorage from './saveTimetableToStorage';
 
 // course: course object, section: section number, singleton: boolean
 export default function addSection(data, course, section, singleton, virtual) {
-    var code = course["code"];
+    var code = course.code;
     if (!virtual) window.timetable[code].push(section);
     var sectionObjs = getSectionObjs(data, code, section);
     var timeStr = "";
     var dates = null, weekdays = null, times = null;
     for (var s = 0; s < sectionObjs.length; s++) {
-        var datetime = sectionObjs[s]["datetime"];
+        var datetime = sectionObjs[s].datetime;
         var hasDate = 0;
         if (datetime.length === 2) hasDate = 1;
         if (hasDate === 1) {

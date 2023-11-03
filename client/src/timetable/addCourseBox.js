@@ -39,17 +39,17 @@ export default function addCourseBox(data, code, section, weekday, start, end, s
         dateInfo = "datestart='' dateend=''";
     }
     dateInfo = dateInfo.replace("-", " ");
-    var room = sectionObj["room"];
+    var room = sectionObj.room;
     if (room == "TBA") room = "Rm: TBA";
     var roomShort = room.replace(/, Lift [0-9]+((-|,)( )*[0-9]+)?/gi, "");
     roomShort = roomShort.replace(/\([0-9]+\)/gi, "");
     roomShort = roomShort.replace(/Lecture Theater /gi, "LT");
     roomShort = roomShort.replace(/, [A-Z ]+/gi, "");
     title += NEWLINE + room + NEWLINE + "Instructor: ";
-    if (sectionObj["instructor"].length === 0) sectionObj["instructor"].push("TBA");
-    if (sectionObj["instructor"].length === 1) title += sectionObj["instructor"][0];
-    else for (var instr = 0; instr < sectionObj["instructor"].length; instr++) {
-        title += NEWLINE + " - " + sectionObj["instructor"][instr];
+    if (sectionObj.instructor.length === 0) sectionObj.instructor.push("TBA");
+    if (sectionObj.instructor.length === 1) title += sectionObj.instructor[0];
+    else for (var instr = 0; instr < sectionObj.instructor.length; instr++) {
+        title += NEWLINE + " - " + sectionObj.instructor[instr];
     }
     var htmldiv = "<div " + dateInfo + " title='" + title + "' name='" + code + "_" + section + "' class='" + colorText + " lesson " + draggable + " " + virtualbox + " " + code + " " + section + "'><div>" + code + "<br/>" + section + datePeriodText + "<br/>" + roomShort + "</div></div>";
     var start_time = parseInt(start.substr(0, 2).concat(start.substr(3, 2)), 10);

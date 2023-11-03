@@ -64,7 +64,7 @@ function timetable(data) {
         $(this).autocomplete("search", $(this).val());
     });
     // add term info and last update
-    $("#update-time").html(data["lastUpdated"]);
+    $("#update-time").html(data.lastUpdated);
     $("#termInfo").html(data.terms.current.text);
     // load courses added from cookies
     loadFromUrlOrStorage(data);
