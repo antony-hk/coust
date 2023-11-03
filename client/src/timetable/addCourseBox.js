@@ -123,7 +123,7 @@ export default function addCourseBox(data, code, section, weekday, start, end, s
                                     // remove virtual sections
                                     removeVirtualCourse(code);
                                     // remove orginal section
-                                    removeSection(code, section);
+                                    removeSection(data, code, section);
                                     // add new section
                                     addSection(data, data[code], new_section, singleton, false);
                                 }
@@ -172,8 +172,8 @@ export default function addCourseBox(data, code, section, weekday, start, end, s
     if (hasConflict) setTimeConflict(weekday, start, end);
     $("div.lesson." + code).parentsUntil("tr").parent().removeClass("spare-tr");
     // save timetable to cookies
-    saveTimetableToStorage();
-    getURL();
+    saveTimetableToStorage(data);
+    getURL(data);
     updateConflictStyle();
     if (window.readMode) $(".lesson.draggable").draggable("disable");
 }

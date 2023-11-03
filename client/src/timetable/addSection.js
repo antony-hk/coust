@@ -33,8 +33,8 @@ export default function addSection(data, course, section, singleton, virtual) {
                 $("#no-tba").hide();
             }
             // save timetable to cookies
-            saveTimetableToStorage();
-            getURL();
+            saveTimetableToStorage(data);
+            getURL(data);
             continue;
         }
         weekdays = datetime[hasDate].match(/(Mo|Tu|We|Th|Fr|Sa|Su)/ig);

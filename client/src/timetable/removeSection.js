@@ -3,7 +3,7 @@ import $ from 'jquery';
 import compactTable from './compactTable';
 import getURL from './getURL';
 
-export default function removeSection(code, section) {
+export default function removeSection(data, code, section) {
     for (var i = 0; i < window.timetable[code].length;) {
         if (window.timetable[code][i] === section) {
             window.timetable[code].splice(i, 1);
@@ -29,5 +29,5 @@ export default function removeSection(code, section) {
         $(this).remove();
     });
     compactTable();
-    getURL();
+    getURL(data);
 }

@@ -38,7 +38,7 @@ export default function removeCourse(data,courseCode) {
     delete window.courseColor[courseCode];
 
     // save to cookies
-    saveTimetableToStorage();
+    saveTimetableToStorage(data);
     compactTable();
 
     // TODO: Redux flow should be put back into React components

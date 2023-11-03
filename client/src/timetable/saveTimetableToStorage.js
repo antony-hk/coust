@@ -1,6 +1,6 @@
 import storeValue from './storeValue';
 
-export default function saveTimetableToStorage() {
+export default function saveTimetableToStorage(data) {
     if (window.readMode) return; // reading others timetable
     var timetableStr = "";
     for (var code in window.timetable) {
@@ -12,5 +12,5 @@ export default function saveTimetableToStorage() {
         timetableStr += code + ":_" + sectionStr + "!";
     }
     storeValue("timetable", encodeURIComponent(timetableStr));
-    storeValue("timetable-semester", window.semester["num"]);
+    storeValue("timetable-semester", data.terms.current.num);
 }

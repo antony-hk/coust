@@ -1,5 +1,7 @@
+import { useContext } from 'react';
 import { useDispatch } from 'react-redux';
 
+import dataContext from '../context';
 import { openFaqDialog } from '../actions/faqDialog';
 import getShareLink from '../timetable/getShareLink';
 
@@ -8,6 +10,7 @@ import Button from './Button';
 import styles from './Aside.module.css';
 
 const Aside = (props) => {
+    const data = useContext(dataContext);
     const dispatch = useDispatch();
 
     return (
@@ -25,7 +28,7 @@ const Aside = (props) => {
                     <div className={styles.buttonContainer}>
                         <Button
                             className={styles.shareButton}
-                            onClick={() => getShareLink()}
+                            onClick={() => getShareLink(data)}
                         >
                             Get Share Link
                         </Button>

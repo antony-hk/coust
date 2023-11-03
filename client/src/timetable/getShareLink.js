@@ -2,8 +2,8 @@ import $ from 'jquery';
 
 import getURL from './getURL';
 
-export default function getShareLink() {
-    var url = getURL();
+export default function getShareLink(data) {
+    var url = getURL(data);
     url = window.CLIENT_PATH + url.substr(2);
     $("#shareLinkInput").val(url).show().select();
     var failmsg = "Press CTRL+C (Windows) to Copy.";
