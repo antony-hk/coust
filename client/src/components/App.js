@@ -12,6 +12,7 @@ import FaqDialog from './FaqDialog';
 import Header from './Header';
 import Timetable from './Timetable';
 
+import dataContext from '../context';
 import oldTimetableScript from '../timetable';
 
 import styles from './App.module.css';
@@ -46,29 +47,31 @@ const App = memo(() => {
     };
 
     return (
-        <div className={styles.app}>
-            <Header />
-            <div className={styles.container}>
-                <div id="timetable_wrapper" className={clsx(styles.timetableWrapper, styles.noSelect)}>
-                    <div id="readmode" className={styles.readMode}>
-                        <span title="No Changes Allowed">READ-ONLY</span>
+        <dataContext.Provider value={data}>
+            <div className={styles.app}>
+                <Header />
+                <div className={styles.container}>
+                    <div id="timetable_wrapper" className={clsx(styles.timetableWrapper, styles.noSelect)}>
+                        <div id="readmode" className={styles.readMode}>
+                            <span title="No Changes Allowed">READ-ONLY</span>
+                        </div>
+                        <div id="loading" style={loadingDivStyle}>
+                            <span>Loading...</span>
+                        </div>
+                        <Timetable />
                     </div>
-                    <div id="loading" style={loadingDivStyle}>
-                        <span>Loading...</span>
+                    <div className={clsx(styles.controlPanel, 'content')}>
+                        <div className={styles.courseInfoSectionContainer}>
+                            <CourseInfoSection />
+                        </div>
+                        <div className={styles.asideContainer}>
+                            <Aside />
+                        </div>
                     </div>
-                    <Timetable />
+                    <FaqDialog />
                 </div>
-                <div className={clsx(styles.controlPanel, 'content')}>
-                    <div className={styles.courseInfoSectionContainer}>
-                        <CourseInfoSection />
-                    </div>
-                    <div className={styles.asideContainer}>
-                        <Aside />
-                    </div>
-                </div>
-                <FaqDialog />
             </div>
-        </div>
+        </dataContext.Provider>
     );
 });
 
