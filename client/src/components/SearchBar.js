@@ -1,8 +1,10 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
+import DataContext from '../context';
 
 import styles from './SearchBar.module.css';
 
 const SearchBar = () => {
+    const data = useContext(DataContext);
     const [inputValue, setInputValue] = useState('');
 
     const handleSubmit = (event) => {
@@ -24,6 +26,7 @@ const SearchBar = () => {
                     value={inputValue}
                     onChange={(event) => setInputValue(event.target.value)}
                     onBlur={() => setInputValue('')}
+                    disabled={!data}
                 />
             </div>
         </form>

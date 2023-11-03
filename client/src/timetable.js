@@ -28,7 +28,6 @@ require('jquery-ui-touch-punch');
 window.readMode = false;
 window.color = 0;
 window.courseColor = [];
-window.loaded = false; // check if data loaded when adding course
 window.searchHints = [];
 window.timetable = {}; // store the timetable
 
@@ -37,7 +36,6 @@ window.CLIENT_PATH = 'https://coust.github.io/';
 window.COOKIE_EXPIRE_DAYS = 50;
 
 function timetable(data) {
-    window.loaded = true;
     $.each(data, function (key, val) {
         if (key === "terms" || key === "lastUpdated") return true;
         window.searchHints.push(key + ': ' + val["name"]);

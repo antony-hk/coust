@@ -1,8 +1,4 @@
 export default function getSections(data, code) {
-    if (!window.loaded) {
-        return null;
-    }
-
     if (!data.hasOwnProperty(code)) {
         return null;
     }

@@ -8,11 +8,6 @@ import store from '../store';
 import { getAddCourseAction } from '../actions/course';
 
 export default function addCourse(data, courseCode, registeredSections) {
-    if (!window.loaded) {
-        console.log('Please try again later as data is still loading...');
-        return false;
-    }
-
     if (!courseCode) {
         console.log('No course code');
         return false;
