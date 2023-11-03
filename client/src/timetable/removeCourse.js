@@ -8,7 +8,7 @@ import store from '../store';
 import { getRemoveCourseAction } from '../actions/course';
 
 // remove course from timetable and control table
-export default function removeCourse(courseCode) {
+export default function removeCourse(data,courseCode) {
     if (window.readMode) {
         console.warn("Not allowed in Read-Only Mode");
         return;
@@ -32,7 +32,7 @@ export default function removeCourse(courseCode) {
     });
 
     // add back to search hints of autocomplete
-    window.searchHints.push(`${courseCode}: ${window.data[courseCode].name}`);
+    window.searchHints.push(`${courseCode}: ${data[courseCode].name}`);
     window.searchHints.sort();
     delete window.timetable[courseCode];
     delete window.courseColor[courseCode];
