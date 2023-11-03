@@ -4,15 +4,19 @@ import { Provider } from 'react-redux';
 import './index.css';
 import App from './components/App';
 import * as serviceWorker from './serviceWorker';
+import { QueryClient, QueryClientProvider } from "react-query";
 
 // Redux
 import store from './store';
 
+const queryClient = new QueryClient({});
 const root = createRoot(document.getElementById('root'));
 root.render(
-    <Provider store={store}>
-        <App />
-    </Provider>
+    <QueryClientProvider client={queryClient}>
+        <Provider store={store}>
+            <App />
+        </Provider>
+    </QueryClientProvider>
 );
 
 // If you want your app to work offline and load faster, you can change

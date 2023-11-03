@@ -40,49 +40,41 @@ window.CLIENT_PATH = 'https://coust.github.io/';
 window.COOKIE_EXPIRE_DAYS = 50;
 
 function timetable() {
-    $.ajax({
-        cache: true,
-        url: window.API_PATH + 'json/data.php',
-        type: "GET",
-        dataType: "json"
-    }).done(function (_data) {
-        window.data = _data;
-        window.terms = window.data["terms"];
-        window.semester = window.terms["current"];
-        //delete data["terms"];
-        window.loaded = true;
-        $.each(window.data, function (key, val) {
-            if (key === "terms" || key === "lastUpdated") return true;
-            window.searchHints.push(key + ': ' + val["name"]);
-        });
-        getURL();
-
-        $("#add").autocomplete({
-            // source: "http://coust.442.hk/json/parser.php?type=searchHints",
-            source: window.searchHints,
-            minLength: 0,
-            focus: function (event, ui) {
-                event.preventDefault();
-            },
-            select: (event, ui) => {
-                event.preventDefault();
-
-                const courseCode = ui.item.value.split(': ')[0];
-                addCourse(courseCode);
-            },
-        }).focus(function () {
-            $(this).autocomplete("search", "");
-        });
-        $("#add").click(function () {
-            $(this).autocomplete("search", $(this).val());
-        });
-        // add term info and last update
-        $("#update-time").html(window.data["lastUpdated"]);
-        $("#termInfo").html(window.terms["current"]["text"]);
-        // load courses added from cookies
-        loadFromUrlOrStorage();
-        compactTable();
+    window.terms = window.data["terms"];
+    window.semester = window.terms["current"];
+    //delete data["terms"];
+    window.loaded = true;
+    $.each(window.data, function (key, val) {
+        if (key === "terms" || key === "lastUpdated") return true;
+        window.searchHints.push(key + ': ' + val["name"]);
     });
+    getURL();
+
+    $("#add").autocomplete({
+        // source: "http://coust.442.hk/json/parser.php?type=searchHints",
+        source: window.searchHints,
+        minLength: 0,
+        focus: function (event, ui) {
+            event.preventDefault();
+        },
+        select: (event, ui) => {
+            event.preventDefault();
+
+            const courseCode = ui.item.value.split(': ')[0];
+            addCourse(courseCode);
+        },
+    }).focus(function () {
+        $(this).autocomplete("search", "");
+    });
+    $("#add").click(function () {
+        $(this).autocomplete("search", $(this).val());
+    });
+    // add term info and last update
+    $("#update-time").html(window.data["lastUpdated"]);
+    $("#termInfo").html(window.terms["current"]["text"]);
+    // load courses added from cookies
+    loadFromUrlOrStorage();
+    compactTable();
 }
 
 export default timetable;
