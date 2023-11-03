@@ -12,7 +12,6 @@ import infoIcon from '../images/info.png';
 import removeIcon from '../images/cross.png';
 
 const CourseRow = props => {
-    // TODO: Remove usages of global variables
     const { courseCode } = props;
     const data = useContext(DataContext);
     const department = courseCode.substring(0, 4);
