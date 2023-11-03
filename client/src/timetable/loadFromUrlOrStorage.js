@@ -22,7 +22,7 @@ function decodeTimetableStr(timetableStr) {
     return ret;
 }
 
-export default function loadFromUrlOrStorage() {
+export default function loadFromUrlOrStorage(data) {
     var timetableStr = "";
     if (getURLParameter("timetable") !== null) {
         var timetableSemester = getURLParameter("semester");
@@ -49,7 +49,7 @@ export default function loadFromUrlOrStorage() {
     $("#loading").show();
     for (const courseCode in timetableData) {
         const sections = timetableData[courseCode];
-        addCourse(courseCode, sections);
+        addCourse(data, courseCode, sections);
     }
     $("#loading").hide();
     $(".content").show();

@@ -10,7 +10,7 @@ import setTimeConflict from './setTimeConflict';
 import updateConflictStyle from './updateConflictStyle';
 
 // create the course box in timetable
-export default function addCourseBox(code, section, weekday, start, end, singleton, virtual, dates, sectionObj) {
+export default function addCourseBox(data, code, section, weekday, start, end, singleton, virtual, dates, sectionObj) {
     if ($("#" + weekday).hasClass("hidden")) {
         $("#" + weekday).removeClass("hidden");
     }
@@ -113,7 +113,7 @@ export default function addCourseBox(code, section, weekday, start, end, singlet
                                 $(ui.helper).css("height", $(lessondiv).outerHeight());
                                 $(ui.helper).addClass("move");
                                 $(ui.helper).removeAttr("title");
-                                addVirtualCourse(code, section);
+                                addVirtualCourse(data, code, section);
                             },
                             stop: function (event, ui) {
                                 if ($("div.lesson.toadd." + code).length > 0) {
@@ -125,7 +125,7 @@ export default function addCourseBox(code, section, weekday, start, end, singlet
                                     // remove orginal section
                                     removeSection(code, section);
                                     // add new section
-                                    addSection(window.data[code], new_section, singleton, false);
+                                    addSection(data, data[code], new_section, singleton, false);
                                 }
                                 else {
                                     removeVirtualCourse(code);
@@ -166,7 +166,7 @@ export default function addCourseBox(code, section, weekday, start, end, singlet
         $("#" + weekday + " th").attr("rowspan", newrowspan);
         var htmlrow = '<tr><td class="h09 m00"></td><td class="h09 m30"></td><td class="h10 m00"></td><td class="h10 m30"></td><td class="h11 m00"></td><td class="h11 m30"></td><td class="h12 m00"></td><td class="h12 m30"></td><td class="h13 m00"></td><td class="h13 m30"></td><td class="h14 m00"></td><td class="h14 m30"></td><td class="h15 m00"></td><td class="h15 m30"></td><td class="h16 m00"></td><td class="h16 m30"></td><td class="h17 m00"></td><td class="h17 m30"></td><td class="h18 m00"></td><td class="h18 m30"></td><td class="h19 m00"></td><td class="h19 m30"></td><td class="h20 m00"></td><td class="h20 m30"></td><td class="h21 m00"></td><td class="h21 m30"></td><td class="h22 m00"></td><td class="h22 m30"></td></tr>';
         $("#" + weekday).append(htmlrow);
-        addCourseBox(code, section, weekday, start, end, singleton, virtual, dates, sectionObj);
+        addCourseBox(data, code, section, weekday, start, end, singleton, virtual, dates, sectionObj);
         return;
     }
     if (hasConflict) setTimeConflict(weekday, start, end);

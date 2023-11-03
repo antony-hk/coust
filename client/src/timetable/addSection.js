@@ -6,10 +6,10 @@ import getURL from './getURL';
 import saveTimetableToStorage from './saveTimetableToStorage';
 
 // course: course object, section: section number, singleton: boolean
-export default function addSection(course, section, singleton, virtual) {
+export default function addSection(data, course, section, singleton, virtual) {
     var code = course["code"];
     if (!virtual) window.timetable[code].push(section);
-    var sectionObjs = getSectionObjs(code, section);
+    var sectionObjs = getSectionObjs(data, code, section);
     var timeStr = "";
     var dates = null, weekdays = null, times = null;
     for (var s = 0; s < sectionObjs.length; s++) {
@@ -52,7 +52,7 @@ export default function addSection(course, section, singleton, virtual) {
             timeStr = dates[0] + " - " + dates[1] + " " + timeStr;
         }
         for (var k = 0; k < weekdays.length; k++) {
-            addCourseBox(code, section, weekdays[k], times[0], times[1], singleton, virtual, dates, sectionObjs[s]);
+            addCourseBox(data, code, section, weekdays[k], times[0], times[1], singleton, virtual, dates, sectionObjs[s]);
         }
     }
 }

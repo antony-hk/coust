@@ -34,8 +34,7 @@ const App = memo(() => {
         if (!data) {
             return;
         }
-        window.data = data;
-        oldTimetableScript();
+        oldTimetableScript(data);
     }, [data]);
 
     const loadingDivStyle = {
