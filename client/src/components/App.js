@@ -2,6 +2,8 @@ import {
     memo,
     useEffect,
 } from 'react';
+import { useQuery } from 'react-query';
+import axios from 'axios';
 import clsx from 'clsx';
 
 import Aside from './Aside';
@@ -14,10 +16,26 @@ import oldTimetableScript from '../timetable';
 
 import styles from './App.module.css';
 
+
+const API_PATH = 'https://coust.442.hk/';
+
 const App = memo(() => {
+    const { data } = useQuery({
+        queryKey: ["data"],
+        queryFn: () =>
+            axios
+                .get(API_PATH + 'json/data.php')
+                .then((res) => res.data),
+        refetchInterval: 0,
+    });
+
     useEffect(() => {
+        if (!data) {
+            return;
+        }
+        window.data = data;
         oldTimetableScript();
-    }, []);
+    }, [data]);
 
     const loadingDivStyle = {
         display: 'block',
