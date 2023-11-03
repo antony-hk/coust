@@ -2,6 +2,8 @@ import {
     memo,
     useEffect,
 } from 'react';
+import { useQuery } from 'react-query';
+import axios from 'axios';
 import clsx from 'clsx';
 
 import Aside from './Aside';
@@ -14,8 +16,6 @@ import oldTimetableScript from '../timetable';
 
 import styles from './App.module.css';
 
-import axios from 'axios';
-import { useQuery } from 'react-query';
 
 const API_PATH = 'https://coust.442.hk/';
 
