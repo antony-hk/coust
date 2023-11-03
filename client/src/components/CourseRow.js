@@ -7,14 +7,14 @@ import removeCourse from '../timetable/removeCourse';
 
 import styles from './CourseRow.module.css';
 
-import dataContext from '../context';
+import DataContext from '../context';
 import infoIcon from '../images/info.png';
 import removeIcon from '../images/cross.png';
 
 const CourseRow = props => {
     // TODO: Remove usages of global variables
     const { courseCode } = props;
-    const data = useContext(dataContext);
+    const data = useContext(DataContext);
     const department = courseCode.substring(0, 4);
     const infoLink = `https://w5.ab.ust.hk/wcq/cgi-bin/${data.terms[0].num}/subject/${department}#${courseCode}`;
 

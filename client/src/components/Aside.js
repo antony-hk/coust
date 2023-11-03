@@ -1,8 +1,8 @@
 import { useContext } from 'react';
 import { useDispatch } from 'react-redux';
 
-import dataContext from '../context';
 import { openFaqDialog } from '../actions/faqDialog';
+import DataContext from '../context';
 import getShareLink from '../timetable/getShareLink';
 
 import Button from './Button';
@@ -10,7 +10,7 @@ import Button from './Button';
 import styles from './Aside.module.css';
 
 const Aside = (props) => {
-    const data = useContext(dataContext);
+    const data = useContext(DataContext);
     const dispatch = useDispatch();
 
     return (

@@ -12,7 +12,7 @@ import FaqDialog from './FaqDialog';
 import Header from './Header';
 import Timetable from './Timetable';
 
-import dataContext from '../context';
+import DataContext from '../context';
 import oldTimetableScript from '../timetable';
 
 import styles from './App.module.css';
@@ -46,7 +46,7 @@ const App = memo(() => {
     };
 
     return (
-        <dataContext.Provider value={data}>
+        <DataContext.Provider value={data}>
             <div className={styles.app}>
                 <Header />
                 <div className={styles.container}>
@@ -70,7 +70,7 @@ const App = memo(() => {
                     <FaqDialog />
                 </div>
             </div>
-        </dataContext.Provider>
+        </DataContext.Provider>
     );
 });
 
