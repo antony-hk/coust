@@ -14,55 +14,28 @@ import oldTimetableScript from '../timetable';
 
 import styles from './App.module.css';
 
-import axios from "axios";
-import { useQuery } from "react-query";
+import axios from 'axios';
+import { useQuery } from 'react-query';
 
-const State = {
-    readMode: false,
-    color: 0,
-    courseColor: [],
-    terms: "", // store terms info
-    data: "", // data get from courseInfo.json (via data.php and .json updated by mkdata.php)
-    loaded: false, // check if data loaded when adding course
-    searchHints: [],
-    semester: null, // store term in use
-    timetable: {}, // store the timetable
-  
-    API_PATH: 'https://coust.442.hk/',
-    CLIENT_PATH: 'https://coust.github.io/',
-    COOKIE_EXPIRE_DAYS: 50,
-  };
+const API_PATH = 'https://coust.442.hk/';
 
 const App = memo(() => {
-    const { isLoading, isError, data, error, refetch } = useQuery({
+    const { data } = useQuery({
         queryKey: ["data"],
         queryFn: () =>
             axios
-            .get(State.API_PATH + 'json/data.php')
-            .then((res) => res.data),
-        refetchInterval:0,
+                .get(API_PATH + 'json/data.php')
+                .then((res) => res.data),
+        refetchInterval: 0,
     });
 
     useEffect(() => {
-        if(!data) return;
-        State.data = data;
-        State.terms = State.data["terms"];
-        State.semester = State.terms["current"];
-        State.loaded = true;
-        Object.keys(data).map((key)=>{
-        if (key === "terms" || key === "lastUpdated") return true;
-        State.searchHints.push(data[key].code + ': ' + data[key].name);
-        });
+        if (!data) {
+            return;
+        }
         window.data = data;
         oldTimetableScript();
     }, [data]);
-    //TODO error handling
-    //if (isLoading) return "Loading...";
-    //if (error) return "An error has occurred: " + error.message;
-    
-    //TODO mirgate from timetable.js
-    //getURL();
-    //$("#add").autocomplete();
 
     const loadingDivStyle = {
         display: 'block',

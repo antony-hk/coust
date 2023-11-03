@@ -1,10 +1,10 @@
 import { createRoot } from 'react-dom/client';
+import { QueryClient, QueryClientProvider } from 'react-query';
 import { Provider } from 'react-redux';
 
 import './index.css';
 import App from './components/App';
 import * as serviceWorker from './serviceWorker';
-import { QueryClient, QueryClientProvider } from "react-query";
 
 // Redux
 import store from './store';
