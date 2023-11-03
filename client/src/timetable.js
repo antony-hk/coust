@@ -28,7 +28,6 @@ require('jquery-ui-touch-punch');
 window.readMode = false;
 window.color = 0;
 window.courseColor = [];
-window.terms = ""; // store terms info
 window.loaded = false; // check if data loaded when adding course
 window.searchHints = [];
 window.timetable = {}; // store the timetable
@@ -38,8 +37,6 @@ window.CLIENT_PATH = 'https://coust.github.io/';
 window.COOKIE_EXPIRE_DAYS = 50;
 
 function timetable(data) {
-    window.terms = data["terms"];
-    //delete data["terms"];
     window.loaded = true;
     $.each(data, function (key, val) {
         if (key === "terms" || key === "lastUpdated") return true;
@@ -68,7 +65,7 @@ function timetable(data) {
     });
     // add term info and last update
     $("#update-time").html(data["lastUpdated"]);
-    $("#termInfo").html(window.terms["current"]["text"]);
+    $("#termInfo").html(data.terms.current.text);
     // load courses added from cookies
     loadFromUrlOrStorage(data);
     compactTable();
