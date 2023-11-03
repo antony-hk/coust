@@ -1,6 +1,6 @@
-export default function getURL() {
+export default function getURL(data) {
     // TODO: Remove usages of global variables
-    const semester = window.semester;
+    const semester = data.terms.current;
     const timetable = window.timetable;
 
     const courseCodes = Object.keys(timetable);

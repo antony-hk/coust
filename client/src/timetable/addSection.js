@@ -6,14 +6,14 @@ import getURL from './getURL';
 import saveTimetableToStorage from './saveTimetableToStorage';
 
 // course: course object, section: section number, singleton: boolean
-export default function addSection(course, section, singleton, virtual) {
-    var code = course["code"];
+export default function addSection(data, course, section, singleton, virtual) {
+    var code = course.code;
     if (!virtual) window.timetable[code].push(section);
-    var sectionObjs = getSectionObjs(code, section);
+    var sectionObjs = getSectionObjs(data, code, section);
     var timeStr = "";
     var dates = null, weekdays = null, times = null;
     for (var s = 0; s < sectionObjs.length; s++) {
-        var datetime = sectionObjs[s]["datetime"];
+        var datetime = sectionObjs[s].datetime;
         var hasDate = 0;
         if (datetime.length === 2) hasDate = 1;
         if (hasDate === 1) {
@@ -33,8 +33,8 @@ export default function addSection(course, section, singleton, virtual) {
                 $("#no-tba").hide();
             }
             // save timetable to cookies
-            saveTimetableToStorage();
-            getURL();
+            saveTimetableToStorage(data);
+            getURL(data);
             continue;
         }
         weekdays = datetime[hasDate].match(/(Mo|Tu|We|Th|Fr|Sa|Su)/ig);
@@ -52,7 +52,7 @@ export default function addSection(course, section, singleton, virtual) {
             timeStr = dates[0] + " - " + dates[1] + " " + timeStr;
         }
         for (var k = 0; k < weekdays.length; k++) {
-            addCourseBox(code, section, weekdays[k], times[0], times[1], singleton, virtual, dates, sectionObjs[s]);
+            addCourseBox(data, code, section, weekdays[k], times[0], times[1], singleton, virtual, dates, sectionObjs[s]);
         }
     }
 }

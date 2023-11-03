@@ -28,27 +28,21 @@ require('jquery-ui-touch-punch');
 window.readMode = false;
 window.color = 0;
 window.courseColor = [];
-window.terms = ""; // store terms info
-window.data = ""; // data get from courseInfo.json (via data.php and .json updated by mkdata.php)
 window.loaded = false; // check if data loaded when adding course
 window.searchHints = [];
-window.semester = null; // store term in use
 window.timetable = {}; // store the timetable
 
 window.API_PATH = 'https://coust.442.hk/';
 window.CLIENT_PATH = 'https://coust.github.io/';
 window.COOKIE_EXPIRE_DAYS = 50;
 
-function timetable() {
-    window.terms = window.data["terms"];
-    window.semester = window.terms["current"];
-    //delete data["terms"];
+function timetable(data) {
     window.loaded = true;
-    $.each(window.data, function (key, val) {
+    $.each(data, function (key, val) {
         if (key === "terms" || key === "lastUpdated") return true;
         window.searchHints.push(key + ': ' + val["name"]);
     });
-    getURL();
+    getURL(data);
 
     $("#add").autocomplete({
         // source: "http://coust.442.hk/json/parser.php?type=searchHints",
@@ -61,7 +55,7 @@ function timetable() {
             event.preventDefault();
 
             const courseCode = ui.item.value.split(': ')[0];
-            addCourse(courseCode);
+            addCourse(data, courseCode);
         },
     }).focus(function () {
         $(this).autocomplete("search", "");
@@ -70,10 +64,10 @@ function timetable() {
         $(this).autocomplete("search", $(this).val());
     });
     // add term info and last update
-    $("#update-time").html(window.data["lastUpdated"]);
-    $("#termInfo").html(window.terms["current"]["text"]);
+    $("#update-time").html(data.lastUpdated);
+    $("#termInfo").html(data.terms.current.text);
     // load courses added from cookies
-    loadFromUrlOrStorage();
+    loadFromUrlOrStorage(data);
     compactTable();
 }
 

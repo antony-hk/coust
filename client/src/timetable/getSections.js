@@ -1,13 +1,13 @@
-export default function getSections(code) {
+export default function getSections(data, code) {
     if (!window.loaded) {
         return null;
     }
 
-    if (!window.data.hasOwnProperty(code)) {
+    if (!data.hasOwnProperty(code)) {
         return null;
     }
 
-    const course = window.data[code];
+    const course = data[code];
     const { sections } = course;
 
     const ret = {};

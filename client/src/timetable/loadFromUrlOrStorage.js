@@ -22,11 +22,11 @@ function decodeTimetableStr(timetableStr) {
     return ret;
 }
 
-export default function loadFromUrlOrStorage() {
+export default function loadFromUrlOrStorage(data) {
     var timetableStr = "";
     if (getURLParameter("timetable") !== null) {
         var timetableSemester = getURLParameter("semester");
-        if (timetableSemester == window.terms["current"]["num"]) {
+        if (timetableSemester == data.terms.current.num) {
             timetableStr = getURLParameter("timetable");
             window.readMode = true;
             $("#readmode").show();
@@ -37,7 +37,7 @@ export default function loadFromUrlOrStorage() {
     }
     else {
         var timetableSemester = getStoredValue("timetable-semester");
-        if (timetableSemester == window.terms["current"]["num"]) {
+        if (timetableSemester == data.terms.current.num) {
             timetableStr = getStoredValue("timetable");
         }
         $("#readmode").hide();
@@ -49,7 +49,7 @@ export default function loadFromUrlOrStorage() {
     $("#loading").show();
     for (const courseCode in timetableData) {
         const sections = timetableData[courseCode];
-        addCourse(courseCode, sections);
+        addCourse(data, courseCode, sections);
     }
     $("#loading").hide();
     $(".content").show();

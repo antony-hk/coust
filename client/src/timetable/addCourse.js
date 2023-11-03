@@ -7,7 +7,7 @@ import getSections from './getSections';
 import store from '../store';
 import { getAddCourseAction } from '../actions/course';
 
-export default function addCourse(courseCode, registeredSections) {
+export default function addCourse(data, courseCode, registeredSections) {
     if (!window.loaded) {
         console.log('Please try again later as data is still loading...');
         return false;
@@ -18,7 +18,7 @@ export default function addCourse(courseCode, registeredSections) {
         return false;
     }
 
-    if (!window.data.hasOwnProperty(courseCode)) {
+    if (!data.hasOwnProperty(courseCode)) {
         console.log(`Course not found: ${courseCode}`);
         return false;
     }
@@ -30,7 +30,7 @@ export default function addCourse(courseCode, registeredSections) {
     }
 
     window.timetable[courseCode] = [];
-    const course = window.data[courseCode];
+    const course = data[courseCode];
 
     // remove from search hints of autocomplete
     const hintsText = `${courseCode}: ${course.name}`;
@@ -43,12 +43,13 @@ export default function addCourse(courseCode, registeredSections) {
         }
     }
 
-    const sections = getSections(courseCode);
+    const sections = getSections(data, courseCode);
     if (registeredSections) {
         registeredSections.forEach(section => {
             const isSectionSingleton = (sections[section.match(/[A-Z]+/i)].length === 1);
 
             addSection(
+                data,
                 course,
                 section,
                 isSectionSingleton,
@@ -63,6 +64,7 @@ export default function addCourse(courseCode, registeredSections) {
             const isSectionSingleton = (sections[type].length === 1);
 
             addSection(
+                data,
                 course,
                 firstSection,
                 isSectionSingleton,
