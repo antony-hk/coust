@@ -1,7 +1,7 @@
 import $ from 'jquery';
 
 import addSection from './addSection';
-import addVirtualCourse from './addVirtualCoruse';
+import addVirtualCourse from './addVirtualCourse';
 import getURL from './getURL';
 import removeSection from './removeSection';
 import removeVirtualCourse from './removeVirtualCourse';
