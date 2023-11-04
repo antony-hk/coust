@@ -31,10 +31,10 @@ export default function removeCourse(data,courseCode) {
     window.searchHints.push(`${courseCode}: ${data[courseCode].name}`);
     window.searchHints.sort();
 
+    // TODO: Redux flow should be put back into React components
+    store.dispatch(getRemoveCourseAction(courseCode));
+
     // save to cookies
     saveTimetableToStorage(data);
     compactTable();
-
-    // TODO: Redux flow should be put back into React components
-    store.dispatch(getRemoveCourseAction(courseCode));
 }
