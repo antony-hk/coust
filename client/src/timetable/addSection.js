@@ -5,10 +5,16 @@ import getSectionObjs from './getSectionObjs';
 import getURL from './getURL';
 import saveTimetableToStorage from './saveTimetableToStorage';
 
+// TODO: Redux flow should be put back into React components
+import store from '../store';
+import { getAddCourseSectionAction } from '../actions/course';
+
 // course: course object, section: section number, singleton: boolean
 export default function addSection(data, course, section, singleton, virtual) {
-    var code = course.code;
-    if (!virtual) window.timetable[code].push(section);
+    const { code } = course;
+    // TODO: Redux flow should be put back into React components
+    store.dispatch(getAddCourseSectionAction(code, section, virtual));
+
     var sectionObjs = getSectionObjs(data, code, section);
     var timeStr = "";
     var dates = null, weekdays = null, times = null;
