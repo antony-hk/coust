@@ -10,12 +10,6 @@ export default function removeSection(data, code, section) {
     // TODO: Redux flow should be put back into React components
     store.dispatch(getRemoveCourseSectionAction(code, section));
 
-    // If no courses with TBA date & time, show the empty state
-    $(`.tba.${code}.${section}`).remove();
-    if ($("#tba-courses").children().length === 0) {
-        $("#no-tba").show();
-    }
-
     $(`td.occupied div.lesson.${code}.${section}`).each(function () {
         const cell = $(this).parent();
         const colSpan = $(cell).attr("colspan");

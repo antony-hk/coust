@@ -14,10 +14,6 @@ export default function removeCourse(data,courseCode) {
         return;
     }
 
-    $('.tba.' + courseCode).remove();
-    if ($('#tba-courses').children().length === 0) {
-        $('#no-tba').show();
-    }
     $('td.occupied div.lesson.' + courseCode).each(function () {
         const cell = $(this).parent();
         const colspan = $(cell).attr('colspan');

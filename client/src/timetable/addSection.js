@@ -31,13 +31,6 @@ export default function addSection(data, course, section, singleton, virtual) {
                 dates['multiple'] = false;
         }
         if (datetime[0] === "TBA") { // TBA cannot be added into timetable
-            var str = "<span class='tba " + code + " " + section + "'>";
-            if (!virtual) {
-                if ($("#no-tba").is(':hidden')) str += ', ';
-                str += course.code + " " + section + "</span>";
-                $("#tba-courses").append(str);
-                $("#no-tba").hide();
-            }
             // save timetable to cookies
             saveTimetableToStorage(data);
             getURL(data);

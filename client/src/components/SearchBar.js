@@ -16,7 +16,9 @@ const SearchBar = () => {
             className={styles.searchBar}
             onSubmit={handleSubmit}
         >
-            <div className={styles.termInfo} id="termInfo">Loading...</div>
+            <div className={styles.termInfo}>
+                {data?.terms?.current?.text || 'Loading...'}
+            </div>
             <div className={styles.inputContainer}>
                 <input
                     className={styles.input}
