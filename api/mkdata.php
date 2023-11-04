@@ -24,7 +24,7 @@ foreach($result['depts'] as $dept) {
 }
 $last_updated = date("j F, Y, g:i a");
 $courseInfo["lastUpdated"] = $last_updated;
-file_put_contents("../data/courseInfo_${term}.json", json_encode($courseInfo));
+file_put_contents("./data/courseInfo_${term}.json", json_encode($courseInfo));
 
 print "DONE";
 
