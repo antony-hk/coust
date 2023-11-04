@@ -13,12 +13,8 @@ export default function saveTimetableToStorage(data) {
 
     let timetableStr = "";
     for (const code in timetable) {
-        let sectionStr = "";
-        for (let i = 0; i < timetable[code].length; i++) {
-            if (i !== 0) sectionStr += ",";
-            sectionStr += timetable[code][i];
-        }
-        timetableStr += code + ":_" + sectionStr + "!";
+        const sectionStr = timetable[code].join(",");
+        timetableStr += `${code}:_${sectionStr}!`;
     }
     storeValue("timetable", encodeURIComponent(timetableStr));
     storeValue("timetable-semester", data.terms.current.num);

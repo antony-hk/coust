@@ -1,5 +1,3 @@
-import $ from 'jquery';
-
 import addSection from './addSection';
 import getSections from './getSections';
 
