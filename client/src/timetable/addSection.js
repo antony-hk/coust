@@ -1,8 +1,5 @@
-import $ from 'jquery';
-
 import addCourseBox from './addCourseBox';
 import getSectionObjs from './getSectionObjs';
-import getURL from './getURL';
 import saveTimetableToStorage from './saveTimetableToStorage';
 
 // TODO: Redux flow should be put back into React components
@@ -33,7 +30,6 @@ export default function addSection(data, course, section, singleton, virtual) {
         if (datetime[0] === "TBA") { // TBA cannot be added into timetable
             // save timetable to cookies
             saveTimetableToStorage(data);
-            getURL(data);
             continue;
         }
         weekdays = datetime[hasDate].match(/(Mo|Tu|We|Th|Fr|Sa|Su)/ig);

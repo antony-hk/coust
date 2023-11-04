@@ -17,7 +17,6 @@ import './color.css';
 import './override-jquery-ui.css';
 
 import compactTable from './timetable/compactTable';
-import getURL from './timetable/getURL';
 import loadFromUrlOrStorage from './timetable/loadFromUrlOrStorage';
 
 window.jQuery = $;
@@ -33,8 +32,6 @@ window.CLIENT_PATH = 'https://coust.github.io/';
 window.COOKIE_EXPIRE_DAYS = 50;
 
 function oldTimetableScript(data) {
-    getURL(data);
-
     // load courses added from cookies
     loadFromUrlOrStorage(data);
     compactTable();
