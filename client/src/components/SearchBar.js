@@ -1,4 +1,11 @@
-import { useContext, useEffect, useRef, useState } from 'react';
+import {
+    useContext,
+    useEffect,
+    useMemo,
+    useRef,
+    useState,
+} from 'react';
+import { useSelector } from 'react-redux';
 import $ from 'jquery';
 
 import DataContext from '../context';
@@ -8,8 +15,29 @@ import styles from './SearchBar.module.css';
 
 const SearchBar = () => {
     const data = useContext(DataContext);
+    const timetable = useSelector(state => (state.app.timetable));
     const inputRef = useRef(null);
     const [inputValue, setInputValue] = useState('');
+
+    const searchHints = useMemo(() => {
+        if (!data) {
+            return [];
+        }
+
+        const ret = [];
+        Object.entries(data).forEach(([courseCode, value]) => {
+            if (courseCode === 'terms' || courseCode === 'lastUpdated') {
+                return;
+            }
+            if (timetable.hasOwnProperty(courseCode)){
+                return;
+            }
+            ret.push(`${courseCode}: ${value.name}`);
+        });
+        ret.sort();
+
+        return ret;
+    }, [data, timetable]);
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -18,8 +46,7 @@ const SearchBar = () => {
     useEffect(() => {
         const inputEl = inputRef.current;
         $(inputEl).autocomplete({
-            // source: "http://coust.442.hk/json/parser.php?type=searchHints",
-            source: window.searchHints,
+            source: searchHints,
             minLength: 0,
             focus: (event, ui) => {
                 event.preventDefault();
@@ -31,7 +58,7 @@ const SearchBar = () => {
                 setInputValue('');
             },
         });
-    }, [data]);
+    }, [data, searchHints]);
 
     return (
         <form

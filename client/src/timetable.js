@@ -27,17 +27,12 @@ require('jquery-ui-touch-punch');
 window.readMode = false;
 window.color = 0;
 window.courseColor = [];
-window.searchHints = [];
 
 window.API_PATH = 'https://coust.442.hk/';
 window.CLIENT_PATH = 'https://coust.github.io/';
 window.COOKIE_EXPIRE_DAYS = 50;
 
 function oldTimetableScript(data) {
-    $.each(data, function (key, val) {
-        if (key === "terms" || key === "lastUpdated") return true;
-        window.searchHints.push(key + ': ' + val["name"]);
-    });
     getURL(data);
 
     // load courses added from cookies
