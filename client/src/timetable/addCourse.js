@@ -32,17 +32,6 @@ export default function addCourse(data, courseCode, registeredSections) {
 
     const course = data[courseCode];
 
-    // remove the added course from search hints of autocomplete
-    const hintsText = `${courseCode}: ${course.name}`;
-    for (let i = 0; i < window.searchHints.length;) {
-        if (window.searchHints[i] === hintsText) {
-            window.searchHints.splice(i, 1);
-            break;
-        } else {
-            i++;
-        }
-    }
-
     const sections = getSections(data, courseCode);
     if (registeredSections) {
         registeredSections.forEach(section => {
@@ -75,7 +64,6 @@ export default function addCourse(data, courseCode, registeredSections) {
 
     window.courseColor[courseCode] = window.color;
     window.color = (window.color + 1) % 10;
-    $('#add').val(''); // clear input text
 
     return false; // always return false to avoid form submitting
 }

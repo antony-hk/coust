@@ -3,19 +3,43 @@ import { useSelector } from 'react-redux';
 import CourseRow from './CourseRow';
 
 import styles from './CourseInfoSection.module.css';
+import { useContext, useMemo } from 'react';
+import DataContext from '../context';
 
-const CourseInfoSection = (props) => {
+const CourseInfoSection = () => {
+    const data = useContext(DataContext);
     const registeredCourses = useSelector(state => (state.app.registeredCourses));
+    const timetable = useSelector(state => (state.app.timetable));
+
+    const tbaCourses = useMemo(() => {
+        const ret = [];
+
+        Object.keys(timetable)
+            .forEach((courseCode) => {
+                const sectionCodes = timetable[courseCode];
+                sectionCodes.forEach((sectionCode) => {
+                    data[courseCode].sections.forEach((sectionObj) => {
+                        if (
+                            sectionObj.section === sectionCode &&
+                            sectionObj.datetime[0] === 'TBA'
+                        ) {
+                            ret.push(`${courseCode} ${sectionCode}`);
+                        }
+                    });
+                });
+            });
+
+        return ret.join(', ');
+    }, [data, timetable]);
 
     return (
         <div className={styles.courseInfoSection}>
             <div className={styles.tbaCourses}>
                 {`Courses with "TBA" date & time: `}
-                <span id="no-tba">None</span>
-                <span id="tba-courses"></span>
+                <span>{tbaCourses || 'None'}</span>
             </div>
             <div className={styles.courseListContainer}>
-                <table id="timetable_controls" className={styles.timetableControls}>
+                <table className={styles.timetableControls}>
                     <thead>
                         <tr>
                             <th>Code</th>
@@ -32,8 +56,8 @@ const CourseInfoSection = (props) => {
                                 />
                             ))
                         ) : (
-                            <tr id="none" className={styles.none}>
-                                <td colSpan="3">No courses added.</td>
+                            <tr className={styles.none}>
+                                <td colSpan={3}>No courses added.</td>
                             </tr>
                         )}
                     </tbody>

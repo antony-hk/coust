@@ -14,10 +14,6 @@ export default function removeCourse(data,courseCode) {
         return;
     }
 
-    $('.tba.' + courseCode).remove();
-    if ($('#tba-courses').children().length === 0) {
-        $('#no-tba').show();
-    }
     $('td.occupied div.lesson.' + courseCode).each(function () {
         const cell = $(this).parent();
         const colspan = $(cell).attr('colspan');
@@ -31,14 +27,10 @@ export default function removeCourse(data,courseCode) {
         $(this).remove();
     });
 
-    // add back to search hints of autocomplete
-    window.searchHints.push(`${courseCode}: ${data[courseCode].name}`);
-    window.searchHints.sort();
+    // TODO: Redux flow should be put back into React components
+    store.dispatch(getRemoveCourseAction(courseCode));
 
     // save to cookies
     saveTimetableToStorage(data);
     compactTable();
-
-    // TODO: Redux flow should be put back into React components
-    store.dispatch(getRemoveCourseAction(courseCode));
 }
