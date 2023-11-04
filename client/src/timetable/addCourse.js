@@ -24,10 +24,12 @@ export default function addCourse(data, courseCode, registeredSections) {
         return false;
     }
 
-    window.timetable[courseCode] = [];
+    // TODO: Redux flow should be put back into React components
+    store.dispatch(getAddCourseAction(courseCode));
+
     const course = data[courseCode];
 
-    // remove from search hints of autocomplete
+    // remove the added course from search hints of autocomplete
     const hintsText = `${courseCode}: ${course.name}`;
     for (let i = 0; i < window.searchHints.length;) {
         if (window.searchHints[i] === hintsText) {
@@ -71,9 +73,6 @@ export default function addCourse(data, courseCode, registeredSections) {
     window.courseColor[courseCode] = window.color;
     window.color = (window.color + 1) % 10;
     $('#add').val(''); // clear input text
-
-    // TODO: Redux flow should be put back into React components
-    store.dispatch(getAddCourseAction(courseCode));
 
     return false; // always return false to avoid form submitting
 }

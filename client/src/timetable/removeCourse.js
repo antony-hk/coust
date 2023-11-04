@@ -34,8 +34,6 @@ export default function removeCourse(data,courseCode) {
     // add back to search hints of autocomplete
     window.searchHints.push(`${courseCode}: ${data[courseCode].name}`);
     window.searchHints.sort();
-    delete window.timetable[courseCode];
-    delete window.courseColor[courseCode];
 
     // save to cookies
     saveTimetableToStorage(data);

@@ -12,6 +12,8 @@ const appReducer = (state = initialState, action) => {
                 courseCode,
             ];
 
+            window.timetable[courseCode] = [];
+
             return {
                 ...state,
                 registeredCourses: newRegisteredCourses,
@@ -22,6 +24,9 @@ const appReducer = (state = initialState, action) => {
             const { courseCode } = action.payload;
             const newRegisteredCourses = state.registeredCourses
                 .filter(registeredCourseCode => registeredCourseCode !== courseCode);
+
+            delete window.timetable[courseCode];
+            delete window.courseColor[courseCode];
 
             return {
                 ...state,
