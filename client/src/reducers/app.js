@@ -1,6 +1,7 @@
 const initialState = {
     isFaqDialogOpened: false,
     registeredCourses: [],
+    timetable: {},
 };
 
 const appReducer = (state = initialState, action) => {
@@ -12,11 +13,13 @@ const appReducer = (state = initialState, action) => {
                 courseCode,
             ];
 
-            window.timetable[courseCode] = [];
-
             return {
                 ...state,
                 registeredCourses: newRegisteredCourses,
+                timetable: {
+                    ...state.timetable,
+                    [courseCode]: [],
+                },
             };
         }
 
@@ -27,12 +30,17 @@ const appReducer = (state = initialState, action) => {
                 isVirtual,
             } = action.payload;
 
+            let newTimetable = { ...state.timetable };
             if (!isVirtual) {
-                window.timetable[courseCode].push(courseSection);
+                newTimetable[courseCode] = [
+                    ...state.timetable[courseCode],
+                    courseSection
+                ];
             }
 
             return {
                 ...state,
+                timetable: newTimetable,
             };
         }
 
@@ -41,24 +49,31 @@ const appReducer = (state = initialState, action) => {
             const newRegisteredCourses = state.registeredCourses
                 .filter(registeredCourseCode => registeredCourseCode !== courseCode);
 
-            delete window.timetable[courseCode];
+            const newTimetable = {
+                ...state.timetable,
+            };
+            delete newTimetable[courseCode];
+
             delete window.courseColor[courseCode];
 
             return {
                 ...state,
                 registeredCourses: newRegisteredCourses,
+                timetable: newTimetable,
             };
         }
 
         case 'REMOVE_COURSE_SECTION': {
             const { courseCode, courseSection } = action.payload;
 
-            window.timetable[courseCode] = window.timetable[courseCode].filter(
-                timetableSection => timetableSection !== courseSection
-            )
-
             return {
                 ...state,
+                timetable: {
+                    ...state.timetable,
+                    [courseCode]: state.timetable[courseCode].filter(
+                        timetableSection => timetableSection !== courseSection
+                    ),
+                },
             };
         }
 

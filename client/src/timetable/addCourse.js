@@ -8,6 +8,9 @@ import store from '../store';
 import { getAddCourseAction } from '../actions/course';
 
 export default function addCourse(data, courseCode, registeredSections) {
+    // TODO: Redux flow should be put back into React components
+    const timetable = store.getState().app.timetable;
+
     if (!courseCode) {
         console.log('No course code');
         return false;
@@ -18,7 +21,7 @@ export default function addCourse(data, courseCode, registeredSections) {
         return false;
     }
 
-    if (window.timetable.hasOwnProperty(courseCode)) {
+    if (timetable.hasOwnProperty(courseCode)) {
         console.warn('Course already added!');
 
         return false;
