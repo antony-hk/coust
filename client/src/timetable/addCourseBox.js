@@ -91,8 +91,8 @@ function getCourseBoxHTML(
             .attr("class")
             .match(/color[0-9]+/i);
     }
-    if (window.courseColor?.[code]) {
-        colorClassName = window.courseColor?.[code];
+    if (window.courseColor?.hasOwnProperty(code)) {
+        colorClassName = `color${window.courseColor?.[code]}`;
     }
 
     const className = clsx(
