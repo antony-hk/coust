@@ -16,7 +16,6 @@ import 'jquery-ui/themes/base/menu.css';
 import './color.css';
 import './override-jquery-ui.css';
 
-import addCourse from './timetable/addCourse';
 import compactTable from './timetable/compactTable';
 import getURL from './timetable/getURL';
 import loadFromUrlOrStorage from './timetable/loadFromUrlOrStorage';
@@ -41,25 +40,6 @@ function oldTimetableScript(data) {
     });
     getURL(data);
 
-    $("#add").autocomplete({
-        // source: "http://coust.442.hk/json/parser.php?type=searchHints",
-        source: window.searchHints,
-        minLength: 0,
-        focus: function (event, ui) {
-            event.preventDefault();
-        },
-        select: (event, ui) => {
-            event.preventDefault();
-
-            const courseCode = ui.item.value.split(': ')[0];
-            addCourse(data, courseCode);
-        },
-    }).focus(function () {
-        $(this).autocomplete("search", "");
-    });
-    $("#add").click(function () {
-        $(this).autocomplete("search", $(this).val());
-    });
     // load courses added from cookies
     loadFromUrlOrStorage(data);
     compactTable();

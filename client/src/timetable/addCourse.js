@@ -75,7 +75,6 @@ export default function addCourse(data, courseCode, registeredSections) {
 
     window.courseColor[courseCode] = window.color;
     window.color = (window.color + 1) % 10;
-    $('#add').val(''); // clear input text
 
     return false; // always return false to avoid form submitting
 }
