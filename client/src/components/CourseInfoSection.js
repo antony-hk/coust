@@ -39,7 +39,7 @@ const CourseInfoSection = () => {
                 <span>{tbaCourses || 'None'}</span>
             </div>
             <div className={styles.courseListContainer}>
-                <table id="timetable_controls" className={styles.timetableControls}>
+                <table className={styles.timetableControls}>
                     <thead>
                         <tr>
                             <th>Code</th>
@@ -56,8 +56,8 @@ const CourseInfoSection = () => {
                                 />
                             ))
                         ) : (
-                            <tr id="none" className={styles.none}>
-                                <td colSpan="3">No courses added.</td>
+                            <tr className={styles.none}>
+                                <td colSpan={3}>No courses added.</td>
                             </tr>
                         )}
                     </tbody>

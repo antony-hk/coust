@@ -9,7 +9,7 @@ import Button from './Button';
 
 import styles from './Aside.module.css';
 
-const Aside = (props) => {
+const Aside = () => {
     const data = useContext(DataContext);
     const dispatch = useDispatch();
 
@@ -47,7 +47,7 @@ const Aside = (props) => {
                 <p className={styles.lastUpdate}>
                     {`Data last updated: `}
                     <br />
-                    <span id="update-time" />
+                    {data?.lastUpdated || ''}
                 </p>
             </div>
         </div>
