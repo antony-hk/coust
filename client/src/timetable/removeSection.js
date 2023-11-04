@@ -4,25 +4,23 @@ import compactTable from './compactTable';
 import getURL from './getURL';
 
 export default function removeSection(data, code, section) {
-    for (var i = 0; i < window.timetable[code].length;) {
-        if (window.timetable[code][i] === section) {
-            window.timetable[code].splice(i, 1);
-        }
-        else {
-            i++;
-        }
-    }
-    $(".tba." + code + "." + section).remove();
+    window.timetable[code] = window.timetable[code].filter(
+        timetableSection => timetableSection !== section
+    )
+
+    // If no courses with TBA date & time, show the empty state
+    $(`.tba.${code}.${section}`).remove();
     if ($("#tba-courses").children().length === 0) {
         $("#no-tba").show();
     }
-    $("td.occupied div.lesson." + code + "." + section).each(function () {
-        var cell = $(this).parent();
-        var colspan = $(cell).attr("colspan");
+
+    $(`td.occupied div.lesson.${code}.${section}`).each(function () {
+        const cell = $(this).parent();
+        const colSpan = $(cell).attr("colspan");
         $(cell).removeAttr("colspan");
         $(cell).removeClass("occupied");
-        var next = $(cell).next();
-        for (var i = 1; i < colspan; i++) {
+        let next = $(cell).next();
+        for (let i = 1; i < colSpan; i++) {
             $(next).removeClass("hidden");
             next = $(next).next();
         }
