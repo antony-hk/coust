@@ -8,6 +8,9 @@ import store from '../store';
 import { getAddCourseAction } from '../actions/course';
 
 export default function addCourse(data, courseCode, registeredSections) {
+    // TODO: Redux flow should be put back into React components
+    const timetable = store.getState().app.timetable;
+
     if (!courseCode) {
         console.log('No course code');
         return false;
@@ -18,16 +21,18 @@ export default function addCourse(data, courseCode, registeredSections) {
         return false;
     }
 
-    if (window.timetable.hasOwnProperty(courseCode)) {
+    if (timetable.hasOwnProperty(courseCode)) {
         console.warn('Course already added!');
 
         return false;
     }
 
-    window.timetable[courseCode] = [];
+    // TODO: Redux flow should be put back into React components
+    store.dispatch(getAddCourseAction(courseCode));
+
     const course = data[courseCode];
 
-    // remove from search hints of autocomplete
+    // remove the added course from search hints of autocomplete
     const hintsText = `${courseCode}: ${course.name}`;
     for (let i = 0; i < window.searchHints.length;) {
         if (window.searchHints[i] === hintsText) {
@@ -71,9 +76,6 @@ export default function addCourse(data, courseCode, registeredSections) {
     window.courseColor[courseCode] = window.color;
     window.color = (window.color + 1) % 10;
     $('#add').val(''); // clear input text
-
-    // TODO: Redux flow should be put back into React components
-    store.dispatch(getAddCourseAction(courseCode));
 
     return false; // always return false to avoid form submitting
 }

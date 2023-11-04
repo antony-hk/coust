@@ -1,13 +1,22 @@
 import storeValue from './storeValue';
 
+// TODO: Redux flow should be put back into React components
+import store from '../store';
+
 export default function saveTimetableToStorage(data) {
-    if (window.readMode) return; // reading others timetable
-    var timetableStr = "";
-    for (var code in window.timetable) {
-        var sectionStr = "";
-        for (var i = 0; i < window.timetable[code].length; i++) {
+    if (window.readMode) {
+        return; // reading others timetable
+    }
+
+    // TODO: Redux flow should be put back into React components
+    const timetable = store.getState().app.timetable;
+
+    let timetableStr = "";
+    for (const code in timetable) {
+        let sectionStr = "";
+        for (let i = 0; i < timetable[code].length; i++) {
             if (i !== 0) sectionStr += ",";
-            sectionStr += window.timetable[code][i];
+            sectionStr += timetable[code][i];
         }
         timetableStr += code + ":_" + sectionStr + "!";
     }
