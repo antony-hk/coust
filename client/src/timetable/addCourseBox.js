@@ -2,7 +2,6 @@ import $ from 'jquery';
 
 import addSection from './addSection';
 import addVirtualCourse from './addVirtualCourse';
-import getURL from './getURL';
 import removeSection from './removeSection';
 import removeVirtualCourse from './removeVirtualCourse';
 import saveTimetableToStorage from './saveTimetableToStorage';
@@ -173,7 +172,6 @@ export default function addCourseBox(data, code, section, weekday, start, end, s
     $("div.lesson." + code).parentsUntil("tr").parent().removeClass("spare-tr");
     // save timetable to cookies
     saveTimetableToStorage(data);
-    getURL(data);
     updateConflictStyle();
     if (window.readMode) $(".lesson.draggable").draggable("disable");
 }

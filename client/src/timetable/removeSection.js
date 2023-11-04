@@ -4,7 +4,6 @@ import { getRemoveCourseSectionAction } from '../actions/course';
 import store from '../store';
 
 import compactTable from './compactTable';
-import getURL from './getURL';
 
 export default function removeSection(data, code, section) {
     // TODO: Redux flow should be put back into React components
@@ -23,5 +22,4 @@ export default function removeSection(data, code, section) {
         $(this).remove();
     });
     compactTable();
-    getURL(data);
 }
