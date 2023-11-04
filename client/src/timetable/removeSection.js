@@ -1,12 +1,14 @@
 import $ from 'jquery';
 
+import { getRemoveCourseSectionAction } from '../actions/course';
+import store from '../store';
+
 import compactTable from './compactTable';
 import getURL from './getURL';
 
 export default function removeSection(data, code, section) {
-    window.timetable[code] = window.timetable[code].filter(
-        timetableSection => timetableSection !== section
-    )
+    // TODO: Redux flow should be put back into React components
+    store.dispatch(getRemoveCourseSectionAction(code, section));
 
     // If no courses with TBA date & time, show the empty state
     $(`.tba.${code}.${section}`).remove();

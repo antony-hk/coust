@@ -20,6 +20,22 @@ const appReducer = (state = initialState, action) => {
             };
         }
 
+        case 'ADD_COURSE_SECTION': {
+            const {
+                courseCode,
+                courseSection,
+                isVirtual,
+            } = action.payload;
+
+            if (!isVirtual) {
+                window.timetable[courseCode].push(courseSection);
+            }
+
+            return {
+                ...state,
+            };
+        }
+
         case 'REMOVE_COURSE': {
             const { courseCode } = action.payload;
             const newRegisteredCourses = state.registeredCourses
@@ -31,6 +47,18 @@ const appReducer = (state = initialState, action) => {
             return {
                 ...state,
                 registeredCourses: newRegisteredCourses,
+            };
+        }
+
+        case 'REMOVE_COURSE_SECTION': {
+            const { courseCode, courseSection } = action.payload;
+
+            window.timetable[courseCode] = window.timetable[courseCode].filter(
+                timetableSection => timetableSection !== courseSection
+            )
+
+            return {
+                ...state,
             };
         }
 
