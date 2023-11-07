@@ -1,6 +1,5 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import clsx from 'clsx';
 
 import { openFaqDialog } from '../actions/faqDialog';
 import DataContext from '../context';
@@ -49,17 +48,16 @@ const Aside = () => {
     return (
         <div className={styles.aside}>
             <div>
-                <div className={styles.shareLinkInputContainer}>
-                    <input
-                        id="shareLinkInput"
-                        className={clsx(
-                            styles.shareLinkInput,
-                            showLinkInput && styles.shareLinkInputDisplay,
-                        )}
-                        type="text"
-                        value={shareURL}
-                    />
-                </div>
+                {showLinkInput && (
+                    <div className={styles.shareLinkInputContainer}>
+                        <input
+                            id="shareLinkInput"
+                            className={styles.shareLinkInput}
+                            type="text"
+                            value={shareURL}
+                        />
+                    </div>
+                )}
                 <div className={styles.copyResult} id="copyResult">
                     {copyResult}
                 </div>
