@@ -20,23 +20,23 @@ const Aside = () => {
     const dispatch = useDispatch();
 
     const handleShareButtonClick = () => {
-        setShowLinkInput(true);
-        setShareURL(
-            CLIENT_PATH +
-            getURL(data.terms.current, store.getState().app.timetable)
-                .substring(2)
-        );
-    };
-
-    useEffect(() => {
-        if (!data || !showLinkInput) {
+        if (!data) {
             return;
         };
+
+        setShowLinkInput(true);
+
+        const newURL =
+            CLIENT_PATH +
+            getURL(data.terms.current, store.getState().app.timetable)
+                .substring(2);
+        setShareURL(newURL);
+
         if (!navigator.clipboard) {
             setCopyResult('Press CTRL+C (Windows) to Copy.');
             return;
         };
-        navigator.clipboard.writeText(shareURL).then(
+        navigator.clipboard.writeText(newURL).then(
             () => {
                 setCopyResult('Copied to the clipboard automatically.');
             },
@@ -44,7 +44,7 @@ const Aside = () => {
                 setCopyResult('Press CTRL+C (Windows) to Copy.');
             },
         );
-    }, [data, showLinkInput, shareURL]);
+    };
 
     return (
         <div className={styles.aside}>
