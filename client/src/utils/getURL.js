@@ -4,7 +4,6 @@ export default function getURL(semester, timetable) {
         .map((courseCode) => {
             const sections = timetable[courseCode];
             const sectionStr = sections.join(',');
-
             return `${courseCode}:_${sectionStr}!`;
         })
         .join('');
