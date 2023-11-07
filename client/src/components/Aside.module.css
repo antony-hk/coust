@@ -11,6 +11,10 @@
     border-bottom-width: 1px;
 }
 
+.shareLinkInput.shareLinkInputDisplay {
+    display: block;
+}
+
 .copyResult {
     font-size: 12px;
     color: dimgray;

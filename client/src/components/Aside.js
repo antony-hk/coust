@@ -1,5 +1,6 @@
 import { useContext, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
+import clsx from 'clsx';
 
 import { openFaqDialog } from '../actions/faqDialog';
 import DataContext from '../context';
@@ -49,8 +50,10 @@ const Aside = () => {
                 <div className={styles.shareLinkInputContainer}>
                     <input
                         id="shareLinkInput"
-                        className={styles.shareLinkInput}
-                        style={{ display: showLinkInput ? "block" : "none" }}
+                        className={clsx(
+                            styles.shareLinkInput,
+                            showLinkInput && styles.shareLinkInputDisplay,
+                        )}
                         type="text"
                         value={shareURL}
                     />
