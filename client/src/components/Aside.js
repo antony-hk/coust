@@ -19,7 +19,7 @@ const Aside = () => {
     const [shareURL, setShareURL] = useState("");
     const dispatch = useDispatch();
 
-    const handleClickEvent = () => {
+    const handleShareButtonClick = () => {
         setShowLinkInput(true);
         setShareURL(CLIENT_PATH
             + getURL(data.terms.current, store.getState().app.timetable).substring(2)
@@ -65,7 +65,7 @@ const Aside = () => {
                     <div className={styles.buttonContainer}>
                         <Button
                             className={styles.shareButton}
-                            onClick={handleClickEvent}
+                            onClick={handleShareButtonClick}
                         >
                             Get Share Link
                         </Button>
