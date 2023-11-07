@@ -51,7 +51,6 @@ const Aside = () => {
                 {showLinkInput && (
                     <div className={styles.shareLinkInputContainer}>
                         <input
-                            id="shareLinkInput"
                             className={styles.shareLinkInput}
                             type="text"
                             value={shareURL}
