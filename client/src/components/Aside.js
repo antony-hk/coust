@@ -21,8 +21,10 @@ const Aside = () => {
 
     const handleShareButtonClick = () => {
         setShowLinkInput(true);
-        setShareURL(CLIENT_PATH
-            + getURL(data.terms.current, store.getState().app.timetable).substring(2)
+        setShareURL(
+            CLIENT_PATH +
+            getURL(data.terms.current, store.getState().app.timetable)
+                .substring(2)
         );
     };
 
