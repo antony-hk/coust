@@ -13,36 +13,35 @@ import styles from './Aside.module.css';
 
 const Aside = () => {
     const data = useContext(DataContext);
-    const [showLinkInput, setShowLinkInput] = useState(false)
-    const [copyResult, setcopyResult] = useState("")
-    const [shareURL, setShareURL] = useState("")
+    const [showLinkInput, setShowLinkInput] = useState(false);
+    const [copyResult, setCopyResult] = useState("");
+    const [shareURL, setShareURL] = useState("");
     const dispatch = useDispatch();
-    const getShareLink = () => {
-        if (!data) {
-            return;
-        }
+
+    const handleClickEvent = () => {
         setShowLinkInput(true);
         setShareURL(CLIENT_PATH
             + getURL(data.terms.current, store.getState().app.timetable).substring(2)
         );
-        if (!navigator.clipboard) { //|| !window.isSecureContext) {
-            setcopyResult('Press CTRL+C (Windows) to Copy.');
-            return;
-        }
-        navigator.clipboard.writeText(shareURL).then(
-            () => {
-                setcopyResult('Copied to the clipboard automatically.');
-            },
-            () => {
-                setcopyResult('Press CTRL+C (Windows) to Copy.');
-            },
-        );
     };
 
     useEffect(() => {
-        getShareLink();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [shareURL]);
+        if (!data || !showLinkInput) {
+            return;
+        };
+        if (!navigator.clipboard) {
+            setCopyResult('Press CTRL+C (Windows) to Copy.');
+            return;
+        };
+        navigator.clipboard.writeText(shareURL).then(
+            () => {
+                setCopyResult('Copied to the clipboard automatically.');
+            },
+            () => {
+                setCopyResult('Press CTRL+C (Windows) to Copy.');
+            },
+        );
+    }, [data, showLinkInput, shareURL]);
 
     return (
         <div className={styles.aside}>
@@ -63,7 +62,7 @@ const Aside = () => {
                     <div className={styles.buttonContainer}>
                         <Button
                             className={styles.shareButton}
-                            onClick={() => getShareLink(data)}
+                            onClick={handleClickEvent}
                         >
                             Get Share Link
                         </Button>
