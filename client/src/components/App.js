@@ -12,13 +12,12 @@ import FaqDialog from './FaqDialog';
 import Header from './Header';
 import Timetable from './Timetable';
 
+import { API_PATH } from '../constants';
 import DataContext from '../context';
 import oldTimetableScript from '../timetable';
 
 import styles from './App.module.css';
 
-
-const API_PATH = 'https://coust.442.hk/';
 
 const App = memo(() => {
     const { data } = useQuery({
