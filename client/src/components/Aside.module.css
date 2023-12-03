@@ -4,7 +4,6 @@
 
 .shareLinkInput, .shareLinkInput:focus {
     width: 100%;
-    display: none;
     outline: 0;
     background: transparent;
     border: 0 dashed gray;
