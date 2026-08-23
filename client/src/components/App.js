@@ -24,7 +24,7 @@ const App = memo(() => {
         queryKey: ["data"],
         queryFn: () =>
             axios
-                .get(API_PATH + 'json/data.php')
+                .get(API_PATH + 'data.php')
                 .then((res) => res.data),
         refetchInterval: 0,
     });

@@ -24,25 +24,24 @@ const FaqDialog = () => {
             <Dialog title="FAQ" actions={dialogActions}>
                 <div className={styles.faq}>
                     <p>
-                        <strong>Q:</strong> Is data always up-to-date?<br />
-                        <strong>A:</strong> No, data have to be manually updated by running <a rel="noopener noreferrer" target="_blank" href="//coust.442.hk/json/mkdata.php">this page</a> to obtain and save data from <a rel="noopener noreferrer" target="_blank" href="https://w5.ab.ust.hk/wcq/cgi-bin/">HKUST Class Schedule and Quota</a> by crawling and parsing the website, i.e. data are correct up to the latest time of running the data retrieving page.<br />
+                        <strong>Q:</strong> Is data always up to date?<br />
+                        <strong>A:</strong> No. Data is updated manually by running <a rel="noopener noreferrer" target="_blank" href="//coust.442.hk/mkdata.php">the crawler page</a>, which immediately crawls and parses <a rel="noopener noreferrer" target="_blank" href="https://w5.ab.ust.hk/wcq/cgi-bin/">HKUST Class Schedule and Quota</a>. Therefore, data is only current as of the last time the crawler page was run. A migration to use GitHub Actions or something similar for daily updates is planned.<br />
                     </p>
                     <p>
-                        <strong>Q:</strong> What is READ-ONLY Mode?<br />
-                        <strong>A:</strong> In READ-ONLY Mode, you can only view the timetable. And your original timetable in non read mode will not be affected. You may exit read mode and view your own timetable by clicking the logo (which returns to the home page).<br />
+                        <strong>Q:</strong> What browsers does CoUST support?<br />
+                        <strong>A:</strong> CoUST supports the latest versions of Chrome, Firefox, Safari and Microsoft Edge.<br />
                     </p>
                     <p>
-                        <strong>Q:</strong> What browsers does the web-app support?<br />
-                        <strong>A:</strong> This web-app supports the latest version of Chrome, Firefox, Safari and Microsoft Edge.<br />
+                        <strong>If you have any enquiries, please contact us on <a rel="noopener noreferrer" target="_blank" href="https://github.com/antony-hk/coust">GitHub</a>.</strong><br />
                     </p>
                     <p>
-                        <strong>If you any enquires, please find us on <a href="https://www.facebook.com/CoUST.HK">our Facebook page</a>.</strong><br />
+                        <strong>GitHub repository:</strong> <a rel="noopener noreferrer" target="_blank" href="https://github.com/antony-hk/coust">https://github.com/antony-hk/coust</a><br />
                     </p>
                     <p>
-                        <strong>GitHub:</strong> <a rel="noopener noreferrer" target="_blank" href="https://github.com/antonytse/CoUST">https://github.com/antonytse/CoUST</a><br />
-                    </p>
-                    <p>
-                        <strong>Authors:</strong> Alan Chung, Antony Tse<br />
+                        <strong>This project was originally founded by <a rel="noopener noreferrer" target="_blank" href="https://github.com/antony-hk">Antony Tse</a> and <a rel="noopener noreferrer" target="_blank" href="https://github.com/avery-chung">Avery Chung</a>.</strong><br />
+                        <br />
+                        <strong>Main developer:</strong> <a rel="noopener noreferrer" target="_blank" href="https://github.com/antony-hk">Antony Tse</a><br />
+                        <strong>Contributors: <a rel="noopener noreferrer" target="_blank" href="https://github.com/avery-chung">Avery Chung</a>, <a rel="noopener noreferrer" target="_blank" href="https://github.com/tin-cheng">Tin Cheng</a></strong>
                     </p>
                 </div>
             </Dialog>
