@@ -12,7 +12,6 @@ import styles from './Timetable.module.css';
 
 // TODO: jQuery stuffs, should be removed in the future.
 import $ from 'jquery';
-import 'jquery-ui/ui/widgets/tooltip';
 import 'jquery-ui/themes/base/tooltip.css';
 
 function twoDigits(hour) {
@@ -77,7 +76,9 @@ const Timetable = memo(() => {
                 my: 'left+15 center',
                 at: 'right center+5',
             },
-            tooltipClass: styles.customTooltipStyle,
+            classes: {
+                'ui-tooltip': styles.customTooltipStyle,
+            },
         });
 
         $(timetableEl).on('mouseover mouseleave', 'td', function (e) {
